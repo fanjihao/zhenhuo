@@ -1,0 +1,16 @@
+.pos-a{
+    position: absolute;
+}
+.pos-r{
+    position: relative;
+}
+.pos-f{
+    position: fixed;
+}
+
+.t-0{
+    top: 0;
+}
+.l-0{
+    left: 0;
+}

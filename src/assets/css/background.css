@@ -1,0 +1,15 @@
+.bg-f{
+    background: #fff;
+}
+.bg-blue{
+    background-color: rgba(84, 114, 234, 1);
+}
+.bg-green{
+    background-color: rgb(0, 200, 127);
+}
+.bg-gray{
+    background-color: rgb(242, 243, 248);
+}
+.bg-red{
+    background-color: rgba(238, 68, 68, 0.996);
+}

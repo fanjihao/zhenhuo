@@ -1,0 +1,44 @@
+.flex {
+    display: flex;
+}
+
+
+/* 左右居中 */
+
+.flex-jc {
+    justify-content: center;
+}
+
+
+/* 上下居中 */
+
+.flex-ac {
+    align-items: center;
+}
+
+
+/* 从上往下排 */
+
+.flex-dc {
+    flex-direction: column;
+}
+
+.flex-drr {
+    flex-direction: row-reverse;
+}
+
+.flex-jb {
+    justify-content: space-between;
+}
+
+.flex-ja {
+    justify-content: space-around;
+}
+
+.flex-ww {
+    flex-wrap: wrap;
+}
+
+.aaa {
+    border: 1px solid #ff0000;
+}
