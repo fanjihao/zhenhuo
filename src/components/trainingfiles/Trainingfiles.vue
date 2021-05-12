@@ -208,8 +208,14 @@
             v-model="trainScore"
             clearable
             class="input-class"
-            onkeyup="this.value=this.value.replace(/\D/g,'')"
-            onafterpaste="this.value=this.value.replace(/\D/g,'')"
+            @blur="
+              () => {
+                if (!/^(0|[1-9]\d*)$/.test(trainScore) && trainScore !== '') {
+                  this.$message.warning('输入数据类型不符，只能是正整数或0');
+                  this.trainScore = '';
+                }
+              }
+            "
           ></el-input>
         </div>
         <span class="assess-title">评估意见</span>
@@ -374,6 +380,7 @@
                         : 'left-c-item'
                     "
                     @click="checkTeamHandle(item.id)"
+                    :title="item.teamName"
                   >
                     {{ item.teamName | ellipsis }}
                   </div>
@@ -451,7 +458,7 @@
                       :data="alreadyCheckTable"
                       tooltip-effect="dark"
                       style="width: 100%"
-                      max-height="450"
+                      height="450"
                       header-row-class-name="tableheader"
                       @selection-change="backSelectionChange"
                       :border="true"
@@ -634,7 +641,7 @@ export default {
           date.getMonth() + 1 < 10
             ? "0" + (date.getMonth() + 1)
             : date.getMonth();
-        let D = date.getDate();
+        let D = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
         this.checkTime = Y + "-" + M + "-" + D;
       }
     },
@@ -746,7 +753,8 @@ export default {
           date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
         let MS =
           date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-        this.startItem.assessTime = Y + "-" + M + "-" + D + " " + H + ":" + MT + ":" + MS;
+        this.startItem.assessTime =
+          Y + "-" + M + "-" + D + " " + H + ":" + MT + ":" + MS;
         this.startItem.assessOpinion = this.evaluopin;
         this.startItem.assessGrades = this.trainScore;
         this.startItem.assessName = JSON.parse(
@@ -763,12 +771,17 @@ export default {
               this.$message({
                 type: "success",
                 message: "评估成功!",
+                duration: 1000,
               });
               this.getfiles();
             }
           })
           .catch((err) => {
             console.log(err);
+            this.$message({
+              type: "warning",
+              message: err.message,
+            });
           });
       }
     },
@@ -1015,7 +1028,7 @@ export default {
           });
           this.checkTeamTable = list;
           this.another = list;
-          if(this.data.teamId === id) {
+          if (this.data.teamId === id) {
             this.alreadyCheckTable = staffs;
           }
           this.alanother = staffs;
@@ -1194,11 +1207,11 @@ export default {
           planEndTime: time2,
           status: 0,
           id: this.data.id,
-          subjectContent:this.startItem.subjectContent,
-          ready:this.startItem.ready,
-          safetyPrecautions:this.startItem.safetyPrecautions,
-          trainingObject:this.startItem.trainingObject,
-          equipment:this.startItem.equipment
+          subjectContent: this.startItem.subjectContent,
+          ready: this.startItem.ready,
+          safetyPrecautions: this.startItem.safetyPrecautions,
+          trainingObject: this.startItem.trainingObject,
+          equipment: this.startItem.equipment,
         };
         // this.startItem.crewId = crewIdList;
         // this.startItem.name = this.data.name;
@@ -1351,6 +1364,11 @@ export default {
       })
         .then((res) => {
           if (res.data.data) {
+            this.$message({
+              type: "success",
+              message: "结束成功!",
+              duration: 1000,
+            });
             this.overVisible = false;
             this.getfiles();
           }

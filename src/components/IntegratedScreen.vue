@@ -220,7 +220,9 @@
         <div class="section-bottom">
           <div class="left">
             <div class="left-header">
-              <div class="left-header-title">应急队伍综合得分 top10</div>
+              <div class="left-header-title">
+                应急队伍综合得分(仅计入有成绩的实训) top10
+              </div>
               <span class="span1"></span>
               <span class="span2"></span>
               <span class="span3"></span>
@@ -502,13 +504,31 @@
           </div>
           <div v-for="(item, index) in equipList" :key="index">
             <div>{{ index + 1 + (equipOffset - 1) * equipLimit }}</div>
-            <div>{{ item.equipmentName || "--" }}</div>
-            <div>{{ item.type || "--" }}</div>
+            <div :title="item.equipmentName">
+              {{ (item.equipmentName || "--") | ellipsis2 }}
+            </div>
+            <div :title="item.type">{{ (item.type || "--") | ellipsis2 }}</div>
+            <div :title="item.unitMeasurement">
+              {{ (item.unitMeasurement || "--") | ellipsis2 }}
+            </div>
+            <div :title="item.numberEquipment">
+              {{ (item.numberEquipment || "--") | ellipsis2 }}
+            </div>
+            <div :title="item.storageLocation">
+              {{ (item.storageLocation || "--") | ellipsis2 }}
+            </div>
+            <div :title="item.model">
+              {{ (item.model || "--") | ellipsis2 }}
+            </div>
+            <div :title="item.equipmentUse">
+              {{ (item.equipmentUse || "--") | ellipsis2 }}
+            </div>
+            <!-- <div>{{ item.type || "--" }}</div>
             <div>{{ item.unitMeasurement || "--" }}</div>
             <div>{{ item.numberEquipment || "--" }}</div>
             <div>{{ item.storageLocation || "--" }}</div>
             <div>{{ item.model || "--" }}</div>
-            <div>{{ item.equipmentUse || "--" }}</div>
+            <div>{{ item.equipmentUse || "--" }}</div> -->
           </div>
         </div>
         <div style="text-align: right">
@@ -548,12 +568,22 @@
           </div>
           <div v-for="(item, index) in suppliesList" :key="index">
             <div>{{ index + 1 + (suppliesOffset - 1) * suppliesLimit }}</div>
-            <div>{{ item.name || "--" }}</div>
+            <div :title="item.name">{{ (item.name || "--") | ellipsis2 }}</div>
+            <div :title="item.suppliesType">
+              {{ (item.suppliesType || "--") | ellipsis2 }}
+            </div>
+            <div :title="item.measureUnit">
+              {{ (item.measureUnit || "--") | ellipsis2 }}
+            </div>
+            <div :title="item.number">
+              {{ (item.number || "--") | ellipsis2 }}
+            </div>
+            <!-- <div>{{ item.name || "--" }}</div>
             <div>{{ item.suppliesType || "--" }}</div>
             <div>{{ item.measureUnit || "--" }}</div>
-            <div>{{ item.number || "--" }}</div>
+            <div>{{ item.number || "--" }}</div> -->
             <div :title="item.storageLocation">
-              {{ item.storageLocation | ellipsis2 }}
+              {{ (item.storageLocation || "--") | ellipsis2 }}
             </div>
           </div>
         </div>
@@ -637,21 +667,35 @@
           </div>
           <div style="display: flex">
             <div style="width: 25%">
-              <span>同步时间：</span>{{ scriptInfo.syncTime || "--" }}
+              <span>同步时间：</span
+              ><span :title="scriptInfo.syncTime">{{
+                (scriptInfo.syncTime || "--") | ellipsis50
+              }}</span>
             </div>
             <div style="width: 25%">
-              <span>编码：</span>{{ scriptInfo.code || "--" }}
+              <span>编码：</span
+              ><span :title="scriptInfo.code">{{
+                (scriptInfo.code || "--") | ellipsis50
+              }}</span>
             </div>
             <div style="width: 25%">
-              <span>总时间：</span>{{ scriptInfo.trainingTime || "--" }}
+              <span>总时间：</span
+              ><span :title="scriptInfo.trainingTime">{{
+                (scriptInfo.trainingTime || "--") | ellipsis50
+              }}</span>
             </div>
             <div style="width: 25%">
-              <span>燃烧场景：</span>{{ scriptInfo.burningScene || "--" }}
+              <span>燃烧场景：</span
+              ><span :title="scriptInfo.burningScene">{{
+                (scriptInfo.burningScene || "--") | ellipsis50
+              }}</span>
             </div>
           </div>
           <div>
             <span>描述：</span
-            >{{ (scriptInfo.description || "--") | ellipsis50 }}
+            ><span :title="scriptInfo.description">{{
+              (scriptInfo.description || "--") | ellipsis50
+            }}</span>
           </div>
         </div>
         <div style="width: 100%; text-align: right">
@@ -661,7 +705,7 @@
     </div>
     <!-- 视频控制弹窗 -->
     <div class="screen-increasePopup" v-if="videoSetPop">
-      <div class="increaseContent" style="width: 800px; height: auto">
+      <div class="increaseContent" style="width: 800px; height: 550px">
         <div class="title">
           <span>视频控制</span>
           <div></div>
@@ -721,6 +765,43 @@
           >
           </el-pagination>
         </div>
+        <!-- <div
+          style="
+            width: 100%;
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            padding:10px;
+            overflow:hidden;
+          "
+        >
+          <div
+            style="
+              width: 25%;
+              height: 100%;
+              border: 1px solid #ccc;
+              border-radius:5px;
+              padding: 10px;
+              overflow:scroll;
+            "
+          >
+            <div
+              style="
+                width: 100%;
+                height: 35px;
+                line-height: 35px;
+                padding: 0 10px;
+                margin-bottom:5px;
+                color:white;
+              "
+              v-for="item in videoShowList"
+              :key="item.id"
+            >
+              {{ item.monitoringPlaceName }}
+            </div>
+          </div>
+          <div style="width: 72%; height: 100%; border: 1px solid #ccc"></div>
+        </div> -->
         <div
           @click="confirmVideoPop"
           class="pos-a flex flex-ac flex-jc save-btn"
@@ -2376,7 +2457,7 @@ export default {
         data: QS.stringify({
           offset: this.equipOffset,
           limit: this.equipLimit,
-          type: 1,
+          dataType: 1,
         }),
       })
         .then((res) => {

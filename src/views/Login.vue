@@ -108,15 +108,15 @@ export default {
               .then((response) => {
                 console.log(response)
                 localStorage.setItem("fire-user", JSON.stringify(response.data.data.user));
-                this.fullscreenLoading = false;
+                this.$router.push({
+                  path: "/integratedScreen",
+                });
                 this.$message({
                   message: "登陆成功",
                   type: "success",
                   duration: 1000,
                 });
-                this.$router.push({
-                  path: "/home",
-                });
+                this.fullscreenLoading = false;
               })
               .catch((error) => {
                 console.log(error);

@@ -150,7 +150,7 @@
     background-color: rgba(242, 243, 248, 1);
     flex: 1;
     overflow-x: hidden;
-    padding: 0 20px 20px;
+    padding: 0 20px;
   }
 }
 </style>

@@ -47,7 +47,7 @@
               <img src="../../assets/image/u3739.png" alt="" />
             </div>
             <div>
-              <div>参训次数</div>
+              <div>参训次数(仅计入有成绩的实训)</div>
               <div>
                 <span style="color: #5a71e2">{{
                   teamInfoData.teamFrequency

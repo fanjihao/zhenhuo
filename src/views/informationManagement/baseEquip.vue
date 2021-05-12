@@ -1,16 +1,12 @@
 <!-- 基地装备--基地装备--基地装备--基地装备--基地装备--基地装备--基地装备 -->
 <template>
   <div>
-    <!-- <div style="height: 40px;" class="flex flex-ac font-14">
-      <span>信息管理</span><span style="margin: 0 10px;">|</span
-      ><span class="cor-blue">基地装备</span>
-    </div> -->
     <div class="location">
       <img src="../../assets/image/u974.svg" alt="" />
       <div class="directory1">信息管理</div>
       <div class="directory2">基地装备</div>
     </div>
-    <div class="bg-f" style=" padding: 0 20px">
+    <div class="bg-f" style="padding: 0 20px">
       <div
         style="height: 40px; border-bottom: 1px solid #f5f5f5"
         class="flex flex-ac"
@@ -36,7 +32,7 @@
               v-model="equipTypeValue"
               placeholder="请选择装备类型"
             >
-              <el-option key="0" label="全部" :value="0"> </el-option>
+              <el-option key="0" label="全部" :value="''"> </el-option>
               <el-option
                 v-for="item in equipTypeMsg"
                 :key="item.id"
@@ -68,13 +64,8 @@
           <span>＋ 新建</span>
         </div>
       </div>
-      <div class="" style=" margin-top: 19px">
-        <el-table
-          class="hide"
-          :data="listMsg"
-          border
-          style="width: 100%;"
-        >
+      <div class="" style="margin-top: 19px">
+        <el-table class="hide" :data="listMsg" border style="width: 100%">
           <el-table-column prop="no" label="#" width="80"> </el-table-column>
           <el-table-column prop="equipmentName" label="装备名称">
           </el-table-column>
@@ -429,6 +420,7 @@ export default {
         this.$message({
           type: "success",
           message: "已成功删除！",
+          duration:1000
         });
         this.page = 1;
         this.getMessageList();
@@ -438,8 +430,9 @@ export default {
       let params = {
         limit: this.limit,
         offset: this.page,
-        name: this.serachName,
-        type: 1,
+        equipmentName: this.serachName,
+        dataType: 1,
+        equipmentType:this.equipTypeValue,
       };
       let data = await this.$post(
         "/dah-training-api/baseEquipment/selectBaseEquipment",
@@ -514,17 +507,6 @@ export default {
         });
         return;
       }
-      // this.axios({
-      //   method: 'POST',
-      //   url: '/dah-training-api/baseEquipment/addBaseEquipment',
-      //   data: params
-      // })
-      // .then(res => {
-      //   console.log('新增成功',res)
-      // })
-      // .catch(err => {
-      //   console.log('新增失败',err)
-      // })
       let data = await this.$post(
         "/dah-training-api/baseEquipment/addBaseEquipment",
         params

@@ -1,11 +1,28 @@
 <!--档案详情-->
 <template>
-  <div class="filesDetails">
-    <div class="location">
-      <img src="../../assets/image/u974.svg" alt="" />
-      <div class="directory1">真火实训</div>
-      <div class="directory2" @click.stop="goPage">实训档案</div>
-      <div class="directory3">档案详情</div>
+  <div class="printpage">
+    <div
+      style="
+        width: 80px;
+        border-radius: 50px;
+        height: 80px;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        bottom: 100px;
+        right: 100px;
+        cursor:pointer;
+      "
+      v-print="'#printId'"
+    >
+      <img
+        style="width: 20px; height: 20px; cursor: pointer"
+        src="@/assets/image/files-details/u1901.png"
+        alt="404"
+      />
+      <p>打印</p>
     </div>
     <div class="files-details" id="printId">
       <header>
@@ -20,25 +37,25 @@
               <p>{{ data.name }}</p>
             </div>
             <div class="two">
-              <span style="width:70px">创建人：</span>
+              <span style="width: 80px; margin-left: 20px">创建人：</span>
               <p>{{ name }}</p>
             </div>
             <div class="two">
-              <span style="width:70px">创建时间：</span>
+              <span style="width: 80px; margin-left: 20px">创建时间：</span>
               <p>{{ data.createTime }}</p>
             </div>
           </div>
           <div class="bottom">
-            <div class="two">
-              <span style="width:70px">实训地点：</span>
-              <p>{{ data.location }}</p>
+            <div class="two" style="margin: 0">
+              <span style="width: 80px">实训地点：</span>
+              <p style="width: 50px">{{ data.location }}</p>
             </div>
-            <div class="two">
-              <span style="width:70px">计划时间：</span>
+            <div class="two" style="margin: 0">
+              <span style="width: 80px">计划时间：</span>
               <p>{{ data.planStartTime }}~{{ data.planEndTime }}</p>
             </div>
-            <div class="two">
-              <span style="width:70px">实际时间：</span>
+            <div class="two" style="margin: 0">
+              <span style="width: 80px">实际时间：</span>
               <p>{{ data.actualStartTime }}~{{ data.actualEndTime }}</p>
             </div>
           </div>
@@ -47,20 +64,6 @@
           <div class="result">
             <p>{{ data.assessGrades ? data.assessGrades : "-" }}</p>
             <span>实训成绩</span>
-          </div>
-          <div class="right-img">
-            <img
-              style="width: 20px; height: 20px; cursor: pointer"
-              src="@/assets/image/files-details/u1901.png"
-              alt="404"
-              @click="toprint"
-            />
-            <img
-              style="width: 20px; height: 20px; cursor: pointer"
-              src="@/assets/image/files-details/u1902.png"
-              alt="404"
-              @click="exportData"
-            />
           </div>
         </div>
       </header>
@@ -71,16 +74,8 @@
       </div>
       <div class="title">队伍名称：{{ data.teamName }}</div>
       <div class="tablebox">
-        <div
-          style="
-            margin: 0 auto;
-            border-radius: 5px;
-            border: 1px solid #eee;
-          "
-        >
-          <div class="tabletitle">
-            参训人员({{staffs.length}}人)
-          </div>
+        <div style="margin: 0 auto; border-radius: 5px; border: 1px solid #eee">
+          <div class="tabletitle">参训人员({{ staffs.length }}人)</div>
           <div class="box-flex">
             <el-table
               :data="tableData1"
@@ -109,20 +104,16 @@
               </el-table-column> -->
               <el-table-column prop="no1" label="#" width="50">
               </el-table-column>
-              <el-table-column prop="name1" label="人员姓名">
-              </el-table-column>
+              <el-table-column prop="name1" label="人员姓名"> </el-table-column>
               <el-table-column prop="no2" label="#" width="50">
               </el-table-column>
-              <el-table-column prop="name2" label="人员姓名">
-              </el-table-column>
+              <el-table-column prop="name2" label="人员姓名"> </el-table-column>
               <el-table-column prop="no3" label="#" width="50">
               </el-table-column>
-              <el-table-column prop="name3" label="人员姓名">
-              </el-table-column>
+              <el-table-column prop="name3" label="人员姓名"> </el-table-column>
               <el-table-column prop="no4" label="#" width="50">
               </el-table-column>
-              <el-table-column prop="name4" label="人员姓名">
-              </el-table-column>
+              <el-table-column prop="name4" label="人员姓名"> </el-table-column>
             </el-table>
           </div>
         </div>
@@ -162,7 +153,7 @@
         <p class="info">{{ data.ready }}</p>
       </div>
       <div class="content">
-        <p class="ptitle longptitle" style="width:95px">安全注意事项：</p>
+        <p class="ptitle longptitle" style="width: 95px">安全注意事项：</p>
         <p class="info">{{ data.safetyPrecautions }}</p>
       </div>
       <div class="disc-line"></div>
@@ -214,35 +205,6 @@
         <p class="info">{{ data.assessOpinion ? data.assessOpinion : "-" }}</p>
       </div>
     </div>
-    <div class="title">
-      <div></div>
-      <p>附件({{ files.length }})</p>
-    </div>
-    <div class="files-part">
-      <div class="files-item" v-for="item in files" :key="item.id">
-        <el-image
-          :src="item.filePath"
-          v-if="item.fileType === 'img'"
-          style="width: 150px; height: 150px"
-          alt=""
-          :preview-src-list="imgList"
-        >
-        </el-image>
-        <video
-          :src="item.filePath"
-          v-else-if="item.fileType === 'video'"
-          controls
-          style="width: 150px; height: 150px"
-        ></video>
-        <audio
-          :src="item.filePath"
-          v-else-if="item.fileType === 'audio'"
-          controls
-          style="width: 150px; height: 150px"
-        ></audio>
-        <p>{{ item.fileName }}</p>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -268,11 +230,12 @@ export default {
 
       imgList: [],
       printObj: {
-        id: "printId",//打印区域 Dom ID
-        popTitle: '打印页面标题文字',
-        extraCss: 'https://www.google.com,https://www.google.com',
-        extraHead: '<meta http-equiv="Content-Language"content="zh-cn"/>,<style> #printMe { height: auto !important; } <style>'  ,//  可以传进去  style tag 标签；注意要逗号分隔   解决特定区域不显示问题；
-      }
+        id: "printId", //打印区域 Dom ID
+        popTitle: "打印页面标题文字",
+        extraCss: "https://www.google.com,https://www.google.com",
+        extraHead:
+          '<meta http-equiv="Content-Language"content="zh-cn"/>,<style> #printMe { height: auto !important; } <style>', //  可以传进去  style tag 标签；注意要逗号分隔   解决特定区域不显示问题；
+      },
     };
   },
   async created() {
@@ -333,19 +296,19 @@ export default {
           });
           let tableData = [];
           let num = parseInt(this.staffs.length / 4);
-          for(let i = 1;i <= num + 1; i ++ ) {
-            let arr = this.staffs.slice(4*i-4, 4*i);
+          for (let i = 1; i <= num + 1; i++) {
+            let arr = this.staffs.slice(4 * i - 4, 4 * i);
             let obj = {
-              no1:arr[0].no,
-              name1:arr[0].emergencyCrewName,
-              no2:arr[1] ? arr[1].no : "",
-              name2:arr[1] ? arr[1].emergencyCrewName : "",
-              no3:arr[2] ? arr[2].no : "",
-              name3:arr[2] ? arr[2].emergencyCrewName : "",
-              no4:arr[3] ? arr[3].no : "",
-              name4:arr[3] ? arr[3].emergencyCrewName : "",
-            }
-            tableData.push(obj)
+              no1: arr[0].no,
+              name1: arr[0].emergencyCrewName,
+              no2: arr[1] ? arr[1].no : "",
+              name2: arr[1] ? arr[1].emergencyCrewName : "",
+              no3: arr[2] ? arr[2].no : "",
+              name3: arr[2] ? arr[2].emergencyCrewName : "",
+              no4: arr[3] ? arr[3].no : "",
+              name4: arr[3] ? arr[3].emergencyCrewName : "",
+            };
+            tableData.push(obj);
           }
           this.tableData1 = tableData;
           // if((this.staffs.length / 4) > 1) {
@@ -362,16 +325,7 @@ export default {
         });
     },
     // 打印
-    toprint() {
-      // window.open(http.defaults.baseURL + "/printpage" + "?id=" +
-      //     this.data.id +
-      //     "&status=" +
-      //     this.data.status)
-      this.$router.push({
-        path:"/printpage",
-        query: { id:this.id, status: this.status }
-      })
-    },
+    printFile() {},
     // 导出
     exportData() {
       // this.axios({
@@ -403,7 +357,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 /*去除页眉页脚*/
 @page {
   size: auto; /* auto is the initial value */
@@ -420,37 +374,17 @@ export default {
 //   margin: 10mm 15mm 10mm 15mm; /* margin you want for the content */
 // }
 /*去除页眉页脚*/
-.filesDetails {
+.printpage {
   width: 100%;
-
-  .location {
-    width: 100%;
-    display: flex;
-    height: 40px;
-    align-items: center;
-    font-size: 12px;
-    flex-shrink: 0;
-    img {
-      margin-right: 10px;
-    }
-    .directory1 {
-      padding-right: 10px;
-      border-right: 1px solid;
-    }
-    .directory2 {
-      padding-left: 10px;
-      padding-right: 10px;
-      border-right: 1px solid;
-    }
-    .directory2:hover {
-      color: #7c8de7;
-      cursor: pointer;
-    }
-    .directory3 {
-      padding-left: 10px;
-      color: #7c8de7;
-    }
-  }
+  background: #333;
+  box-sizing: content-box;
+  padding: 0 20px;
+  position: relative;
+  left: -20px;
+  // bottom: -20px;
+  // min-height: 100vh;
+  // height: auto;
+  flex: 1;
   .title {
     width: 100%;
     padding: 0 15px;
@@ -491,17 +425,19 @@ export default {
   }
 }
 .files-details {
-  width: 100%;
+  width: 1000px;
+  margin: 0 auto;
   background: rgb(242, 243, 248);
   font-size: 14px;
   display: flex;
+  min-height: 100%;
   flex-direction: column;
   header {
     overflow: hidden;
     background: white;
     padding: 0 15px 10px;
     .files-details-left {
-      width: 70%;
+      width: 85%;
       float: left;
       .top,
       .bottom {
@@ -573,7 +509,7 @@ export default {
     }
     .files-details-right {
       float: right;
-      width: 130px;
+      width: 90px;
       overflow: hidden;
       position: relative;
       .result {

@@ -67,6 +67,10 @@ const routes = [
         path: "/firescript", // 真火脚本
         component: () => import("../components/trainscript/FireScript.vue"),
       },
+      {
+        path: "/printpage", // 真火脚本
+        component: () => import("../components/trainingfiles/PrintPage.vue"),
+      },
     ],
     meta: true
   },

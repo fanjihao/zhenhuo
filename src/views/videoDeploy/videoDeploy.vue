@@ -235,7 +235,7 @@ export default {
     },
     deleteMsg(e) {
       // console.log(e)
-      this.$confirm("删除将无法找回该数据，请确认是否删除", "确认信息", {
+      this.$confirm("此操作将删除该数据及其下属摄像头，请确认是否删除", "确认信息", {
         distinguishCancelAndClose: true,
         confirmButtonText: "确认",
         cancelButtonText: "取消",

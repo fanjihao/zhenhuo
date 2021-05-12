@@ -20,6 +20,7 @@
                   placeholder="请选择"
                   style="width: 150px"
                   size="mini"
+                  clearable
                 >
                   <el-option
                     v-for="item in expertAreaList"
@@ -37,6 +38,7 @@
                   placeholder="请选择"
                   style="width: 150px"
                   size="mini"
+                  clearable
                 >
                   <el-option
                     v-for="item in expertTypeList"
@@ -54,6 +56,7 @@
                   placeholder="请选择"
                   style="width: 150px"
                   size="mini"
+                  clearable
                 >
                   <el-option
                     v-for="item in expertSpecialtyList"
