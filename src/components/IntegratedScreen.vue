@@ -114,7 +114,7 @@
           </div>
         </div>
 
-        <div class="section3">
+        <div class="section3" style="height: 300px">
           <div class="section3-header">
             <div>实训课件</div>
             <span class="span1"></span>
@@ -1650,6 +1650,7 @@
           display: flex;
           flex-direction: column;
           flex: 1;
+          height: 200px;
           #charts {
             width: 100%;
             height: 100%;

@@ -140,7 +140,7 @@
           <div class="right-c-section2">
             <div class="right-c-s2-top">
               <span class="span1"></span>
-              <span class="span2">课件实训排行</span>
+              <span class="span2">课件实训排行TOP10</span>
             </div>
             <div class="right-c-s2-c2">
               <div

@@ -73,6 +73,7 @@
           layout="total, prev, pager, next"
           :total="total"
           :page-size="limit"
+          @current-change="changePage"
         >
         </el-pagination>
       </div>
@@ -181,6 +182,11 @@ export default {
           console.log("获取失败", err);
         });
     },
+    // 翻页,
+    changePage(curPage) {
+      this.pageNum = curPage;
+      this.getScript();
+    },
     // 点击某一行
     readDetail(row) {
       let formdata = new FormData();
@@ -274,7 +280,7 @@ export default {
     width: 100%;
     background: white;
     border-radius: 5px;
-    overflow-x: hidden;
+    // overflow-x: hidden;
     // height: 750px;
     display: flex;
     flex-direction: column;
