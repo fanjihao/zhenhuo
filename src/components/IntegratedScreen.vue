@@ -1313,7 +1313,7 @@
     .left {
       width: 2.3%;
       position: absolute;
-      bottom: 30%;
+      bottom: 18%;
       left: 0;
       animation: rotate 5s linear infinite;
     }
@@ -1321,7 +1321,7 @@
       width: 1.1%;
       position: absolute;
       left: 0.57%;
-      bottom: 39%;
+      bottom: 30%;
       cursor: pointer;
     }
     .inte-header-right {
@@ -1385,7 +1385,7 @@
   }
   .inte-content {
     position: relative;
-    top: -20px;
+    top: -10px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -2023,6 +2023,8 @@
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 import * as echarts from "echarts";
 import QS from "qs";
+import { mapMutations } from "vuex";
+
 export default {
   //import引入的组件需要注入到对象中才能使用
   components: {},
@@ -2351,6 +2353,7 @@ export default {
           console.log("获取失败", err);
         });
     },
+    ...mapMutations({ setPath: "setPath" }),
     // 跳转其他页面
     checkPage(path) {
       if (path === "/visualization") {
@@ -2376,6 +2379,7 @@ export default {
           });
       } else {
         this.$router.push(path);
+        this.setPath(path);
       }
     },
     // 燃烧场景统计

@@ -9,7 +9,17 @@
         >
           综合大屏
         </div>
-        <div class="right-item right-hover">
+        <div
+          class="right-item right-hover"
+          :class="
+            $store.state.path === '/courseware' ||
+            $store.state.path === '/trainfiles' ||
+            $store.state.path === '/firescript' ||
+            $store.state.path === '/visualization'
+              ? 'right-item right-hover checked'
+              : 'right-item right-hover'
+          "
+        >
           <div
             @click="
               () => {
@@ -18,7 +28,10 @@
               }
             "
           >
-            {{trainsName}}
+            <span v-if="$store.state.path === '/courseware'">实训课件</span>
+            <span v-else-if="$store.state.path === '/trainfiles'">实训档案</span>
+            <span v-else-if="$store.state.path === '/firescript'">真火脚本</span>
+            <span v-else>真火实训</span>
             <i class="el-icon-arrow-down" />
           </div>
           <transition name="el-zoom-in-top">
@@ -30,7 +43,17 @@
             </div>
           </transition>
         </div>
-        <div class="right-item right-hover">
+        <div
+          class="right-item right-hover"
+          :class="
+            $store.state.path === '/emergencyTeam' ||
+            $store.state.path === '/emergencyExperts' ||
+            $store.state.path === '/baseMaterials' ||
+            $store.state.path === '/baseEquip'
+              ? 'right-item right-hover checked'
+              : 'right-item right-hover'
+          "
+        >
           <div
             @click="
               () => {
@@ -39,7 +62,12 @@
               }
             "
           >
-            {{infomanage}}
+            <!-- {{ infomanage }} -->
+            <span v-if="$store.state.path === '/emergencyTeam'">应急队伍</span>
+            <span v-else-if="$store.state.path === '/emergencyExperts'">应急专家</span>
+            <span v-else-if="$store.state.path === '/baseMaterials'">基地物资</span>
+            <span v-else-if="$store.state.path === '/baseEquip'">基地装备</span>
+            <span v-else>信息管理</span>
             <i class="el-icon-arrow-down" />
           </div>
           <transition name="el-zoom-in-top">
@@ -51,7 +79,12 @@
             </div>
           </transition>
         </div>
-        <div @click="goPage('/videoDeploy')" class="right-item right-hover">
+        <div @click="goPage('/videoDeploy')" class="right-item right-hover"
+          :class="
+            $store.state.path === '/videoDeploy'
+              ? 'right-item right-hover checked'
+              : 'right-item right-hover'
+          ">
           视频配置
         </div>
         <div class="right-item" style="width: 250px">
@@ -60,7 +93,7 @@
         </div>
         <div class="right-item" style="display: flex; align-items: center">
           <i class="el-icon-user" />
-          {{user.name}}
+          {{ user.name }}
           <img
             src="@/assets/image/u313.png"
             alt=""
@@ -78,7 +111,7 @@
     </el-header>
     <el-main class="content">
       <!-- <keep-Alive> -->
-        <router-view></router-view>
+      <router-view></router-view>
       <!-- </keep-Alive> -->
     </el-main>
   </el-container>
@@ -152,10 +185,17 @@
     overflow-x: hidden;
     padding: 0 20px;
   }
+  .checked {
+    background: white;
+    color: #5472ea !important;
+    border-radius: 3px;
+  }
 }
 </style>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "Home",
   components: {},
@@ -165,8 +205,8 @@ export default {
       rDrop: false,
       iDrop: false,
       trainsName: "真火实训",
-      infomanage:"信息管理",
-      user: ""
+      infomanage: "信息管理",
+      user: "",
     };
   },
   mounted() {
@@ -176,8 +216,10 @@ export default {
     }, 1000);
   },
   methods: {
+    ...mapMutations({ setPath: "setPath" }),
     //页面跳转
     goPage(src) {
+      this.setPath(src);
       if (src === "/visualization") {
         let formdata = new FormData();
         formdata.append("actualEndTime", "");
@@ -200,25 +242,25 @@ export default {
             console.log(err);
           });
       } else {
-        if(src === "/courseware") {
+        if (this.$store.state.path === "/courseware") {
           this.trainsName = "实训课件";
           this.infomanage = "信息管理";
-        } else if(src === "/trainfiles") {
+        } else if (this.$store.state.path === "/trainfiles") {
           this.trainsName = "实训档案";
           this.infomanage = "信息管理";
-        } else if(src === "/firescript") {
+        } else if (this.$store.state.path === "/firescript") {
           this.trainsName = "真火脚本";
           this.infomanage = "信息管理";
-        } else if(src === "/emergencyTeam") {
+        } else if (this.$store.state.path === "/emergencyTeam") {
           this.infomanage = "应急队伍";
           this.trainsName = "真火实训";
-        } else if(src === "/emergencyExperts") {
+        } else if (this.$store.state.path === "/emergencyExperts") {
           this.infomanage = "应急专家";
           this.trainsName = "真火实训";
-        } else if(src === "/baseMaterials") {
+        } else if (this.$store.state.path === "/baseMaterials") {
           this.infomanage = "基地物资";
           this.trainsName = "真火实训";
-        } else if(src === "/baseEquip") {
+        } else if (this.$store.state.path === "/baseEquip") {
           this.infomanage = "基地装备";
           this.trainsName = "真火实训";
         }

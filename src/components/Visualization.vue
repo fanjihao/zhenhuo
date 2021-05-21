@@ -604,6 +604,7 @@
 
 <script>
 import qs from "qs";
+import { mapMutations } from "vuex";
 
 export default {
   name: "Visualization",
@@ -653,6 +654,7 @@ export default {
     clearInterval(this.timerHandle);
   },
   methods: {
+    ...mapMutations({ setPath: "setPath" }),
     // 跳转其他页面
     checkPage(path) {
       if (path === "/visualization") {
@@ -678,6 +680,7 @@ export default {
           });
       } else {
         this.$router.push(path);
+        this.setPath(path);
       }
     },
     // tuichu

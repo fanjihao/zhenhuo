@@ -1,6 +1,6 @@
 <!-- 基地物资--基地物资--基地物资--基地物资--基地物资--基地物资--基地物资 -->
 <template>
-  <div>
+  <div class="video-deploy">
     <div class="location">
       <img src="@/assets/image/u974.svg" alt="" />
       <div class="directory1">视频配置</div>
@@ -15,27 +15,17 @@
       </div>
       <div class="flex flex-jb" style="margin-top: 20px">
         <div class="flex">
-          <el-input
-            v-model="searchMsg"
-            style="width: 300px"
-              size="small"
-            placeholder="请输入监控场所名称/代码"
-          ></el-input>
-          <div
-            @click="goSearch"
-            class="flex flex-ac bg-blue cor-f"
-            style="padding: 0 20px; border-radius: 5px; margin-left: 20px;height:32px;"
-          >
-            <span>查询</span>
+          <div class="search-part" style="margin-right: 20px">
+            <el-input
+              v-model="searchMsg"
+              placeholder="请输入监控场所名称/代码"
+            ></el-input>
           </div>
+          <div class="search-btn" @click="goSearch">查 询</div>
         </div>
-        <div
-          @click="showPop(false)"
-          class="flex flex-ac bg-blue cor-f"
-          style="padding: 0 20px; border-radius: 5px"
-              size="small"
-        >
-          <span>＋ 新建</span>
+        <div class="search-btn" @click="showPop(false)">
+          <i class="el-icon-plus"></i>
+          新建
         </div>
       </div>
       <div class="" style="height: calc(100vh - 290px); margin-top: 19px">
@@ -51,7 +41,8 @@
           </el-table-column>
           <el-table-column prop="monitoringPlaceCode" label="监控场所代码">
           </el-table-column>
-          <el-table-column prop="remarks" label="备注"> </el-table-column>
+          <el-table-column prop="remarks" label="备注" show-overflow-tooltip>
+          </el-table-column>
 
           <el-table-column prop="name" label="操作">
             <template slot-scope="scope">
@@ -88,6 +79,8 @@
           position: fixed;
           width: 100%;
           height: 100%;
+          font-size: 14px;
+          z-index: 99;
           top: 0;
           left: 0;
           background-color: rgba(0, 0, 0, 0.5);
@@ -100,18 +93,86 @@
             background-color: #fff;
             border-radius: 5px;
             overflow: hidden;
+            font-size: 14px;
           "
           class=""
         >
           <div
-            style="height: 50px; padding: 0 20px"
+            style="height: 40px; padding: 0 20px"
             class="flex flex-ac flex-jb font-30 bg-blue cor-f"
           >
-            <span class="font-20">{{ popName }}</span>
-            <i @click="hidePop" class="el-icon-close" style="cursor: pointer;"></i>
+            <span style="font-size: 16px">{{ popName }}</span>
+            <i
+              @click="hidePop"
+              class="el-icon-close"
+              style="cursor: pointer"
+            ></i>
           </div>
           <div style="width: 100%; padding: 15px">
-            <div class="modal-item">
+            <div class="flex flex-ac" style="padding: 0 20px; margin: 10px 0">
+              <div
+                style="
+                  min-width: 120px;
+                  width: 30%;
+                  height: 40px;
+                  border-left: 1px solid #dcdfe6;
+                  border-top: 1px solid #dcdfe6;
+                  border-bottom: 1px solid #dcdfe6;
+                  border-top-left-radius: 4px;
+                  border-bottom-left-radius: 4px;
+                "
+                class="flex felx-ac flex-jc"
+              >
+                <span class="flex flex-ac" style=""
+                  ><span style="color: #ff0000;font-size:14px">*</span>监控场所名称:</span
+                >
+              </div>
+
+              <el-input
+                placeholder="请输入监控场所名称"
+                v-model="videoName"
+                class="input-group"
+              >
+              </el-input>
+            </div>
+            <div class="flex flex-ac" style="padding: 0 20px">
+              <div
+                style="
+                  min-width: 120px;
+                  width: 30%;
+                  height: 40px;
+                  border-left: 1px solid #dcdfe6;
+                  border-top: 1px solid #dcdfe6;
+                  border-bottom: 1px solid #dcdfe6;
+                  border-top-left-radius: 4px;
+                  border-bottom-left-radius: 4px;
+                "
+                class="flex felx-ac flex-jc"
+              >
+                <span class="flex flex-ac" style=""
+                  ><span style="color: #ff0000;font-size:14px">*</span>监控场所代码:</span
+                >
+              </div>
+              <el-input
+                placeholder="请输入监控场所代码"
+                v-model="videoCode"
+                class="input-group"
+              >
+              </el-input>
+            </div>
+            <div class="flex flex-dc" style="padding: 0 20px">
+              <span style="min-width: 100px; margin: 10px 0">备注</span>
+              <el-input
+                type="textarea"
+                placeholder="请输入内容"
+                v-model="videoRemark"
+                :autosize="{ minRows: 3, maxRows: 3 }"
+                maxlength="500"
+                show-word-limit
+              >
+              </el-input>
+            </div>
+            <!-- <div class="modal-item">
               <span
                 style="
                   display: inline-block;
@@ -152,7 +213,7 @@
                 show-word-limit
               >
               </el-input>
-            </div>
+            </div> -->
           </div>
           <div
             style="height: 50px; padding: 0 20px"
@@ -161,8 +222,8 @@
             <div
               @click="allSure"
               style="
-                width: 80px;
-                height: 35px;
+                width: 70px;
+                height: 30px;
                 border-radius: 5px;
                 margin-left: 20px;
                 border: 1px solid rgba(84, 114, 234, 1);
@@ -176,8 +237,8 @@
             <div
               @click="hidePop"
               style="
-                width: 80px;
-                height: 35px;
+                width: 70px;
+                height: 30px;
                 border-radius: 5px;
                 border: 1px solid rgba(84, 114, 234, 1);
                 font-size: 14px;
@@ -235,11 +296,15 @@ export default {
     },
     deleteMsg(e) {
       // console.log(e)
-      this.$confirm("此操作将删除该数据及其下属摄像头，请确认是否删除", "确认信息", {
-        distinguishCancelAndClose: true,
-        confirmButtonText: "确认",
-        cancelButtonText: "取消",
-      })
+      this.$confirm(
+        "此操作将删除该数据及其下属摄像头，请确认是否删除",
+        "确认信息",
+        {
+          distinguishCancelAndClose: true,
+          confirmButtonText: "确认",
+          cancelButtonText: "取消",
+        }
+      )
         .then(() => {
           this.deletePost(e);
         })
@@ -247,7 +312,7 @@ export default {
           this.$message({
             type: "info",
             message: "已取消删除！",
-          duration:1000
+            duration: 1000,
           });
         });
     },
@@ -259,7 +324,7 @@ export default {
         this.$message({
           type: "success",
           message: "已成功删除！",
-          duration:1000
+          duration: 1000,
         });
         this.page = 1;
         this.getMessage(this.searchMsg);
@@ -270,7 +335,7 @@ export default {
         this.$message({
           message: "警告，必填项未输入！",
           type: "warning",
-          duration:1000
+          duration: 1000,
         });
         return;
       }
@@ -278,7 +343,7 @@ export default {
         this.$message({
           message: "警告，输入长度过长，最多50字！",
           type: "warning",
-          duration:1000
+          duration: 1000,
         });
         return;
       }
@@ -289,7 +354,7 @@ export default {
         this.$message({
           message: "不能输入特殊字符,如:？#%￥&(){}<>《》等",
           type: "warning",
-          duration:1000
+          duration: 1000,
         });
         return;
       }
@@ -309,7 +374,7 @@ export default {
         this.$message({
           message: "恭喜你，成功新建监控",
           type: "success",
-          duration:1000
+          duration: 1000,
         });
       }
     },
@@ -318,7 +383,7 @@ export default {
         this.$message({
           message: "警告，必填项未输入！",
           type: "warning",
-          duration:1000
+          duration: 1000,
         });
         return;
       }
@@ -326,7 +391,7 @@ export default {
         this.$message({
           message: "警告，输入长度过长，最多50字！",
           type: "warning",
-          duration:1000
+          duration: 1000,
         });
         return;
       }
@@ -337,7 +402,7 @@ export default {
         this.$message({
           message: "不能输入特殊字符,如:？#%￥&(){}<>《》等",
           type: "warning",
-          duration:1000
+          duration: 1000,
         });
         return;
       }
@@ -359,7 +424,7 @@ export default {
         this.$message({
           message: "恭喜你，成功修改监控场所信息",
           type: "success",
-          duration:1000
+          duration: 1000,
         });
       }
     },
@@ -420,63 +485,111 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 @import url("../../assets/css/index.css");
 
-.bg-f {
-  background: #fff;
-}
-.location {
-  width: 100%;
-  display: flex;
-  height: 40px;
-  align-items: center;
-  font-size: 12px;
-  flex-shrink: 0;
-  
-}
-img {
-  margin-right: 10px;
-}
-.directory1 {
-  padding-right: 10px;
-  /* border-right: 1px solid; */
-}
-
-.flex > .el-input__inner {
-  height: 30px;
-}
-.modal-item {
-  overflow: hidden;
-  width: 100%;
-  height: 40px;
-  border: 1px solid #eee;
-  border-radius: 3px;
-  display: flex;
-  margin-bottom: 20px;
-  > .el-input__inner {
-    border: none !important;
+.video-deploy {
+  .bg-f {
+    background: #fff;
   }
-}
+  .location {
+    width: 100%;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .search-part {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid rgb(235, 237, 242);
+    overflow: hidden;
+    .label-title {
+      width: 90px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 14px;
+      border-left: none;
+      border-top: none;
+      border-bottom: none;
+      border-right: 1px solid rgb(235, 237, 242);
+    }
+    .el-input__prefix {
+      display: none;
+    }
+    .el-input__inner {
+      border: none;
+      height: 30px;
+    }
+    .el-input__icon {
+      line-height: 30px;
+    }
+  }
+  .search-btn {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    background: rgb(84, 114, 234);
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 0 15px;
+    color: white;
+  }
+  .search-btn:hover {
+    background: rgba(84, 114, 234, 0.8);
+    cursor: pointer;
+  }
+  img {
+    margin-right: 10px;
+  }
+  .directory1 {
+    padding-right: 10px;
+    /* border-right: 1px solid; */
+  }
 
-.hide::-webkit-scrollbar {
-  display: none;
-}
+  .flex > .el-input__inner {
+    height: 30px;
+  }
+  .modal-item {
+    overflow: hidden;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    display: flex;
+    margin-bottom: 20px;
+    > .el-input__inner {
+      border: none !important;
+    }
+  }
 
-.w80 {
-  width: 80px;
-}
+  .hide::-webkit-scrollbar {
+    display: none;
+  }
 
-.el-input-group__append,
-.el-input-group__prepend {
-  background-color: #fff;
-}
+  .w80 {
+    width: 80px;
+  }
 
-.el-table::before,
-.el-table--border::after {
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 0 !important;
+  .input-group .el-input__inner {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .el-input-group__append,
+  .el-input-group__prepend {
+    background-color: #fff;
+  }
+
+  .el-table::before,
+  .el-table--border::after {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0 !important;
+  }
 }
 </style>

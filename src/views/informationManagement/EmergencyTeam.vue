@@ -13,15 +13,9 @@
         <div class="left-ctt">
           <div class="search-line">
             <div style="display: flex; align-items: center">
-              <div class="inputDiv" style="margin-right: 20px">
-                <div>所在地区</div>
-                <el-select
-                  v-model="teamArea"
-                  placeholder="请选择"
-                  clearable
-                  style="width: 150px"
-                  size="mini"
-                >
+              <div class="inputDiv search-part" style="margin-right: 20px">
+                <div class="label-title">所在地区</div>
+                <el-select v-model="teamArea" placeholder="请选择" clearable>
                   <el-option
                     v-for="item in teamAreaList"
                     :key="item"
@@ -31,13 +25,12 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="inputDiv" style="margin-right: 20px">
-                <div>队伍类型</div>
+              <div class="inputDiv search-part" style="margin-right: 20px">
+                <div class="label-title">队伍类型</div>
                 <el-select
                   v-model="teamType"
                   placeholder="请选择"
                   style="width: 150px"
-                  size="mini"
                   clearable
                   @change="con"
                 >
@@ -50,8 +43,8 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="inputDiv" style="margin-right: 20px">
-                <div>队伍级别</div>
+              <div class="inputDiv search-part" style="margin-right: 20px">
+                <div class="label-title">队伍级别</div>
                 <el-select
                   v-model="teamLevel"
                   placeholder="请选择"
@@ -68,29 +61,18 @@
                   </el-option>
                 </el-select>
               </div>
-              <el-input
-                v-model="teamName"
-                placeholder="请输入队伍名称"
-                style="width: 150px; margin-right: 20px"
-                size="mini"
-              ></el-input>
-              <el-button
-                style="background: #5a71e2; color: #fff"
-                size="mini"
-                @click="getDataList"
-                >查询</el-button
-              >
+              <div class="search-part" style="width: 150px; margin-right: 20px">
+                <el-input
+                  v-model="teamName"
+                  placeholder="请输入队伍名称"
+                ></el-input>
+              </div>
+              <div class="search-btn" @click="getDataList">查 询</div>
             </div>
-            <el-button
-              style="background: #5a71e2; color: #fff"
-              size="mini"
-              @click="addTeam"
-              ><i
-                class="el-icon-plus"
-                style="font-weight: bold; margin-right: 5px"
-              ></i
-              >新建</el-button
-            >
+            <div class="search-btn" @click="addTeam">
+              <i class="el-icon-plus"></i>
+              新建
+            </div>
           </div>
           <el-table
             :data="teamList"
@@ -105,7 +87,7 @@
             @row-click="goInfo"
           >
             <el-table-column prop="no" label="#" width="50"> </el-table-column>
-            <el-table-column prop="teamName" label="队伍名称" width="150">
+            <el-table-column prop="teamName" label="队伍名称" show-overflow-tooltip width="150">
             </el-table-column>
             <el-table-column prop="teamType" label="队伍类型">
             </el-table-column>
@@ -132,7 +114,7 @@
             <el-table-column
               prop="establishmentTime"
               label="成立时间"
-              width="110"
+              width="200"
             >
             </el-table-column>
             <el-table-column label="操作">
@@ -425,7 +407,7 @@
             </div>
             <div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:38%">成立时间</div>
+                <div style="width: 38%">成立时间</div>
                 <el-date-picker
                   v-model="formData.establishmentTime"
                   type="datetime"
@@ -915,7 +897,7 @@ export default {
       }
     },
     async submit() {
-      console.log(this.formData.establishmentTime, 'sssssssss')
+      console.log(this.formData.establishmentTime, "sssssssss");
       if (
         !this.formData.teamName ||
         !this.formData.wordbookTypeId ||
@@ -972,7 +954,7 @@ export default {
         );
         return;
       }
-      if(this.formData.establishmentTime) {
+      if (this.formData.establishmentTime) {
         let date = new Date(this.formData.establishmentTime);
         let Y = date.getFullYear();
         let M =
@@ -985,7 +967,8 @@ export default {
           date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
         let MS =
           date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-        this.formData.establishmentTime = Y + "-" + M + "-" + D + " " + H + ":" + MT + ":" + MS;
+        this.formData.establishmentTime =
+          Y + "-" + M + "-" + D + " " + H + ":" + MT + ":" + MS;
       } else {
         this.formData.establishmentTime = null;
       }
@@ -1122,7 +1105,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .rank-name:hover {
   cursor: pointer;
   color: #4a64eb;
@@ -1132,6 +1115,52 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  .search-part {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid rgb(235, 237, 242);
+    overflow: hidden;
+    .label-title {
+      width: 90px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 14px;
+      border-left: none;
+      border-top: none;
+      border-bottom: none;
+      border-right: 1px solid rgb(235, 237, 242);
+    }
+    select {
+      height: 30px;
+    }
+  }
+  .search-btn {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    background: rgb(84, 114, 234);
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 0 15px;
+    color: white;
+  }
+  .search-btn:hover {
+    background: rgba(84, 114, 234, 0.8);
+    cursor: pointer;
+  }
+  .el-input__prefix {
+    display: none;
+  }
+  .el-input__inner {
+    border: none;
+    height: 30px;
+  }
+  .el-input__icon {
+    line-height: 30px;
+  }
 }
 .content2-line {
   display: flex;

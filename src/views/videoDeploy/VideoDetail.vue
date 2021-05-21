@@ -1,10 +1,6 @@
 <!-- 基地物资--基地物资--基地物资--基地物资--基地物资--基地物资--基地物资 -->
 <template>
-  <div>
-    <!-- <div style="height: 40px" class="flex flex-ac font-14">
-      <span>视频配置</span><span style="margin: 0 10px">|</span>
-      <span class="cor-blue">视频详情</span>
-    </div> -->
+  <div class="video-detail">
     <div class="location">
       <img src="@/assets/image/u974.svg" alt="" />
       <div class="directory1" @click="goPage()">视频配置</div>
@@ -25,8 +21,10 @@
         >
           {{ detailData.monitoringPlaceName }}
         </p>
-        <p style="font-size: 14px;color:#646c9a ">
-          监控场所代码：<span style="color:#333">{{ detailData.monitoringPlaceCode }}</span>
+        <p style="font-size: 14px; color: #646c9a">
+          监控场所代码：<span style="color: #333">{{
+            detailData.monitoringPlaceCode
+          }}</span>
         </p>
       </div>
       <div
@@ -38,9 +36,9 @@
           line-height: 40px;
         "
       >
-        备注：<span style="color:#333">{{ detailData.remarks }}</span>
+        备注：<span style="color: #333">{{ detailData.remarks }}</span>
       </div>
-      <div style="width: 100%; height: 760px; position: relative">
+      <div style="width: 100%; height: 810px; position: relative">
         <div
           style="
             width: 100%;
@@ -58,7 +56,7 @@
         <div
           style="
             width: 100%;
-            height: 720px;
+            height: 770px;
             border: 1px solid #ccc;
             border-radius: 12px;
             border-top-left-radius: 0px;
@@ -76,28 +74,18 @@
             "
           >
             <div style="width: 40%; display: flex">
-              <el-input
-                placeholder="请输入关键字"
-                v-model="cameraName"
-                size="small"
-              >
-              </el-input>
-              <el-button
-                type="primary"
-                size="small"
-                style="margin-left: 15px; font-size: 14px"
-                @click="goSearch"
-                >查 询</el-button
-              >
+              <div class="search-part" style="margin-right: 20px">
+                <el-input
+                  v-model="cameraName"
+                  placeholder="请输入关键字"
+                ></el-input>
+              </div>
+              <div class="search-btn" @click="goSearch">查 询</div>
             </div>
-            <el-button
-              type="primary"
-              size="small"
-              icon="el-icon-plus"
-              style="margin-left: 15px; font-size: 14px"
-              @click="addnew('add')"
-              >新建</el-button
-            >
+            <div class="search-btn" @click="addnew('add')">
+              <i class="el-icon-plus"></i>
+              新建
+            </div>
           </div>
           <div style="width: 100%; padding: 0 15px">
             <el-table
@@ -121,7 +109,12 @@
                 width="250"
               >
               </el-table-column>
-              <el-table-column prop="remarks" label="备注" width="400">
+              <el-table-column
+                prop="remarks"
+                label="备注"
+                show-overflow-tooltip
+                width="400"
+              >
               </el-table-column>
               <el-table-column prop="updateTime" label="更新时间" width="250">
               </el-table-column>
@@ -140,18 +133,18 @@
               </el-table-column>
             </el-table>
           </div>
+          <div class="flex flex-ac flex-drr" style="height: 50px">
+            <el-pagination
+              background
+              layout="total, prev, pager, next"
+              :current-page="pageNum"
+              @current-change="currentCag"
+              :page-size="limit"
+              :total="total"
+            >
+            </el-pagination>
+          </div>
         </div>
-      </div>
-      <div class="flex flex-ac flex-drr" style="height: 50px">
-        <el-pagination
-          background
-          layout="total, prev, pager, next"
-          :current-page="pageNum"
-          @current-change="currentCag"
-          :page-size="limit"
-          :total="total"
-        >
-        </el-pagination>
       </div>
 
       <!-- 修改弹框 -->
@@ -180,24 +173,28 @@
           class=""
         >
           <div
-            style="height: 50px; padding: 0 20px"
+            style="height: 40px; padding: 0 20px"
             class="flex flex-ac flex-jb font-30 bg-blue cor-f"
           >
             <span style="font-size: 16px">{{ popName }}</span>
-            <i @click="hidePop" class="el-icon-close"></i>
+            <i @click="hidePop" class="el-icon-close"
+              style="cursor: pointer"></i>
           </div>
           <div
             class="flex flex-dc flex-ja"
-            style="height: 240px; border-bottom: 1px solid #f5f5f5"
+            style="height: auto; border-bottom: 1px solid #f5f5f5"
           >
-            <div class="flex flex-ac" style="padding: 10px 20px">
+            <div class="flex flex-ac" style="padding: 0 20px; margin: 10px 0">
               <div
                 style="
                   min-width: 120px;
                   width: 30%;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
+                  height: 40px;
+                  border-left: 1px solid #dcdfe6;
+                  border-top: 1px solid #dcdfe6;
+                  border-bottom: 1px solid #dcdfe6;
+                  border-top-left-radius: 4px;
+                  border-bottom-left-radius: 4px;
                 "
                 class="flex felx-ac flex-jc"
               >
@@ -206,7 +203,11 @@
                 >
               </div>
 
-              <el-input placeholder="请输入摄像头名称" v-model="modalName">
+              <el-input
+                placeholder="请输入摄像头名称"
+                v-model="modalName"
+                class="input-group"
+              >
               </el-input>
             </div>
             <div class="flex flex-ac" style="padding: 0 20px">
@@ -214,9 +215,12 @@
                 style="
                   min-width: 120px;
                   width: 30%;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
+                  height: 40px;
+                  border-left: 1px solid #dcdfe6;
+                  border-top: 1px solid #dcdfe6;
+                  border-bottom: 1px solid #dcdfe6;
+                  border-top-left-radius: 4px;
+                  border-bottom-left-radius: 4px;
                 "
                 class="flex felx-ac flex-jc"
               >
@@ -227,11 +231,12 @@
               <el-input
                 placeholder="请输入摄像头代码(SN号)"
                 v-model="modalCode"
+                class="input-group"
               >
               </el-input>
             </div>
             <div class="flex flex-dc" style="padding: 0 20px">
-              <span style="min-width: 100px; margin-bottom: 10px">备注</span>
+              <span style="min-width: 100px; margin: 10px 0">备注</span>
               <el-input
                 type="textarea"
                 placeholder="请输入内容"
@@ -250,12 +255,13 @@
             <div
               @click="allSure"
               style="
-                width: 80px;
-                height: 35px;
+                width: 70px;
+                height: 30px;
                 border-radius: 5px;
                 margin-left: 20px;
                 border: 1px solid rgba(84, 114, 234, 1);
                 font-size: 14px;
+                cursor: pointer;
               "
               class="bg-blue cor-f flex flex-ac flex-jc"
             >
@@ -264,11 +270,12 @@
             <div
               @click="hidePop"
               style="
-                width: 80px;
-                height: 35px;
+                width: 70px;
+                height: 30px;
                 border-radius: 5px;
                 border: 1px solid rgba(84, 114, 234, 1);
                 font-size: 14px;
+                cursor: pointer;
               "
               class="flex flex-ac flex-jc cor-blue"
             >
@@ -530,79 +537,128 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="less">
 @import url("../../assets/css/index.css");
 
-.bg-f {
-  background: #fff;
-}
+.video-detail {
+  .search-part {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid rgb(235, 237, 242);
+    overflow: hidden;
+    .label-title {
+      width: 90px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 14px;
+      border-left: none;
+      border-top: none;
+      border-bottom: none;
+      border-right: 1px solid rgb(235, 237, 242);
+    }
+    .el-input__prefix {
+      display: none;
+    }
+    .el-input__inner {
+      border: none;
+      height: 30px;
+    }
+    .el-input__icon {
+      line-height: 30px;
+    }
+  }
+  .search-btn {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    background: rgb(84, 114, 234);
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 0 15px;
+    color: white;
+  }
+  .search-btn:hover {
+    background: rgba(84, 114, 234, 0.8);
+    cursor: pointer;
+  }
+  .bg-f {
+    background: #fff;
+  }
 
-.flex > .el-input__inner {
-  height: 30px;
-}
-.gutter {
-  width: 1px;
-}
+  .flex > .el-input__inner {
+    height: 30px;
+  }
+  .gutter {
+    width: 1px;
+  }
 
-.location {
-  width: 100%;
-  display: flex;
-  height: 40px;
-  align-items: center;
-  font-size: 12px;
-  flex-shrink: 0;
-}
-img {
-  margin-right: 10px;
-}
-.directory1 {
-  padding-right: 10px;
-  border-right: 1px solid;
-}
-.directory1:hover {
-  color: #7c8de7;
-  cursor: pointer;
-}
-.directory2 {
-  padding-left: 10px;
-  color: #7c8de7;
-}
-.hide::-webkit-scrollbar {
-  display: none;
-}
-.camera-tab {
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  width: 8%;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-bottom-color: white;
-  background: white;
-}
+  .input-group .el-input__inner {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .location {
+    width: 100%;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  img {
+    margin-right: 10px;
+  }
+  .directory1 {
+    padding-right: 10px;
+    border-right: 1px solid;
+  }
+  .directory1:hover {
+    color: #7c8de7;
+    cursor: pointer;
+  }
+  .directory2 {
+    padding-left: 10px;
+    color: #7c8de7;
+  }
+  .hide::-webkit-scrollbar {
+    display: none;
+  }
+  .camera-tab {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 8%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-bottom-color: white;
+    background: white;
+  }
 
-.w80 {
-  width: 80px;
-}
-.action-icon {
-  display: inline-block;
-  cursor: pointer;
-  width: 30px;
-  height: 20px;
-  line-height: 20px;
-  text-align: center;
-}
-.el-input-group__append,
-.el-input-group__prepend {
-  background-color: #fff;
-}
+  .w80 {
+    width: 80px;
+  }
+  .action-icon {
+    display: inline-block;
+    cursor: pointer;
+    width: 30px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+  }
+  .el-input-group__append,
+  .el-input-group__prepend {
+    background-color: #fff;
+  }
 
-.el-table::before,
-.el-table--border::after {
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 0 !important;
+  .el-table::before,
+  .el-table--border::after {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0 !important;
+  }
 }
 </style>

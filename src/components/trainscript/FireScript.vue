@@ -49,21 +49,21 @@
             @row-click="readDetail"
           >
             <el-table-column prop="no" label="#" width="50"> </el-table-column>
-            <el-table-column prop="code" label="编码"> </el-table-column>
-            <el-table-column prop="name" label="脚本名称"> </el-table-column>
-            <el-table-column prop="burningScene" label="燃烧场景">
+            <el-table-column prop="code" label="编码" show-overflow-tooltip> </el-table-column>
+            <el-table-column prop="name" label="脚本名称" show-overflow-tooltip> </el-table-column>
+            <el-table-column prop="burningScene" label="燃烧场景" show-overflow-tooltip>
             </el-table-column>
             <el-table-column prop="trainingTime" label="总时间" width="80">
               <template slot-scope="scope">
                 <span>{{ scope.row.trainingTime }}分钟</span>
               </template>
             </el-table-column>
-            <el-table-column prop="description" label="描述" width="350">
+            <el-table-column prop="description" label="描述" show-overflow-tooltip width="350">
               <template slot-scope="scope">
                 <span class="descript">{{ scope.row.description }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="syncTime" label="同步时间" width="150">
+            <el-table-column prop="syncTime" label="同步时间" width="200">
             </el-table-column>
           </el-table>
         </div>
@@ -321,10 +321,10 @@ export default {
         }
         .el-input__inner {
           border: none;
-          height: 32px;
+          height: 30px;
         }
         .el-input__icon {
-          line-height: 32px;
+          line-height: 30px;
         }
       }
       .input-box {
@@ -332,8 +332,8 @@ export default {
       }
       .search-btn {
         display: inline-block;
-        height: 32px;
-        line-height: 32px;
+        height: 30px;
+        line-height: 30px;
         background: rgb(84, 114, 234);
         border-radius: 5px;
         font-size: 14px;

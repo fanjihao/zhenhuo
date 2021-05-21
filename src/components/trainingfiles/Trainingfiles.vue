@@ -63,22 +63,22 @@
             }"
           >
             <el-table-column prop="no" label="#" width="50"> </el-table-column>
-            <el-table-column prop="name" label="实训名称" width="150">
+            <el-table-column prop="name" label="实训名称" show-overflow-tooltip width="150">
             </el-table-column>
-            <el-table-column prop="coursewareName" label="实训课件">
+            <el-table-column prop="coursewareName" label="实训课件" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column prop="location" label="实训地点">
+            <el-table-column prop="location" label="实训地点" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column prop="teamName" label="实训队伍" width="150">
+            <el-table-column prop="teamName" label="实训队伍" width="150" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column prop="date" label="计划时间" width="270">
+            <el-table-column prop="date" label="计划时间" width="310">
               <template slot-scope="scope">
                 <span>{{
                   scope.row.planStartTime + "~" + scope.row.planEndTime
                 }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="date" label="实际时间" width="270">
+            <el-table-column prop="date" label="实际时间" width="310">
               <template slot-scope="scope">
                 <span>{{
                   (scope.row.actualStartTime === null
@@ -93,7 +93,7 @@
             </el-table-column>
             <el-table-column prop="assessGrades" label="实训成绩" width="80">
             </el-table-column>
-            <el-table-column prop="status" label="实训状态">
+            <el-table-column prop="status" label="实训状态" width="100">
               <template slot-scope="scope">
                 <span class="wait" v-if="scope.row.status === 0">待执行</span>
                 <span class="ing" v-if="scope.row.status === 1">执行中</span>
@@ -730,8 +730,8 @@ export default {
       this.assessVisible = true;
       this.rowId = item.id;
       this.startItem = item;
-      this.evaluopin = "";
-      this.trainScore = "";
+      this.evaluopin = item.assessOpinion;
+      this.trainScore = item.assessGrades;
     },
     // 提交评估
     submitAsses() {
@@ -1427,10 +1427,10 @@ export default {
     }
     .el-input__inner {
       border: none;
-      height: 32px;
+      height: 30px;
     }
     .el-input__icon {
-      line-height: 32px;
+      line-height: 30px;
     }
   }
   .input-box {
@@ -1457,8 +1457,8 @@ export default {
       padding: 15px;
       .search-btn {
         display: inline-block;
-        height: 32px;
-        line-height: 32px;
+        height: 30px;
+        line-height: 30px;
         background: rgb(84, 114, 234);
         border-radius: 5px;
         font-size: 14px;

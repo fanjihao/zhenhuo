@@ -15,17 +15,8 @@
       </div>
       <div class="flex flex-jb" style="margin-top: 20px">
         <div class="flex">
-          <div class="flex">
-            <div
-              class="aaa flex flex-ac flex-jc font-14 cor-6"
-              style="
-                width: 100px;
-                border: 1px solid #dcdfe6;
-                border-radius: 4px;
-              "
-            >
-              装备类型
-            </div>
+          <div class="search-part" style="margin-right: 20px">
+            <div class="label-title">装备类型</div>
             <el-select
               style=""
               @change="searchEquipType"
@@ -42,42 +33,46 @@
               </el-option>
             </el-select>
           </div>
-
-          <el-input
-            v-model="serachName"
-            style="width: 300px; margin-left: 20px"
-            placeholder="请输入内容"
-          ></el-input>
-          <div
-            @click="serachFn"
-            class="flex flex-ac bg-blue cor-f"
-            style="padding: 0 30px; border-radius: 5px; margin-left: 20px"
-          >
-            <span>查询</span>
+          <div class="search-part" style="margin-right: 20px">
+            <el-input
+              v-model="serachName"
+              placeholder="请输入物资名称"
+            ></el-input>
           </div>
+          <div class="search-btn" @click="serachFn">查 询</div>
         </div>
-        <div
-          @click="showPop(false)"
-          class="flex flex-ac bg-blue cor-f"
-          style="padding: 0 30px; border-radius: 5px"
-        >
-          <span>＋ 新建</span>
+        <div class="search-btn" @click="showPop(false)">
+          <i class="el-icon-plus"></i>
+          新建
         </div>
       </div>
       <div class="" style="margin-top: 19px">
         <el-table class="hide" :data="listMsg" border style="width: 100%">
           <el-table-column prop="no" label="#" width="80"> </el-table-column>
-          <el-table-column prop="equipmentName" label="装备名称">
+          <el-table-column
+            prop="equipmentName"
+            show-overflow-tooltip
+            label="装备名称"
+          >
           </el-table-column>
           <el-table-column prop="type" label="装备类型"> </el-table-column>
           <el-table-column prop="unitMeasurement" label="计量单位">
           </el-table-column>
           <el-table-column prop="numberEquipment" label="数量">
           </el-table-column>
-          <el-table-column prop="storageLocation" label="存放地点">
+          <el-table-column
+            prop="storageLocation"
+            label="存放地点"
+            show-overflow-tooltip
+          >
           </el-table-column>
-          <el-table-column prop="model" label="规格型号"> </el-table-column>
-          <el-table-column prop="equipmentUse" label="装备用途">
+          <el-table-column prop="model" label="规格型号" show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            prop="equipmentUse"
+            label="装备用途"
+            show-overflow-tooltip
+          >
           </el-table-column>
           <el-table-column prop="updateUserName" label="创建人">
           </el-table-column>
@@ -420,7 +415,7 @@ export default {
         this.$message({
           type: "success",
           message: "已成功删除！",
-          duration:1000
+          duration: 1000,
         });
         this.page = 1;
         this.getMessageList();
@@ -432,7 +427,7 @@ export default {
         offset: this.page,
         equipmentName: this.serachName,
         dataType: 1,
-        equipmentType:this.equipTypeValue,
+        equipmentType: this.equipTypeValue,
       };
       let data = await this.$post(
         "/dah-training-api/baseEquipment/selectBaseEquipment",
@@ -665,12 +660,55 @@ export default {
   created() {},
 };
 </script>
-<style scoped>
+<style lang="less" >
 @import url("../../assets/css/index.css");
 .bg-f {
   background: #fff;
 }
 
+.search-part {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid rgb(235, 237, 242);
+  overflow: hidden;
+  .label-title {
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+    border-right: 1px solid rgb(235, 237, 242);
+  }
+  .el-input__prefix {
+    display: none;
+  }
+  .el-input__inner {
+    border: none;
+    height: 30px;
+  }
+  .el-input__icon {
+    line-height: 30px;
+  }
+}
+.search-btn {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  background: rgb(84, 114, 234);
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 0 15px;
+  color: white;
+}
+.search-btn:hover {
+  background: rgba(84, 114, 234, 0.8);
+  cursor: pointer;
+}
 .flex > .el-input__inner {
   height: 30px;
 }

@@ -29,4 +29,7 @@ a:hover {
 .el-tooltip__popper {
   max-width:70%
 }
+i {
+  font-size: 14px !important;
+}
 </style>

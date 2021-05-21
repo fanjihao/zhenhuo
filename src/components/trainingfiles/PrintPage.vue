@@ -24,6 +24,25 @@
       />
       <p>打印</p>
     </div>
+    <div
+      style="
+        width: 80px;
+        border-radius: 50px;
+        height: 80px;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        bottom: 200px;
+        right: 100px;
+        cursor:pointer;
+      "
+      @click="exit"
+    >
+      <i class="el-icon-switch-button"></i>
+      <p>退出</p>
+    </div>
     <div class="files-details" id="printId">
       <header>
         <div class="files-details-left">
@@ -210,6 +229,7 @@
 
 <script>
 import http from "../../http/request";
+import { mapMutations } from 'vuex';
 // import qs from "qs";
 
 export default {
@@ -246,6 +266,12 @@ export default {
     window.removeEventListener("popstate", this.goPage, false);
   },
   methods: {
+    ...mapMutations({setPath: 'setPath'}),
+    exit() {
+      this.setPath("/trainfiles");
+      this.$router.go(-1);
+      // console.log(this.$router)
+    },
     goPage() {
       this.$destroy();
       this.$router.push("/trainfiles");

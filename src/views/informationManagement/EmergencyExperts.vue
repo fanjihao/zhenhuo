@@ -13,13 +13,12 @@
         <div class="left-ctt">
           <div class="search-line">
             <div style="display: flex; align-items: center">
-              <div class="inputDiv" style="margin-right: 20px">
-                <div>所在地区</div>
+              <div class="inputDiv search-part" style="margin-right: 20px">
+                <div class="label-title">所在地区</div>
                 <el-select
                   v-model="expertArea"
                   placeholder="请选择"
                   style="width: 150px"
-                  size="mini"
                   clearable
                 >
                   <el-option
@@ -31,13 +30,12 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="inputDiv" style="margin-right: 20px">
-                <div>专家类型</div>
+              <div class="inputDiv search-part" style="margin-right: 20px">
+                <div class="label-title">专家类型</div>
                 <el-select
                   v-model="expertType"
                   placeholder="请选择"
                   style="width: 150px"
-                  size="mini"
                   clearable
                 >
                   <el-option
@@ -49,13 +47,12 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="inputDiv" style="margin-right: 20px">
-                <div>所属专业</div>
+              <div class="inputDiv search-part" style="margin-right: 20px">
+                <div class="label-title">所属专业</div>
                 <el-select
                   v-model="expertSpecialty"
                   placeholder="请选择"
                   style="width: 150px"
-                  size="mini"
                   clearable
                 >
                   <el-option
@@ -67,48 +64,41 @@
                   </el-option>
                 </el-select>
               </div>
-              <el-input
-                v-model="expertName"
-                placeholder="请输入专家姓名"
-                style="width: 150px; margin-right: 20px"
-                size="mini"
-              ></el-input>
-              <el-button
-                style="background: #5a71e2; color: #fff"
-                size="mini"
-                @click="getExpertsList"
-                >查询</el-button
-              >
+              <div class="search-part"
+                  style="width: 150px; margin-right: 20px">
+                <el-input
+                  v-model="expertName"
+                  placeholder="请输入专家姓名"
+                ></el-input>
+              </div>
+              <div class="search-btn" @click="getExpertsList">查 询</div>
             </div>
-            <div>
-              <el-button
-                style="background: #5a71e2; color: #fff"
-                size="mini"
-                @click="addTeam"
-                ><i
-                  class="el-icon-plus"
-                  style="font-weight: bold; margin-right: 5px"
-                ></i
-                >新建</el-button
-              >
+            <div class="search-btn" @click="addTeam">
+              <i class="el-icon-plus"></i> 新建
             </div>
           </div>
           <el-table
             :data="expertsList"
             border
             style="width: 100%; overflow-y: auto; margin-bottom: 10px"
+            @row-click="rowHandle"
           >
             <el-table-column prop="no" label="#" width="50"> </el-table-column>
-            <el-table-column prop="name" label="专家姓名"> </el-table-column>
+            <el-table-column prop="name" label="专家姓名" show-overflow-tooltip> </el-table-column>
             <el-table-column prop="expertType" label="专家类型" width="120">
             </el-table-column>
-            <el-table-column prop="gender" label="性别" width="50"> </el-table-column>
+            <el-table-column prop="gender" label="性别" width="50">
+            </el-table-column>
             <el-table-column prop="mobilePhone" label="移动电话" width="130">
             </el-table-column>
-            <el-table-column prop="unitRegion" label="所在地区" show-overflow-tooltip>
+            <el-table-column
+              prop="unitRegion"
+              label="所在地区"
+              show-overflow-tooltip
+            >
             </el-table-column>
-            <el-table-column prop="unit" label="所属单位"> </el-table-column>
-            <el-table-column prop="specialty" label="所属专业">
+            <el-table-column prop="unit" label="所属单位" show-overflow-tooltip> </el-table-column>
+            <el-table-column prop="specialty" label="所属专业" show-overflow-tooltip>
             </el-table-column>
             <el-table-column
               prop="expertiseDescription"
@@ -203,8 +193,11 @@
           <ul class="right-item3">
             <li v-for="(item, index) in expertSpecialtySS" :key="index">
               <div>{{ item.type }}</div>
-              <div :style="'width:' + 5 * Number(item.number) + 'px'" class="right-item3-center"></div>
-              <span>{{item.number}}</span>
+              <div
+                :style="'width:' + 5 * Number(item.number) + 'px'"
+                class="right-item3-center"
+              ></div>
+              <span>{{ item.number }}</span>
             </li>
           </ul>
         </div>
@@ -221,20 +214,22 @@
           <div class="content2-line">
             <div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:35%"><i>*</i> 专家姓名</div>
+                <div style="width: 35%"><i>*</i> 专家姓名</div>
                 <el-input
                   v-model="formData.name"
                   placeholder="请输入专家姓名"
                   style="flex: 1"
+                  :disabled="popupType === 'read'"
                   size="mini"
                 ></el-input>
               </div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:35%"><i>*</i> 专家类型</div>
+                <div style="width: 35%"><i>*</i> 专家类型</div>
                 <el-select
                   v-model="formData.expertTypeId"
                   placeholder="-"
                   style="flex: 1"
+                  :disabled="popupType === 'read'"
                   size="mini"
                 >
                   <el-option
@@ -249,11 +244,12 @@
             </div>
             <div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:35%"><i>*</i> 性别</div>
+                <div style="width: 35%"><i>*</i> 性别</div>
                 <el-select
                   v-model="formData.gender"
                   placeholder="-"
                   style="flex: 1"
+                  :disabled="popupType === 'read'"
                   size="mini"
                 >
                   <el-option label="男" value="1"> </el-option>
@@ -261,11 +257,12 @@
                 </el-select>
               </div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:35%"><i>*</i> 民族</div>
+                <div style="width: 35%"><i>*</i> 民族</div>
                 <el-select
                   v-model="formData.clanId"
                   placeholder="-"
                   style="flex: 1"
+                  :disabled="popupType === 'read'"
                   size="mini"
                 >
                   <el-option
@@ -282,39 +279,43 @@
           <div class="content2-line">
             <div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:35%"><i>*</i> 移动电话</div>
+                <div style="width: 35%"><i>*</i> 移动电话</div>
                 <el-input
                   v-model="formData.mobilePhone"
                   placeholder="请输入移动电话"
                   style="flex: 1"
+                  :disabled="popupType === 'read'"
                   size="mini"
                 ></el-input>
               </div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:35%">办公电话</div>
+                <div style="width: 35%">办公电话</div>
                 <el-input
                   v-model="formData.officePhone"
                   placeholder="请输入办公电话"
                   style="flex: 1"
+                  :disabled="popupType === 'read'"
                   size="mini"
                 ></el-input>
               </div>
             </div>
             <div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:35%">电子邮件</div>
+                <div style="width: 35%">电子邮件</div>
                 <el-input
                   v-model="formData.email"
                   placeholder="请输入电子邮件"
                   style="flex: 1"
+                  :disabled="popupType === 'read'"
                   size="mini"
                 ></el-input>
               </div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:35%">学历</div>
+                <div style="width: 35%">学历</div>
                 <el-select
                   v-model="formData.educationId"
                   placeholder="-"
+                  :disabled="popupType === 'read'"
                   style="flex: 1"
                   size="mini"
                 >
@@ -332,20 +333,22 @@
           <div class="content2-line">
             <div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:35%">职称</div>
+                <div style="width: 35%">职称</div>
                 <el-input
                   v-model="formData.jobTitle"
                   placeholder="请输入职称"
                   style="flex: 1"
+                  :disabled="popupType === 'read'"
                   size="mini"
                 ></el-input>
               </div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:35%">职务</div>
+                <div style="width: 35%">职务</div>
                 <el-input
                   v-model="formData.jobPost"
                   placeholder="请输入职务"
                   style="flex: 1"
+                  :disabled="popupType === 'read'"
                   size="mini"
                 ></el-input>
               </div>
@@ -361,6 +364,7 @@
                   placeholder="-"
                   style="flex: 1"
                   size="mini"
+                  :disabled="popupType === 'read'"
                   multiple
                   collapse-tags
                 >
@@ -374,12 +378,13 @@
                 </el-select>
               </div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:50%"><i>*</i> 专家适用行业</div>
+                <div style="width: 50%"><i>*</i> 专家适用行业</div>
                 <el-select
                   v-model="formData.applicableIndustryId"
                   placeholder="-"
                   style="flex: 1"
                   size="mini"
+                  :disabled="popupType === 'read'"
                   multiple
                   collapse-tags
                 >
@@ -395,10 +400,11 @@
             </div>
             <div>
               <div class="inputDiv" style="width: 49%">
-                <div style="width:35%"><i>*</i> 所属专业</div>
+                <div style="width: 35%"><i>*</i> 所属专业</div>
                 <el-select
                   v-model="formData.specialtyId"
                   placeholder="-"
+                  :disabled="popupType === 'read'"
                   style="flex: 1"
                   size="mini"
                 >
@@ -432,6 +438,7 @@
                   placeholder="请输入专业领域"
                   v-model="formData.specialtyInfo"
                   style="flex: 1"
+                  :disabled="popupType === 'read'"
                   size="mini"
                   maxlength="500"
                 >
@@ -457,6 +464,7 @@
                   v-model="formData.workExperience"
                   style="flex: 1"
                   size="mini"
+                  :disabled="popupType === 'read'"
                   maxlength="500"
                 >
                 </el-input>
@@ -482,6 +490,7 @@
                   placeholder="请输入专业专长描述"
                   v-model="formData.expertiseDescription"
                   style="flex: 1"
+                  :disabled="popupType === 'read'"
                   size="mini"
                   maxlength="500"
                 >
@@ -511,6 +520,7 @@
                     placeholder="请输入所属单位"
                     style="width: 380px"
                     size="mini"
+                    :disabled="popupType === 'read'"
                   ></el-input>
                 </div>
               </div>
@@ -522,6 +532,7 @@
                     placeholder="请选择所在区域"
                     style="width: 380px"
                     size="mini"
+                    :disabled="popupType === 'read'"
                   >
                     <el-option
                       v-for="item in expertAreaList"
@@ -541,26 +552,27 @@
                     placeholder="请输入详细地址"
                     style="width: 380px"
                     size="mini"
+                    :disabled="popupType === 'read'"
                   ></el-input>
                 </div>
               </div>
               <div class="content2-line" style="margin: 0">
-                <div class="inputDiv" style="width:49%">
+                <div class="inputDiv" style="width: 49%">
                   <div style="width: 40%">经度</div>
                   <el-input
                     v-model="formData.unitRegionLongitude"
                     placeholder="请输入经度"
-                    style="flex:1"
+                    style="flex: 1"
                     size="mini"
                     disabled
                   ></el-input>
                 </div>
-                <div class="inputDiv" style="width:49%">
+                <div class="inputDiv" style="width: 49%">
                   <div style="width: 40%">纬度</div>
                   <el-input
                     v-model="formData.unitRegionLatitude"
                     placeholder="请输入纬度"
-                    style="flex:1"
+                    style="flex: 1"
                     size="mini"
                     disabled
                   ></el-input>
@@ -569,7 +581,7 @@
             </div>
           </div>
         </div>
-        <div class="bottom">
+        <div class="bottom" v-if="popupType != 'read'">
           <el-button size="mini" @click="cancel">取消</el-button>
           <el-button
             size="mini"
@@ -676,7 +688,7 @@ export default {
       expertSpecialtySS: [],
       popupType: "",
 
-      limit: 12
+      limit: 12,
     };
   },
   async mounted() {
@@ -732,6 +744,29 @@ export default {
       if (this.marker) {
         this.map.remove(this.marker);
       }
+    },
+    rowHandle(row) {
+      this.newShow = 9;
+      row.meritAccidentTypeId
+        ? (row.meritAccidentTypeId = JSON.parse(row.meritAccidentTypeId))
+        : "";
+      row.applicableIndustryId
+        ? (row.applicableIndustryId = JSON.parse(row.applicableIndustryId))
+        : "";
+      row.gender = row.gender == "男" ? "1" : "0";
+      this.formData = row;
+      this.popupTitle = "专家信息";
+      this.popupType = "read";
+      if (this.marker) {
+        this.map.remove(this.marker);
+      }
+      this.marker = new this.AMap.Marker({
+        position: new this.AMap.LngLat(
+          row.unitRegionLongitude,
+          row.unitRegionLatitude
+        ),
+      });
+      this.map.add(this.marker);
     },
     upTeam(row) {
       this.newShow = 9;
@@ -856,7 +891,7 @@ export default {
       });
       this.option.series[0].data = this.expertTypeSS;
       this.expertSpecialtySS = data.data.ExpertSpecialty;
-      console.log(this.expertSpecialtySS)
+      console.log(this.expertSpecialtySS);
     },
     handleCurrentChange(val) {
       this.offset = val;
@@ -951,7 +986,59 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
+.search-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  .search-part {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid rgb(235, 237, 242);
+    overflow: hidden;
+    .label-title {
+      width: 90px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 14px;
+      border-left: none;
+      border-top: none;
+      border-bottom: none;
+      border-right: 1px solid rgb(235, 237, 242);
+    }
+    select {
+      height: 30px;
+    }
+  }
+  .search-btn {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    background: rgb(84, 114, 234);
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 0 15px;
+    color: white;
+  }
+  .search-btn:hover {
+    background: rgba(84, 114, 234, 0.8);
+    cursor: pointer;
+  }
+  .el-input__prefix {
+    display: none;
+  }
+  .el-input__inner {
+    border: none;
+    height: 30px;
+  }
+  .el-input__icon {
+    line-height: 30px;
+  }
+}
 .content2-line {
   display: flex;
   width: 100%;
@@ -1175,7 +1262,7 @@ export default {
         max-height: 310px;
         overflow-y: auto;
         margin-top: 10px;
-        .right-item3-center{
+        .right-item3-center {
           max-width: 50%;
         }
         li {

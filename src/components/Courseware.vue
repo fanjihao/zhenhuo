@@ -1900,7 +1900,6 @@ export default {
       }
     }
   }
-
   .dialog-add {
     border-radius: 4px;
     font-size: 13px;
@@ -2016,6 +2015,9 @@ export default {
               padding: 10px 0;
               border-radius: 4px;
               z-index: 999;
+              height: 300px;
+              background: white;
+              overflow-x: hidden;
               .script-drop-item {
                 width: 100%;
                 height: 32px;

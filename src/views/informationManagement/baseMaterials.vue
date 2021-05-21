@@ -19,47 +19,37 @@
       </div>
       <div class="flex flex-jb" style="margin-top: 20px">
         <div class="flex">
-          <div
-            class="aaa flex flex-ac flex-jc font-14 cor-6"
-            style="width: 100px; border: 1px solid #dcdfe6; border-radius: 4px"
-          >
-            物资类型
-          </div>
-          <el-select
-            style=""
-            @change="searchEquipType"
-            v-model="equipTypeValue"
-            placeholder="请选择物资类型"
-            clearable
-          >
-            <el-option key="0" label="全部" :value="0"> </el-option>
-            <el-option
-              v-for="item in equipTypeMsg"
-              :key="item.id"
-              :label="item.value"
-              :value="item.id"
+          <div class="search-part" style="margin-right: 20px">
+            <div class="label-title">物资类型</div>
+            <el-select
+              style=""
+              @change="searchEquipType"
+              v-model="equipTypeValue"
+              placeholder="请选择物资类型"
+              clearable
             >
-            </el-option>
-          </el-select>
-          <el-input
-            v-model="serachName"
-            style="width: 300px; margin-left: 20px"
-            placeholder="请输入物资名称"
-          ></el-input>
-          <div
-            @click="serachFn"
-            class="flex flex-ac bg-blue cor-f"
-            style="padding: 0 30px; border-radius: 5px; margin-left: 20px"
-          >
-            <span>查询</span>
+              <el-option key="0" label="全部" :value="0"> </el-option>
+              <el-option
+                v-for="item in equipTypeMsg"
+                :key="item.id"
+                :label="item.value"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
           </div>
+          <div class="search-part" style="margin-right: 20px">
+            <el-input
+              v-model="serachName"
+              style="margin-left: 20px"
+              placeholder="请输入物资名称"
+            ></el-input>
+          </div>
+          <div class="search-btn" @click="serachFn">查 询</div>
         </div>
-        <div
-          @click="showPop(false)"
-          class="flex flex-ac bg-blue cor-f"
-          style="padding: 0 30px; border-radius: 5px"
-        >
-          <span>＋ 新建</span>
+        <div class="search-btn" @click="showPop(false)">
+          <i class="el-icon-plus"></i>
+          新建
         </div>
       </div>
       <div class="" style="height: calc(100vh - 290px); margin-top: 19px">
@@ -70,13 +60,15 @@
           style="width: 100%; height: calc(100vh - 290px); overflow-y: scroll"
         >
           <el-table-column prop="no" label="#" width="80"> </el-table-column>
-          <el-table-column prop="name" label="物资名称"> </el-table-column>
+          <el-table-column prop="name" label="物资名称"
+              show-overflow-tooltip> </el-table-column>
           <el-table-column prop="suppliesType" label="物资类型">
           </el-table-column>
           <el-table-column prop="measureUnit" label="计量单位">
           </el-table-column>
           <el-table-column prop="number" label="数量"> </el-table-column>
-          <el-table-column prop="storageLocation" label="存放地点">
+          <el-table-column prop="storageLocation" label="存放地点"
+              show-overflow-tooltip>
           </el-table-column>
           <el-table-column prop="updateUserName" label="创建人">
           </el-table-column>
@@ -163,7 +155,9 @@
                   ><span style="color: #ff0000">*</span>物资名称</span
                 >
               </div>
-              <el-input placeholder="请输入内容" v-model="materialName"
+              <el-input
+                placeholder="请输入内容"
+                v-model="materialName"
                 @blur="
                   () => {
                     if (materialName.length > 50) {
@@ -171,7 +165,8 @@
                       this.materialName = '';
                     }
                   }
-                ">
+                "
+              >
               </el-input>
             </div>
             <div class="flex flex-ac" style="padding: 0 20px">
@@ -217,7 +212,9 @@
                   ><span style="color: #ff0000">*</span>计量单位</span
                 >
               </div>
-              <el-input placeholder="请输入内容" v-model="materialMeasureUnit"
+              <el-input
+                placeholder="请输入内容"
+                v-model="materialMeasureUnit"
                 @blur="
                   () => {
                     if (materialMeasureUnit.length > 50) {
@@ -225,7 +222,8 @@
                       this.materialMeasureUnit = '';
                     }
                   }
-                ">
+                "
+              >
               </el-input>
             </div>
             <div class="flex flex-ac" style="padding: 0 20px">
@@ -256,9 +254,9 @@
                       this.$message.warning('输入数据类型不符,请输入数字');
                       this.materialNumber = '';
                     }
-                    if(materialNumber.length > 50){
-                      this.$message.warning('字段长度不符')
-                      this.materialNumber = ''
+                    if (materialNumber.length > 50) {
+                      this.$message.warning('字段长度不符');
+                      this.materialNumber = '';
                     }
                   }
                 "
@@ -594,7 +592,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="less" >
 @import url("../../assets/css/index.css");
 .bg-f {
   background: #fff;
@@ -609,7 +607,49 @@ export default {
 .w80 {
   width: 80px;
 }
-
+.search-part {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid rgb(235, 237, 242);
+  overflow: hidden;
+  .label-title {
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+    border-right: 1px solid rgb(235, 237, 242);
+  }
+  .el-input__prefix {
+    display: none;
+  }
+  .el-input__inner {
+    border: none;
+    height: 30px;
+  }
+  .el-input__icon {
+    line-height: 30px;
+  }
+}
+.search-btn {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  background: rgb(84, 114, 234);
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 0 15px;
+  color: white;
+}
+.search-btn:hover {
+  background: rgba(84, 114, 234, 0.8);
+  cursor: pointer;
+}
 .el-input-group__append,
 .el-input-group__prepend {
   background-color: #fff;
