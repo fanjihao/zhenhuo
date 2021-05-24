@@ -64,8 +64,7 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="search-part"
-                  style="width: 150px; margin-right: 20px">
+              <div class="search-part" style="width: 150px; margin-right: 20px">
                 <el-input
                   v-model="expertName"
                   placeholder="请输入专家姓名"
@@ -84,7 +83,8 @@
             @row-click="rowHandle"
           >
             <el-table-column prop="no" label="#" width="50"> </el-table-column>
-            <el-table-column prop="name" label="专家姓名" show-overflow-tooltip> </el-table-column>
+            <el-table-column prop="name" label="专家姓名" show-overflow-tooltip>
+            </el-table-column>
             <el-table-column prop="expertType" label="专家类型" width="120">
             </el-table-column>
             <el-table-column prop="gender" label="性别" width="50">
@@ -97,8 +97,13 @@
               show-overflow-tooltip
             >
             </el-table-column>
-            <el-table-column prop="unit" label="所属单位" show-overflow-tooltip> </el-table-column>
-            <el-table-column prop="specialty" label="所属专业" show-overflow-tooltip>
+            <el-table-column prop="unit" label="所属单位" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column
+              prop="specialty"
+              label="所属专业"
+              show-overflow-tooltip
+            >
             </el-table-column>
             <el-table-column
               prop="expertiseDescription"
@@ -111,7 +116,7 @@
                 <i
                   class="el-icon-edit"
                   style="margin-left: 10px; cursor: pointer"
-                  @click="upTeam(scope.row)"
+                  @click.stop="upTeam(scope.row)"
                 ></i>
                 <i
                   class="el-icon-delete"
@@ -156,35 +161,9 @@
             <div class="item2-left">
               <div
                 id="myChart"
-                :style="{ width: '100%', height: '200px' }"
+                :style="{ width: '100%', height: '100%' }"
               ></div>
             </div>
-            <!-- <ul class="item2-right">
-              <li>
-                <div style="background: #5a71e2"></div>
-                <span>自然灾害类专家</span>
-              </li>
-              <li>
-                <div style="background: #56bbbf"></div>
-                <span>事故灾难类专家</span>
-              </li>
-              <li>
-                <div style="background: #5ac585"></div>
-                <span>公共卫生类专家</span>
-              </li>
-              <li>
-                <div style="background: #f1cb5b"></div>
-                <span>社会安全类专家</span>
-              </li>
-              <li>
-                <div style="background: #ee9542"></div>
-                <span>综合类专家</span>
-              </li>
-              <li>
-                <div style="background: #df636b"></div>
-                <span>其他类专家</span>
-              </li>
-            </ul> -->
           </div>
           <div class="right-title2" style="margin-top: 0">
             <span>所属专业</span>
@@ -602,44 +581,6 @@ export default {
   name: "EmergencyTeam",
   data() {
     return {
-      option: {
-        legend: {
-          right: "right",
-          top: 40,
-          textStyle: {
-            //图例文字的样式
-            color: "#333",
-            fontSize: 10,
-          },
-          icon: "circle",
-        },
-        tooltip: {
-          trigger: "item",
-        },
-        series: [
-          {
-            type: "pie",
-            radius: ["50%", "25%"],
-            avoidLabelOverlap: false,
-            label: {
-              show: false,
-              position: "center",
-            },
-            labelLine: {
-              show: false,
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: "16",
-                fontWeight: "bold",
-              },
-            },
-            data: [],
-            center: ["30%", "50%"],
-          },
-        ],
-      },
       map: "",
       marker: "",
       AMap: "",
@@ -731,6 +672,7 @@ export default {
     });
   },
   methods: {
+    // 新增 
     addTeam() {
       this.newShow = 9;
       this.formData = {
@@ -745,6 +687,7 @@ export default {
         this.map.remove(this.marker);
       }
     },
+    // 详情
     rowHandle(row) {
       this.newShow = 9;
       row.meritAccidentTypeId
@@ -768,6 +711,7 @@ export default {
       });
       this.map.add(this.marker);
     },
+    // 编辑
     upTeam(row) {
       this.newShow = 9;
       row.meritAccidentTypeId
@@ -889,7 +833,6 @@ export default {
         item.value = item.number;
         item.name = item.type;
       });
-      this.option.series[0].data = this.expertTypeSS;
       this.expertSpecialtySS = data.data.ExpertSpecialty;
       console.log(this.expertSpecialtySS);
     },
@@ -930,10 +873,48 @@ export default {
         });
     },
     drawLine() {
+      let option =  {
+        legend: {
+          right: "right",
+          top: 20,
+          textStyle: {
+            //图例文字的样式
+            color: "#333",
+            fontSize: 10,
+          },
+          icon: "circle",
+        },
+        tooltip: {
+          trigger: "item",
+        },
+        series: [
+          {
+            type: "pie",
+            radius: ["50%", "25%"],
+            avoidLabelOverlap: false,
+            label: {
+              show: false,
+              position: "center",
+            },
+            labelLine: {
+              show: false,
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: "16",
+                fontWeight: "bold",
+              },
+            },
+            data: this.expertTypeSS,
+            center: ["30%", "50%"],
+          },
+        ],
+      }
       // 基于准备好的dom，初始化echarts实例
       let myChart = echarts.init(document.getElementById("myChart"));
       // 绘制图表
-      myChart.setOption(this.option);
+      myChart.setOption(option);
     },
     mapInit() {
       AMapLoader.load({
@@ -1227,18 +1208,6 @@ export default {
           width: 100%;
           height: 200px;
           position: relative;
-          div {
-            position: absolute;
-            left: -20px;
-          }
-          span {
-            display: block;
-            width: 28px;
-            font-size: 14px;
-            position: absolute;
-            left: 66px;
-            top: 80px;
-          }
         }
         .item2-right {
           position: absolute;

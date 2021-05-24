@@ -6,7 +6,7 @@
       <div class="directory2" @click="goPage">应急队伍</div>
       <div class="directory3">{{ teamInfoData.teamName }}</div>
     </div>
-    <div class="content1">
+    <div class="content2">
       <div class="content-top">
         <div class="top-left">
           <div>
@@ -1298,7 +1298,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 @import url("./../../assets/css/index.css");
 .el-table::before,
 .el-table--border::after {
@@ -1557,7 +1557,7 @@ export default {
     color: #7c8de7;
   }
 }
-.content1 {
+.content2 {
   background: #fff;
   padding: 10px;
   border-radius: 3px;
