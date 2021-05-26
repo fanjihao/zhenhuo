@@ -480,6 +480,97 @@
               </div>
             </div>
           </div>
+          <div class="initiate-section2">
+            <div class="init-s2-title">
+              <span class="line"></span>
+              <span class="name">监控配置</span>
+            </div>
+            <div class="init-s2-content">
+              <div class="left">
+                <div class="left-content">
+                  <div
+                    v-for="item in placeList"
+                    :key="item.id"
+                    :class="
+                      checkPlace === item.id
+                        ? 'left-c-check-item'
+                        : 'left-c-item'
+                    "
+                    @click="checkPlaceHandle(item)"
+                    :title="item.monitoringPlaceName"
+                  >
+                    {{ item.monitoringPlaceName | ellipsis }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="right">
+                <div class="right-title">监控</div>
+                <div class="right-content">
+                  <div class="right-c-item1">
+                    <div class="title">待选</div>
+                    <el-table
+                      ref="multipleTable"
+                      :data="checkCameraTable"
+                      tooltip-effect="dark"
+                      style="width: 100%"
+                      height="450"
+                      header-row-class-name="tableheader"
+                      @selection-change="handleCameraChange"
+                      :border="true"
+                      v-loading="checkLoading"
+                      element-loading-text="玩命加载中..."
+                      stripe
+                      :header-cell-style="{
+                        backgroundColor: 'rgb(242,243,248)',
+                      }"
+                      size="small"
+                    >
+                      <el-table-column width="55" type="selection">
+                      </el-table-column>
+                      <el-table-column
+                        prop="cameraName"
+                        label="摄像头名称"
+                      ></el-table-column>
+                    </el-table>
+                  </div>
+                  <div class="right-c-item2">
+                    <div class="right-c-item2-check" @click="importCamera">
+                      <i class="el-icon-d-arrow-right" />
+                    </div>
+                    <div class="right-c-item2-item" @click="exportCamera">
+                      <i class="el-icon-d-arrow-left" size="16" />
+                    </div>
+                  </div>
+                  <div class="right-c-item1">
+                    <div class="title">已选（最多9个）</div>
+                    <el-table
+                      ref="multipleTable"
+                      :data="alreadyCheckCamera"
+                      tooltip-effect="dark"
+                      style="width: 100%"
+                      height="450"
+                      header-row-class-name="tableheader"
+                      @selection-change="backSelectionChange"
+                      :border="true"
+                      stripe
+                      :header-cell-style="{
+                        backgroundColor: 'rgb(242,243,248)',
+                      }"
+                      size="small"
+                    >
+                      <el-table-column type="selection" width="55">
+                      </el-table-column>
+                      <el-table-column
+                        prop="cameraName"
+                        label="摄像头名称"
+                      ></el-table-column>
+                    </el-table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="foot-btn launchfoot">
           <div class="cancel" @click="visible = false">取消</div>
@@ -553,7 +644,6 @@ export default {
       tobeSelectKey: "", // 待选关键字
       checkTeamTotal: 0, // 待选人总数
       checkTeamTable: [], // 待选集合
-      checkSelection: [], // 待选checked集合
       checkLoading: false,
       alreadyCheckTotal: 0, // 已选总数
       alreadyCheckKey: "", // 已选关键字
@@ -568,11 +658,23 @@ export default {
       upLoading: "",
 
       startItem: "",
+
+      placeList: [],
+      checkPlace: "",
+      cameraList: [],
+      checkCameraTable: [],
+      alreadyCheckCamera: [],
+      backCaSelection: [],
+      anotherCa: [],
+      alanotherCa: [],
+      cameraSelection:[],
+      hasCamera: [],
     };
   },
   created() {
     this.getfiles();
     this.getTeamList();
+    this.getPlace();
   },
   filters: {
     //文字数超出时，超出部分使用...
@@ -625,6 +727,84 @@ export default {
         .catch((err) => {
           console.log("获取失败", err);
         });
+    },
+    // 获取场所
+    async getPlace() {
+      let params = {
+        limit: 10000,
+        offset: 1,
+      };
+      let data = await this.$post(
+        "/dah-training-api/video/selectVideoByPage",
+        params
+      );
+      if (data.code === 200) {
+        this.placeList = data.data.list;
+      } else {
+        console.log(data);
+      }
+    },
+    checkPlaceHandle(row) {
+      this.axios({
+        url: "/dah-training-api/video/selectWebcamByPage",
+        method: "POST",
+        data: qs.stringify({
+          limit: 10000,
+          offset: 1,
+          videoDeviceId: row.id,
+        }),
+      })
+        .then((res) => {
+          this.checkPlace = row;
+          this.checkCameraTable = res.data.data.list;
+          if (this.alreadyCheckCamera.length > 0) {
+            console.log('sss')
+            for (var i = 0; i < this.checkCameraTable.length; i++) {
+              for (var j = 0; j < this.alreadyCheckCamera.length; j++) {
+                if (this.checkCameraTable[i].id === this.alreadyCheckCamera[j].id) {
+                  //第一个等同于第二个，splice方法删除第二个
+                  this.checkCameraTable.splice(i, 1);
+                  // i--;
+                  // j--;
+                }
+              }
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // 选中的待选人员
+    handleCameraChange(val) {
+      this.cameraSelection = val;
+    },
+    // 选中的已选人员
+    hasCameraChange(val) {
+      this.hasCamera = val;
+    },
+    // 导入已选
+    importCamera() {
+      if (this.alreadyCheckCamera.length > 0) {
+        let arr = this.alreadyCheckCamera.concat(this.cameraSelection);
+        this.alreadyCheckCamera = [...new Set(arr)];
+      } else {
+        this.alreadyCheckCamera = this.cameraSelection;
+      }
+    },
+    // 导回待选
+    exportCamera() {
+      for (var i = 0; i < this.alreadyCheckCamera.length; i++) {
+        for (var j = 0; j < this.hasCamera.length; j++) {
+          if (this.alreadyCheckCamera[i].id === this.hasCamera[j].id) {
+            this.alreadyCheckCamera.splice(j, 1);
+            i--;
+          }
+        }
+      }
+      if(this.checkPlace !== "") {
+        this.checkPlaceHandle(this.checkPlace);
+      }
     },
     // 修改状态
     optionChange(op) {

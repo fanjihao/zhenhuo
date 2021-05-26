@@ -705,7 +705,7 @@
     </div>
     <!-- 视频控制弹窗 -->
     <div class="screen-increasePopup" v-if="videoSetPop">
-      <div class="increaseContent" style="width: 800px; height: 550px">
+      <div class="increaseContent" style="width: 800px">
         <div class="title">
           <span>视频控制</span>
           <div></div>
@@ -714,6 +714,48 @@
           <div style="background: #1e445f"></div>
         </div>
         <div
+          style="
+            width: 100%;
+            height: 90%;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+          "
+        >
+          <div
+            style="
+              width: 25%;
+              height: 100%;
+              border: 1px solid white;
+              overflow: scroll;
+              border-radius: 3px;
+            "
+          >
+            <div
+              v-for="item in placeList"
+              :key="item.id"
+              :class="
+                checkPlace.id === item.id ? 'checked-palce' : 'nocheck-place'
+              "
+              @click="checkPlaceHandle(item)"
+            >
+              {{ item.monitoringPlaceName }}
+            </div>
+          </div>
+          <div style="width: 70%; height: 100%; border: 1px solid white">
+            <div
+              v-for="item in camereList"
+              :key="item.id"
+              :class="
+                checkCamera.id === item.id ? 'checked-palce' : 'nocheck-place'
+              "
+              @click="checkCamera = item"
+            >
+              {{ item.cameraName }}
+            </div>
+          </div>
+        </div>
+        <!-- <div
           style="
             width: 100%;
             height: calc(100% - 114px);
@@ -764,7 +806,7 @@
             @current-change="changePage"
           >
           </el-pagination>
-        </div>
+        </div> -->
         <!-- <div
           style="
             width: 100%;
@@ -988,6 +1030,26 @@
       display: inline-block;
       line-height: 30px;
       text-align: center;
+      cursor: pointer;
+    }
+    .nocheck-place {
+      width: 100%;
+      padding: 0 10px;
+      height: 40px;
+      line-height: 40px;
+      color: white;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.493);
+      margin-bottom: 10px;
+    }
+    .checked-palce {
+      margin-bottom: 10px;
+      background-color: rgba(0, 204, 255, 0.493);
+      width: 100%;
+      padding: 0 10px;
+      height: 40px;
+      line-height: 40px;
+      color: white;
       cursor: pointer;
     }
     .title {
@@ -2088,6 +2150,11 @@ export default {
       videoShowList: [],
 
       recordTotal: 0,
+
+      placeList: [],
+      checkPlace: "",
+      camereList: [],
+      checkCamera: ""
     };
   },
   //监听属性类似于data概念
@@ -2178,8 +2245,43 @@ export default {
     //视频设置弹框
     showVideoPop(i) {
       this.videoSetPop = true;
+      this.getPlace();
       this.checkIndex = i;
-      this.getAllVideo();
+      // this.getAllVideo();
+    },
+    async getPlace() {
+      let params = {
+        limit: 10000,
+        offset: 1,
+      };
+      let data = await this.$post(
+        "/dah-training-api/video/selectVideoByPage",
+        params
+      );
+      if (data.code === 200) {
+        console.log(data);
+        this.placeList = data.data.list;
+      } else {
+        console.log(data);
+      }
+    },
+    checkPlaceHandle(i) {
+      this.axios({
+        url: "/dah-training-api/video/selectWebcamByPage",
+        method: "POST",
+        data: QS.stringify({
+          limit: 10000,
+          offset: 1,
+          videoDeviceId: i.id,
+        }),
+      })
+        .then((res) => {
+          this.checkPlace = i;
+          this.camereList = res.data.data.list;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     getAllVideo() {
       let formdata = new FormData();
@@ -2200,6 +2302,7 @@ export default {
               }
             }
           });
+          console.log(this.NineVideo, "ssssssssssssss");
           this.videoShowList = res.data.data.list;
           this.videoShowTotal = res.data.data.total;
         })
@@ -2217,7 +2320,7 @@ export default {
       }
     },
     confirmVideoPop() {
-      if (this.highLightItem === "") {
+      if (this.checkCamera === "") {
         this.$message({
           message: "请选择",
           iconClass: "el-icon-loading",
@@ -2227,15 +2330,34 @@ export default {
         });
       } else {
         this.videoSetPop = false;
-        this.videoList[this.checkIndex] = this.highLightItem;
+        this.videoList[this.checkIndex] = this.checkCamera;
         if (this.videoPage === 1) {
-          this.NineVideo[this.checkIndex] = this.highLightItem;
+          this.NineVideo[this.checkIndex] = this.checkCamera;
         } else if (this.videoPage === 2) {
-          this.NineVideo[this.checkIndex + 3] = this.highLightItem;
+          this.NineVideo[this.checkIndex + 3] = this.checkCamera;
         } else if (this.videoPage === 3) {
-          this.NineVideo[this.checkIndex + 6] = this.highLightItem;
+          this.NineVideo[this.checkIndex + 6] = this.checkCamera;
         }
       }
+      // if (this.highLightItem === "") {
+      //   this.$message({
+      //     message: "请选择",
+      //     iconClass: "el-icon-loading",
+      //     type: "warning",
+      //     customClass: "warningMsg",
+      //     duration: 0,
+      //   });
+      // } else {
+      //   this.videoSetPop = false;
+      //   this.videoList[this.checkIndex] = this.highLightItem;
+      //   if (this.videoPage === 1) {
+      //     this.NineVideo[this.checkIndex] = this.highLightItem;
+      //   } else if (this.videoPage === 2) {
+      //     this.NineVideo[this.checkIndex + 3] = this.highLightItem;
+      //   } else if (this.videoPage === 3) {
+      //     this.NineVideo[this.checkIndex + 6] = this.highLightItem;
+      //   }
+      // }
       this.highLightItem = "";
       this.allvideoPage = 1;
     },

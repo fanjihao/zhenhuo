@@ -485,7 +485,7 @@
                   type="text"
                   placeholder="请输入实训名称"
                   v-model="name"
-                  style="width:100%"
+                  style="width: 100%"
                   @blur="
                     () => {
                       if (name.length > 50) {
@@ -508,7 +508,7 @@
                   type="text"
                   placeholder="请输入实训地点"
                   v-model="location"
-                  style="width:100%"
+                  style="width: 100%"
                   @blur="
                     () => {
                       if (location.length > 50) {
@@ -583,7 +583,6 @@
                 <div class="right-content">
                   <div class="right-c-item1">
                     <div class="right-c-item1-title">
-                      <!-- 待选人员（{{ stayPageTotal }}个） -->
                       待选人员（{{ stayList.length }}个）
                     </div>
                     <div class="right-c-item1-search">
@@ -661,6 +660,102 @@
                         <el-table-column label="人员姓名" height="30">
                           <template slot-scope="scope">{{
                             scope.row.name
+                          }}</template>
+                        </el-table-column>
+                      </el-table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="initiate-section2">
+            <div class="init-s2-title">
+              <span class="line"></span>
+              <span class="name">监控配置</span>
+            </div>
+
+            <div class="init-s2-content">
+              <div class="left">
+                <div class="left-content">
+                  <div
+                    v-for="item in placeList"
+                    :key="item.id"
+                    :class="
+                      checkPlace.id === item.id
+                        ? 'left-c-check-item'
+                        : 'left-c-item'
+                    "
+                    @click="checkPlaceHandle(item)"
+                    :title="item.monitoringPlaceName"
+                  >
+                    {{ item.monitoringPlaceName | ellipsis }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="right">
+                <div class="right-title">监控</div>
+                <div class="right-content">
+                  <div class="right-c-item1">
+                    <div class="right-c-item1-title">待选</div>
+                    <div class="right-c-item1-table">
+                      <el-table
+                        ref="multipleTable"
+                        :data="camereList"
+                        tooltip-effect="dark"
+                        style="width: 100%"
+                        @selection-change="handleCameraChange"
+                        :border="true"
+                        height="200"
+                        :header-cell-style="{ backgroundColor: '#fcfcfc' }"
+                        stripe
+                      >
+                        <el-table-column
+                          type="selection"
+                          width="55"
+                          height="30"
+                        >
+                        </el-table-column>
+                        <el-table-column label="摄像头名称" height="30">
+                          <template slot-scope="scope">{{
+                            scope.row.cameraName
+                          }}</template>
+                        </el-table-column>
+                      </el-table>
+                    </div>
+                  </div>
+                  <div class="right-c-item2">
+                    <div class="right-c-item2-check" @click="toSubmitList">
+                      <i class="el-icon-d-arrow-right" />
+                    </div>
+                    <div class="right-c-item2-item" @click="delCamera">
+                      <i class="el-icon-d-arrow-left" size="16" />
+                    </div>
+                  </div>
+                  <div class="right-c-item1">
+                    <div class="right-c-item1-title">已选（最多9个）</div>
+                    <div class="right-c-item1-table">
+                      <el-table
+                        ref="multipleTable2"
+                        :data="submitList"
+                        tooltip-effect="dark"
+                        style="width: 100%"
+                        @selection-change="hasCameraChange"
+                        :border="true"
+                        height="200"
+                        :header-cell-style="{ backgroundColor: '#fcfcfc' }"
+                        stripe
+                      >
+                        <el-table-column
+                          type="selection"
+                          width="55"
+                          height="30"
+                        >
+                        </el-table-column>
+                        <el-table-column label="摄像头名称" height="30">
+                          <template slot-scope="scope">{{
+                            scope.row.cameraName
                           }}</template>
                         </el-table-column>
                       </el-table>
@@ -795,7 +890,16 @@ export default {
       // 编辑情况下只读
       editReadonly: null,
 
-      edititem: ""
+      edititem: "",
+
+      placeList: [],
+      checkPlace: "",
+      camereList: [],
+      checkCamera: "",
+      configList: [],
+      submitList: [],
+      cameraSelection: [],
+      hasCamera: [],
     };
   },
   created() {
@@ -809,6 +913,81 @@ export default {
     }, 1000);
   },
   methods: {
+    // 获取场所
+    async getPlace() {
+      let params = {
+        limit: 10000,
+        offset: 1,
+      };
+      let data = await this.$post(
+        "/dah-training-api/video/selectVideoByPage",
+        params
+      );
+      if (data.code === 200) {
+        this.placeList = data.data.list;
+      } else {
+        console.log(data);
+      }
+    },
+    checkPlaceHandle(row) {
+      this.axios({
+        url: "/dah-training-api/video/selectWebcamByPage",
+        method: "POST",
+        data: QS.stringify({
+          limit: 10000,
+          offset: 1,
+          videoDeviceId: row.id,
+        }),
+      })
+        .then((res) => {
+          this.checkPlace = row;
+          this.camereList = res.data.data.list;
+          if (this.submitList.length > 0) {
+            for (var i = 0; i < this.camereList.length; i++) {
+              for (var j = 0; j < this.submitList.length; j++) {
+                if (this.camereList[i].id === this.submitList[j].id) {
+                  //第一个等同于第二个，splice方法删除第二个
+                  this.camereList.splice(j, 1);
+                  // i--;
+                }
+              }
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // 选中的待选人员
+    handleCameraChange(val) {
+      this.cameraSelection = val;
+    },
+    // 选中的已选人员
+    hasCameraChange(val) {
+      this.hasCamera = val;
+    },
+    // 添加实训人员
+    toSubmitList() {
+      if (this.submitList.length > 0) {
+        let arr = this.submitList.concat(this.cameraSelection);
+        this.submitList = [...new Set(arr)];
+      } else {
+        this.submitList = this.cameraSelection;
+      }
+    },
+    delCamera() {
+      for (var i = 0; i < this.submitList.length; i++) {
+        for (var j = 0; j < this.hasCamera.length; j++) {
+          if (this.submitList[i].id === this.hasCamera[j].id) {
+            this.submitList.splice(j, 1);
+            i--;
+          }
+        }
+      }
+      if(this.checkPlace !== "") {
+        this.checkPlaceHandle(this.checkPlace);
+      }
+    },
     // 初始化图表
     drawLine() {
       let option = {
@@ -1117,7 +1296,7 @@ export default {
               this.$message({
                 type: "success",
                 message: "已成功新增课件！",
-                duration:1000
+                duration: 1000,
               });
               this.getList();
               this.getStatistical();
@@ -1158,8 +1337,8 @@ export default {
           safetyPrecautions: this.safety,
           burningSceneId: this.scriptInfo.burningSceneId,
           id: this.courwareId,
-          useNum:this.edititem.useNum,
-          isDel:this.edititem.isDel
+          useNum: this.edititem.useNum,
+          isDel: this.edititem.isDel,
         };
         let params = new FormData();
         for (let key in data) {
@@ -1249,6 +1428,7 @@ export default {
 
       this.getDetail();
       this.getTeamList();
+      this.getPlace();
     },
     // 获取队伍列表
     getTeamList() {
@@ -1278,12 +1458,10 @@ export default {
     // 选中的待选人员
     handleSelectionChange(val) {
       this.staySelection = val;
-      console.log(this.staySelection, "待选");
     },
     // 选中的已选人员
     hasSelectionChange(val) {
       this.hasSelection = val;
-      // console.log(this.hasSelection,'已选')
     },
     // 获取待选人员列表
     getStayList() {
