@@ -29,8 +29,12 @@
             "
           >
             <span v-if="$store.state.path === '/courseware'">实训课件</span>
-            <span v-else-if="$store.state.path === '/trainfiles'">实训档案</span>
-            <span v-else-if="$store.state.path === '/firescript'">真火脚本</span>
+            <span v-else-if="$store.state.path === '/trainfiles'"
+              >实训档案</span
+            >
+            <span v-else-if="$store.state.path === '/firescript'"
+              >真火脚本</span
+            >
             <span v-else>真火实训</span>
             <i class="el-icon-arrow-down" />
           </div>
@@ -64,8 +68,12 @@
           >
             <!-- {{ infomanage }} -->
             <span v-if="$store.state.path === '/emergencyTeam'">应急队伍</span>
-            <span v-else-if="$store.state.path === '/emergencyExperts'">应急专家</span>
-            <span v-else-if="$store.state.path === '/baseMaterials'">基地物资</span>
+            <span v-else-if="$store.state.path === '/emergencyExperts'"
+              >应急专家</span
+            >
+            <span v-else-if="$store.state.path === '/baseMaterials'"
+              >基地物资</span
+            >
             <span v-else-if="$store.state.path === '/baseEquip'">基地装备</span>
             <span v-else>信息管理</span>
             <i class="el-icon-arrow-down" />
@@ -79,12 +87,15 @@
             </div>
           </transition>
         </div>
-        <div @click="goPage('/videoDeploy')" class="right-item right-hover"
+        <div
+          @click="goPage('/videoDeploy')"
+          class="right-item right-hover"
           :class="
             $store.state.path === '/videoDeploy'
               ? 'right-item right-hover checked'
               : 'right-item right-hover'
-          ">
+          "
+        >
           视频配置
         </div>
         <div class="right-item" style="width: 250px">
@@ -92,8 +103,17 @@
           {{ nowTime }}
         </div>
         <div class="right-item" style="display: flex; align-items: center">
-          <i class="el-icon-user" />
-          {{ user.name }}
+          <el-dropdown trigger="click">
+            <span class="el-dropdown-link">
+              <i class="el-icon-user" />
+              {{ user.name }}
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item icon="el-icon-lock" @click.native="changePwd">
+                修改密码</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </el-dropdown>
           <img
             src="@/assets/image/u313.png"
             alt=""
@@ -108,6 +128,57 @@
           />
         </div>
       </div>
+      <el-dialog
+        title="提示"
+        :visible.sync="passwordVisible"
+        width="40%"
+        :show-close="false"
+        custom-class="assessDialog"
+      >
+        <div class="own-header">
+          <span>修改密码</span>
+          <i class="el-icon-close" @click="passwordVisible = false"></i>
+        </div>
+        <div class="own-body">
+          <div class="search-time">
+            <span class="time-title"><span>*</span>旧密码</span>
+            <div style="border: 1px solid #eee;flex:1;border-radius:3px;">
+              <el-input
+                placeholder="请输入旧密码"
+                v-model="oldpwd"
+                clearable
+                class="input-class"
+              ></el-input>
+            </div>
+          </div>
+          <div class="search-time">
+            <span class="time-title"><span>*</span>新密码</span>
+            <div style="border: 1px solid #eee;flex:1;border-radius:3px;">
+              <el-input
+                placeholder="请输入新密码"
+                v-model="newpwd"
+                clearable
+                class="input-class"
+              ></el-input>
+            </div>
+          </div>
+          <div class="search-time">
+            <span class="time-title"><span>*</span>确认新密码</span>
+            <div style="border: 1px solid #eee;flex:1;border-radius:3px;">
+              <el-input
+                placeholder="请再次确认新密码"
+                v-model="newpwdAgain"
+                clearable
+                class="input-class"
+              ></el-input>
+            </div>
+          </div>
+        </div>
+        <div class="foot">
+          <div class="cancel" @click="passwordVisible = false">取消</div>
+          <div class="sure" @click="submit">提交</div>
+        </div>
+      </el-dialog>
     </el-header>
     <el-main class="content">
       <!-- <keep-Alive> -->
@@ -177,6 +248,10 @@
   .el-main {
     padding: 0;
   }
+  .el-dropdown-link {
+    color: white;
+    cursor: pointer;
+  }
   .content {
     display: flex;
     flex-direction: column;
@@ -190,6 +265,110 @@
     color: #5472ea !important;
     border-radius: 3px;
   }
+  .assessDialog {
+    border-radius: 5px;
+    overflow: hidden;
+    .own-header {
+      width: 100%;
+      height: 40px;
+      padding: 0 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+      background: rgb(84, 114, 234);
+      i {
+        font-size: 20px;
+      }
+      i:hover {
+        cursor: pointer;
+      }
+    }
+    .own-body {
+      width: 100%;
+      padding: 15px;
+      font-size: 14px;
+      .search-time {
+        width: 100%;
+        margin: 0;
+        display: flex;
+        margin-bottom: 10px;
+        .time-title {
+          display: inline-block;
+          width: 90px;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          font-size: 14px;
+          border-right: 1px solid rgb(235, 237, 242);
+        }
+        .time-title > span {
+          color: red;
+        }
+      }
+      .assess-title {
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+      }
+      textarea {
+        height: 200px;
+      }
+    }
+    .foot {
+      width: 100%;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 15px;
+      border-top: 1px solid #eee;
+      div {
+        width: 70px;
+        height: 30px;
+        line-height: 30px;
+        border: 1px solid rgb(84, 114, 234);
+        text-align: center;
+        border-radius: 5px;
+        font-size: 13px;
+      }
+      .cancel {
+        color: rgb(84, 114, 234);
+        background: white;
+      }
+      .sure {
+        background: rgb(84, 114, 234);
+        color: white;
+        margin-left: 15px;
+      }
+      .sure:hover {
+        cursor: pointer;
+      }
+      .cancel:hover {
+        background: rgb(84, 114, 234);
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+/deep/ .el-dialog__header {
+  display: none;
+}
+/deep/ .el-dialog__body {
+  padding: 0;
+}
+
+/deep/ .el-input__prefix {
+  display: none;
+}
+/deep/ .el-input__inner {
+  border: none;
+  height: 30px;
+}
+/deep/ .el-input__icon {
+  line-height: 30px;
 }
 </style>
 
@@ -207,6 +386,11 @@ export default {
       trainsName: "真火实训",
       infomanage: "信息管理",
       user: "",
+
+      passwordVisible: false,
+      oldpwd: "",
+      newpwd: "",
+      newpwdAgain: "",
     };
   },
   mounted() {
@@ -295,6 +479,29 @@ export default {
             duration: 1000,
           });
         });
+    },
+    // 修改密码
+    changePwd() {
+      console.log("sssssssssssss");
+      this.passwordVisible = true;
+    },
+    submit() {
+      if (this.oldpwd === "" || this.newpwd === "" || this.newpwdAgain === "") {
+        return this.$message.warning("*为必填项");
+      }
+      this.axios({
+        url:"",
+        method:"",
+        data: {
+
+        }
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
     },
     // 获取当前时间
     getTime() {

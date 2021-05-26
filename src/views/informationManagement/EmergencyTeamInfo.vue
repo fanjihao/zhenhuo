@@ -88,34 +88,56 @@
         <div class="bottom-ctt" v-show="navIndex == 0">
           <div class="title">基本信息</div>
           <div class="cct-item">
-            <div><span>队伍名称：</span>
-            <div style="flex:1">{{ teamInfoData.teamName }}</div></div>
-            <div><span>队伍类型：</span><div style="flex:1">{{ teamInfoData.teamType }}</div></div>
-            <div><span>队伍级别：</span><div style="flex:1">{{ teamInfoData.teamLevel }}</div></div>
             <div>
-              <span>队伍资质等级：</span
-              ><div style="flex:1">{{ teamInfoData.teamQualificationLevel }}</div>
+              <span>队伍名称：</span>
+              <div style="flex: 1">{{ teamInfoData.teamName }}</div>
             </div>
             <div>
-              <span>队伍属性分类：</span><div style="flex:1">{{ teamInfoData.teamClassification }}</div>
+              <span>队伍类型：</span>
+              <div style="flex: 1">{{ teamInfoData.teamType }}</div>
+            </div>
+            <div>
+              <span>队伍级别：</span>
+              <div style="flex: 1">{{ teamInfoData.teamLevel }}</div>
+            </div>
+            <div>
+              <span>队伍资质等级：</span>
+              <div style="flex: 1">
+                {{ teamInfoData.teamQualificationLevel }}
+              </div>
+            </div>
+            <div>
+              <span>队伍属性分类：</span>
+              <div style="flex: 1">{{ teamInfoData.teamClassification }}</div>
             </div>
           </div>
           <div class="cct-item">
             <div>
-              <span>主管部门：</span><div style="flex:1">{{ teamInfoData.competentDepartment }}</div>
+              <span>主管部门：</span>
+              <div style="flex: 1">{{ teamInfoData.competentDepartment }}</div>
             </div>
-            <div><span>总人数：</span><div style="flex:1">{{ teamInfoData.totalPeople }}</div></div>
-            <div><span>中队个数：</span><div style="flex:1">{{ teamInfoData.numberSquadrons }}</div></div>
-            <div><span>小队个数：</span><div style="flex:1">{{ teamInfoData.numberTeams }}</div></div>
             <div>
-              <span>成立时间：</span><div style="flex:1">{{ teamInfoData.establishmentTime }}</div>
+              <span>总人数：</span>
+              <div style="flex: 1">{{ teamInfoData.totalPeople }}</div>
+            </div>
+            <div>
+              <span>中队个数：</span>
+              <div style="flex: 1">{{ teamInfoData.numberSquadrons }}</div>
+            </div>
+            <div>
+              <span>小队个数：</span>
+              <div style="flex: 1">{{ teamInfoData.numberTeams }}</div>
+            </div>
+            <div>
+              <span>成立时间：</span>
+              <div style="flex: 1">{{ teamInfoData.establishmentTime }}</div>
             </div>
           </div>
           <div class="title" style="margin-top: 20px">专业相关</div>
           <div class="cct-item">
-            <div style="width:100%;display:flex">
+            <div style="width: 100%; display: flex">
               <span>专长描述：</span>
-              <div style="flex:1">{{ teamInfoData.expertiseDescribe }}</div>
+              <div style="flex: 1">{{ teamInfoData.expertiseDescribe }}</div>
             </div>
           </div>
           <div class="cct-item">
@@ -143,15 +165,19 @@
             </div>
           </div>
           <div class="cct-item">
-            <div style="width:100%;display:flex"><span>服务范围：</span>
-            <div style="flex:1">{{ teamInfoData.scopeService }}</div></div>
+            <div style="width: 100%; display: flex">
+              <span>服务范围：</span>
+              <div style="flex: 1">{{ teamInfoData.scopeService }}</div>
+            </div>
           </div>
           <div class="cct-item">
-            <div style="width:100%;display:flex"><span>主要装备描述：</span>
-            <div style="flex:1">{{ teamInfoData.describes }}</div></div>
+            <div style="width: 100%; display: flex">
+              <span>主要装备描述：</span>
+              <div style="flex: 1">{{ teamInfoData.describes }}</div>
+            </div>
           </div>
           <div class="title" style="margin-top: 20px">地理信息</div>
-          <div class="cct-item2" style="width:100%">
+          <div class="cct-item2" style="width: 100%">
             <div
               style="
                 width: 51%;
@@ -176,10 +202,12 @@
           </div>
           <div class="title" style="margin-top: 20px">附加信息</div>
           <div class="cct-item">
-            <div style="width:100%"><span>备注：</span>{{ teamInfoData.remarks }}</div>
+            <div style="width: 100%">
+              <span>备注：</span>{{ teamInfoData.remarks }}
+            </div>
           </div>
           <div class="title" style="margin-top: 20px">数据信息</div>
-          <div class="cct-item" style="width:100%">
+          <div class="cct-item" style="width: 100%">
             <div><span>创建人：</span>admin</div>
             <div><span>创建时间：</span>{{ teamInfoData.createTime }}</div>
           </div>
@@ -187,13 +215,12 @@
         <div class="bottom-ctt" v-show="navIndex == 1">
           <div class="search-line">
             <div>
-              <div class="inputDiv">
-                <div>物资类型</div>
+              <div class="inputDiv search-part" style="margin-right: 20px">
+                <div class="label-title">物资类型</div>
                 <el-select
                   v-model="teamSupplies"
                   placeholder="-"
                   style="width: 250px"
-                  size="mini"
                   clearable
                 >
                   <el-option
@@ -205,26 +232,19 @@
                   </el-option>
                 </el-select>
               </div>
-              <el-input
-                v-model="keyword1"
-                placeholder="请输入关键字"
-                style="width: 250px"
-                size="mini"
-              ></el-input>
-              <el-button
-                style="background: #5a71e2; color: #fff; margin-left: 10px"
-                size="mini"
-                @click="getDataList1"
-                >查询</el-button
-              >
+              <div class="search-part" style="width: 150px; margin-right: 20px">
+                <el-input
+                  v-model="keyword1"
+                  placeholder="请输入关键字"
+                  style="width: 250px"
+                ></el-input>
+              </div>
+              <div class="search-btn" @click="getDataList1">查 询</div>
             </div>
-            <el-button
-              style="background: #5a71e2; color: #fff"
-              size="mini"
-              @click="addTeam1"
-              ><i class="el-icon-plus" style="font-weight: bold"></i
-              >新建</el-button
-            >
+            <div class="search-btn" @click="addTeam1">
+              <i class="el-icon-plus"></i>
+              新建
+            </div>
           </div>
           <div style="height: 445px; overflow-y: auto">
             <el-table
@@ -232,7 +252,8 @@
               border
               style="width: 100%; margin-bottom: 10px"
             >
-              <el-table-column prop="no" label="#" width="50"> </el-table-column>
+              <el-table-column prop="no" label="#" width="50">
+              </el-table-column>
               <el-table-column prop="name" label="物资名称"> </el-table-column>
               <el-table-column prop="suppliesType" label="物资类型">
               </el-table-column>
@@ -273,8 +294,8 @@
         <div class="bottom-ctt" v-show="navIndex == 2">
           <div class="search-line">
             <div>
-              <div class="inputDiv">
-                <div>装备类型</div>
+              <div class="inputDiv search-part" style="margin-right: 20px">
+                <div class="label-title">装备类型</div>
                 <el-select
                   v-model="teamEquipment"
                   placeholder="-"
@@ -291,26 +312,19 @@
                   </el-option>
                 </el-select>
               </div>
-              <el-input
-                v-model="keyword2"
-                placeholder="请输入关键字"
-                style="width: 250px"
-                size="mini"
-              ></el-input>
-              <el-button
-                style="background: #5a71e2; color: #fff; margin-left: 10px"
-                size="mini"
-                @click="getDataList2"
-                >查询</el-button
-              >
+              <div class="search-part" style="width: 150px; margin-right: 20px">
+                <el-input
+                  v-model="keyword2"
+                  placeholder="请输入关键字"
+                  style="width: 250px"
+                ></el-input>
+              </div>
+              <div class="search-btn" @click="getDataList2">查 询</div>
             </div>
-            <el-button
-              style="background: #5a71e2; color: #fff"
-              size="mini"
-              @click="addTeam2"
-              ><i class="el-icon-plus" style="font-weight: bold"></i
-              >新建</el-button
-            >
+            <div class="search-btn" @click="addTeam2">
+              <i class="el-icon-plus"></i>
+              新建
+            </div>
           </div>
           <div style="height: 445px; overflow-y: auto">
             <el-table
@@ -353,26 +367,19 @@
         <div class="bottom-ctt" v-show="navIndex == 3">
           <div class="search-line">
             <div>
-              <el-input
-                v-model="serach4"
-                placeholder="请输入人员姓名"
-                style="width: 250px"
-                size="mini"
-              ></el-input>
-              <el-button
-                @click="querySuer4"
-                style="background: #5a71e2; color: #fff; margin-left: 10px"
-                size="mini"
-                >查询</el-button
-              >
+              <div class="search-part" style="width: 150px; margin-right: 20px">
+                <el-input
+                  v-model="serach4"
+                  placeholder="请输入人员姓名"
+                  style="width: 250px"
+                ></el-input>
+              </div>
+              <div class="search-btn" @click="querySuer4">查 询</div>
             </div>
-            <el-button
-              style="background: #5a71e2; color: #fff"
-              size="mini"
-              @click="showPop4(false)"
-              ><i class="el-icon-plus" style="font-weight: bold"></i
-              >新建</el-button
-            >
+            <div class="search-btn" @click="showPop4(false)">
+              <i class="el-icon-plus"></i>
+              新建
+            </div>
           </div>
           <div style="height: 445px; overflow-y: auto">
             <el-table
@@ -404,8 +411,8 @@
         <div class="bottom-ctt" v-show="navIndex == 4">
           <div class="search-line">
             <div>
-              <div class="inputDiv">
-                <div>时间日期</div>
+              <div class="inputDiv search-part" style="margin-right: 20px">
+                <div class="label-title">时间日期</div>
                 <el-date-picker
                   v-model="time5"
                   type="date"
@@ -417,8 +424,8 @@
                 >
                 </el-date-picker>
               </div>
-              <div class="inputDiv">
-                <div>实训状态</div>
+              <div class="inputDiv search-part" style="margin-right: 20px">
+                <div class="label-title">实训状态</div>
                 <el-select
                   v-model="status5"
                   placeholder="选择实训状态"
@@ -432,18 +439,14 @@
                   <el-option label="已完成" value="2"> </el-option>
                 </el-select>
               </div>
-              <el-input
-                v-model="serach5"
-                placeholder="请输入实训名称"
-                style="width: 250px"
-                size="mini"
-              ></el-input>
-              <el-button
-                style="background: #5a71e2; color: #fff; margin-left: 10px"
-                size="mini"
-                @click="querySuer5"
-                >查询</el-button
-              >
+              <div class="search-part" style="width: 150px; margin-right: 20px">
+                <el-input
+                  v-model="serach5"
+                  placeholder="请输入实训名称"
+                  style="width: 250px"
+                ></el-input>
+              </div>
+              <div class="search-btn" @click="querySuer5">查 询</div>
             </div>
           </div>
           <div style="height: 445px; overflow-y: auto">
@@ -514,8 +517,8 @@
           <i class="el-icon-close" @click="cancel1"></i>
         </div>
         <div class="content2">
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div><i>*</i> 物资名称</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 物资名称</div>
             <el-input
               v-model="formData.name"
               placeholder="请输入物资名称"
@@ -523,8 +526,8 @@
               size="mini"
             ></el-input>
           </div>
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div><i>*</i> 物资类型</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 物资类型</div>
             <el-select
               v-model="formData.suppliesTypeId"
               placeholder="-"
@@ -541,8 +544,8 @@
               </el-option>
             </el-select>
           </div>
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div><i>*</i> 计量单位</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 计量单位</div>
             <el-input
               v-model="formData.measureUnit"
               placeholder="请输入计量单位"
@@ -550,8 +553,8 @@
               size="mini"
             ></el-input>
           </div>
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div><i>*</i> 物资数量</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 物资数量</div>
             <el-input
               v-model="formData.number"
               placeholder="请输入物资数量"
@@ -573,8 +576,8 @@
               "
             ></el-input>
           </div>
-          <div class="inputDiv">
-            <div><i>*</i> 存放地点</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 存放地点</div>
             <el-input
               v-model="formData.storageLocation"
               placeholder="请输入存放地点"
@@ -843,11 +846,15 @@ export default {
         this.$message.warning("超出最大长度，最长50");
         return;
       }
-      if(/[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(this.newPersonName)) {
+      if (/[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(this.newPersonName)) {
         this.$message.warning("名称不能含有特殊字符");
         return;
       }
-      if(!(/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(this.newPersonPhone))) {
+      if (
+        !/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(
+          this.newPersonPhone
+        )
+      ) {
         this.$message.warning("手机号格式不正确，请重试(xxxxxxxxxxx)");
         return;
       }
@@ -884,11 +891,15 @@ export default {
         this.$message.warning("超出最大长度，最长50");
         return;
       }
-      if(/[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(this.newPersonName)) {
+      if (/[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(this.newPersonName)) {
         this.$message.warning("名称不能含有特殊字符");
         return;
       }
-      if(!(/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(this.newPersonPhone))) {
+      if (
+        !/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(
+          this.newPersonPhone
+        )
+      ) {
         this.$message.warning("手机号格式不正确，请重试(xxxxxxxxxxx)");
         return;
       }
@@ -1122,7 +1133,7 @@ export default {
         name: this.keyword1,
         suppliesTypeId: this.teamSupplies,
         dataType: 2,
-        teamId: this.teamInfoId
+        teamId: this.teamInfoId,
       });
       this.suppliesList = data.data;
       this.suppliesList.map((item, index) => {
@@ -1190,21 +1201,29 @@ export default {
         return;
       }
       if (
-        this.formData.equipmentName && this.formData.equipmentName.length > 50 ||
-        this.formData.unitMeasurement && this.formData.unitMeasurement.length > 50 ||
-        this.formData.numberEquipment && this.formData.numberEquipment.length > 50 ||
-        this.formData.storageLocation && this.formData.storageLocation.length > 50 ||
-        this.formData.model && this.formData.model.length > 50 ||
-        this.formData.equipmentUse && this.formData.equipmentUse.length > 50
+        (this.formData.equipmentName &&
+          this.formData.equipmentName.length > 50) ||
+        (this.formData.unitMeasurement &&
+          this.formData.unitMeasurement.length > 50) ||
+        (this.formData.numberEquipment &&
+          this.formData.numberEquipment.length > 50) ||
+        (this.formData.storageLocation &&
+          this.formData.storageLocation.length > 50) ||
+        (this.formData.model && this.formData.model.length > 50) ||
+        (this.formData.equipmentUse && this.formData.equipmentUse.length > 50)
       ) {
         this.$message.warning("超出最大长度，最大限50");
         return;
       }
       if (
-        /[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(this.formData.equipmentName) || 
-        /[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(this.formData.equipmentUse) || 
-        /[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(this.formData.storageLocation) || 
-        /[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(this.formData.unitMeasurement) || 
+        /[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(this.formData.equipmentName) ||
+        /[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(this.formData.equipmentUse) ||
+        /[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(
+          this.formData.storageLocation
+        ) ||
+        /[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(
+          this.formData.unitMeasurement
+        ) ||
         /[#$@/\\()<>《》！￥？?!{}[\] ]/gi.test(this.formData.model)
       ) {
         this.$message({
@@ -1364,6 +1383,52 @@ export default {
   justify-content: space-between;
   > div {
     display: flex;
+  }
+  .search-part {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid rgb(235, 237, 242);
+    overflow: hidden;
+    .label-title {
+      width: 90px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 14px;
+      border-left: none;
+      border-top: none;
+      border-bottom: none;
+      border-right: 1px solid rgb(235, 237, 242);
+    }
+    select {
+      height: 30px;
+    }
+  }
+  .search-btn {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    background: rgb(84, 114, 234);
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 0 15px;
+    color: white;
+  }
+  .search-btn:hover {
+    background: rgba(84, 114, 234, 0.8);
+    cursor: pointer;
+  }
+  .el-input__prefix {
+    display: none;
+  }
+  .el-input__inner {
+    border: none;
+    height: 30px;
+  }
+  .el-input__icon {
+    line-height: 30px;
   }
 }
 .inputDiv {
