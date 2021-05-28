@@ -604,8 +604,8 @@
           <i class="el-icon-close" @click="cancel2"></i>
         </div>
         <div class="content2">
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div><i>*</i> 装备名称</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 装备名称</div>
             <el-input
               v-model="formData.equipmentName"
               placeholder="请输入装备名称"
@@ -613,8 +613,8 @@
               size="mini"
             ></el-input>
           </div>
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div><i>*</i> 装备类型</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 装备类型</div>
             <el-select
               v-model="formData.type"
               placeholder="-"
@@ -631,8 +631,8 @@
               </el-option>
             </el-select>
           </div>
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div><i>*</i> 计量单位</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 计量单位</div>
             <el-input
               v-model="formData.unitMeasurement"
               placeholder="请输入计量单位"
@@ -640,8 +640,8 @@
               size="mini"
             ></el-input>
           </div>
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div><i>*</i> 装备数量</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 装备数量</div>
             <el-input
               v-model="formData.numberEquipment"
               placeholder="请输入装备数量"
@@ -663,8 +663,8 @@
               "
             ></el-input>
           </div>
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div><i>*</i> 存放地点</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 存放地点</div>
             <el-input
               v-model="formData.storageLocation"
               placeholder="请输入存放地点"
@@ -672,8 +672,8 @@
               size="mini"
             ></el-input>
           </div>
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div>规格型号</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title">规格型号</div>
             <el-input
               v-model="formData.model"
               placeholder="请输入规格型号"
@@ -681,8 +681,8 @@
               size="mini"
             ></el-input>
           </div>
-          <div class="inputDiv">
-            <div>装备用途</div>
+          <div class="inputDiv search-part">
+            <div class="label-title">装备用途</div>
             <el-input
               v-model="formData.equipmentUse"
               placeholder="请输入装备用途"
@@ -710,8 +710,8 @@
           <i class="el-icon-close" @click="hidePoP4"></i>
         </div>
         <div class="content2">
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div><i>*</i> 人员名称</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 人员名称</div>
             <el-input
               v-model="newPersonName"
               placeholder="请输入人员名称"
@@ -719,8 +719,8 @@
               size="mini"
             ></el-input>
           </div>
-          <div class="inputDiv" style="margin-bottom: 10px">
-            <div><i>*</i> 人员手机</div>
+          <div class="inputDiv search-part" style="margin-bottom: 10px">
+            <div class="label-title"><i>*</i> 人员手机</div>
             <el-input
               v-model="newPersonPhone"
               placeholder="请输入手机号"
@@ -1317,7 +1317,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import url("./../../assets/css/index.css");
 .el-table::before,
 .el-table--border::after {
@@ -1340,10 +1340,31 @@ export default {
   font-size: 14px;
 }
 .increaseContent {
-  // width: 600px;
-  // height: 400px;
   background: #fff;
   border-radius: 5px;
+  
+  .search-part {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid rgb(235, 237, 242);
+    overflow: hidden;
+    .label-title {
+      width: 90px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 14px;
+      border-left: none;
+      border-top: none;
+      border-bottom: none;
+      border-right: 1px solid rgb(235, 237, 242);
+    }
+    select {
+      height: 30px;
+    }
+  }
 }
 .increaseContent .top {
   padding: 10px 15px;

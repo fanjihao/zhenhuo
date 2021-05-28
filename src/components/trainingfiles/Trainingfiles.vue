@@ -63,13 +63,31 @@
             }"
           >
             <el-table-column prop="no" label="#" width="50"> </el-table-column>
-            <el-table-column prop="name" label="实训名称" show-overflow-tooltip width="150">
+            <el-table-column
+              prop="name"
+              label="实训名称"
+              show-overflow-tooltip
+              width="150"
+            >
             </el-table-column>
-            <el-table-column prop="coursewareName" label="实训课件" show-overflow-tooltip>
+            <el-table-column
+              prop="coursewareName"
+              label="实训课件"
+              show-overflow-tooltip
+            >
             </el-table-column>
-            <el-table-column prop="location" label="实训地点" show-overflow-tooltip>
+            <el-table-column
+              prop="location"
+              label="实训地点"
+              show-overflow-tooltip
+            >
             </el-table-column>
-            <el-table-column prop="teamName" label="实训队伍" width="150" show-overflow-tooltip>
+            <el-table-column
+              prop="teamName"
+              label="实训队伍"
+              width="150"
+              show-overflow-tooltip
+            >
             </el-table-column>
             <el-table-column prop="date" label="计划时间" width="310">
               <template slot-scope="scope">
@@ -179,7 +197,7 @@
       custom-class="startDialog"
     >
       <div class="warn-top">
-        <i class="el-icon-warning"></i>
+        <i class="el-icon-warning" style="font-size:50px !important;"></i>
       </div>
       <div class="warn-mid">确认开始演练实训？</div>
       <div class="plan-time">{{ "计划时间：" + planTime }}</div>
@@ -235,7 +253,7 @@
       custom-class="startDialog"
     >
       <div class="over-top">
-        <i class="el-icon-warning"></i>
+        <i class="el-icon-warning" style="font-size:50px !important;"></i>
       </div>
       <div class="warn-mid">确认结束演练实训？</div>
       <div class="plan-time">{{ endModalText }}</div>
@@ -492,7 +510,7 @@
                     v-for="item in placeList"
                     :key="item.id"
                     :class="
-                      checkPlace === item.id
+                      checkPlace.id === item.id
                         ? 'left-c-check-item'
                         : 'left-c-item'
                     "
@@ -551,7 +569,7 @@
                       style="width: 100%"
                       height="450"
                       header-row-class-name="tableheader"
-                      @selection-change="backSelectionChange"
+                      @selection-change="hasCameraChange"
                       :border="true"
                       stripe
                       :header-cell-style="{
@@ -667,7 +685,7 @@ export default {
       backCaSelection: [],
       anotherCa: [],
       alanotherCa: [],
-      cameraSelection:[],
+      cameraSelection: [],
       hasCamera: [],
     };
   },
@@ -758,14 +776,12 @@ export default {
           this.checkPlace = row;
           this.checkCameraTable = res.data.data.list;
           if (this.alreadyCheckCamera.length > 0) {
-            console.log('sss')
-            for (var i = 0; i < this.checkCameraTable.length; i++) {
-              for (var j = 0; j < this.alreadyCheckCamera.length; j++) {
-                if (this.checkCameraTable[i].id === this.alreadyCheckCamera[j].id) {
-                  //第一个等同于第二个，splice方法删除第二个
+            for (var j = 0; j < this.alreadyCheckCamera.length; j++) {
+              for (var i = 0; i < this.checkCameraTable.length; i++) {
+                if (
+                  this.checkCameraTable[i].id === this.alreadyCheckCamera[j].id
+                ) {
                   this.checkCameraTable.splice(i, 1);
-                  // i--;
-                  // j--;
                 }
               }
             }
@@ -781,7 +797,7 @@ export default {
     },
     // 选中的已选人员
     hasCameraChange(val) {
-      this.hasCamera = val;
+      this.backCaSelection = val;
     },
     // 导入已选
     importCamera() {
@@ -794,15 +810,15 @@ export default {
     },
     // 导回待选
     exportCamera() {
-      for (var i = 0; i < this.alreadyCheckCamera.length; i++) {
-        for (var j = 0; j < this.hasCamera.length; j++) {
-          if (this.alreadyCheckCamera[i].id === this.hasCamera[j].id) {
-            this.alreadyCheckCamera.splice(j, 1);
-            i--;
+      for (let i = 0; i < this.backCaSelection.length; i++) {
+        this.backCaSelection[i].checked = false;
+        this.alreadyCheckCamera.map((item, index) => {
+          if (item.id === this.backCaSelection[i].id) {
+            this.alreadyCheckCamera.splice(index, 1);
           }
-        }
+        });
       }
-      if(this.checkPlace !== "") {
+      if (this.checkPlace !== "") {
         this.checkPlaceHandle(this.checkPlace);
       }
     },
@@ -840,7 +856,7 @@ export default {
         },
       });
     },
-    // 开始实训
+    // 编辑实训
     launchTrain(item) {
       this.startItem = item;
       let formdata = new FormData();
@@ -853,11 +869,18 @@ export default {
       })
         .then((res) => {
           this.data = res.data.data;
+          this.alreadyCheckCamera = JSON.parse(res.data.data.cameraList);
           if (res.data.data.teamId) {
             this.checkTeamHandle(res.data.data.teamId);
           }
           this.startTime = this.data.planStartTime;
           this.endTime = this.data.planEndTime;
+          this.checkPlace = "";
+          this.backCaSelection = [];
+          this.anotherCa = [];
+          this.alanotherCa = [];
+          this.cameraSelection = [];
+          this.hasCamera = [];
           this.visible = true;
         })
         .catch((err) => {
@@ -1368,6 +1391,16 @@ export default {
           message: "请选择参训人员",
           type: "warning",
         });
+      } else if (this.alreadyCheckCamera.length === 0) {
+        this.$message({
+          message: "请配置摄像头",
+          type: "warning",
+        });
+      } else if (this.alreadyCheckCamera.length > 9) {
+        this.$message({
+          message: "配置摄像头最多9个，已超出",
+          type: "warning",
+        });
       } else {
         let startDate = this.startTime;
         let time1 = this.format(startDate);
@@ -1392,6 +1425,8 @@ export default {
           safetyPrecautions: this.startItem.safetyPrecautions,
           trainingObject: this.startItem.trainingObject,
           equipment: this.startItem.equipment,
+          cameraList: JSON.stringify(this.alreadyCheckCamera),
+          createTime: this.data.createTime,
         };
         // this.startItem.crewId = crewIdList;
         // this.startItem.name = this.data.name;

@@ -164,7 +164,7 @@
       >
         <div
           style="
-            width: 40%;
+            width: 25%;
             background-color: #fff;
             border-radius: 5px;
             overflow: hidden;
@@ -180,27 +180,11 @@
             <i @click="hidePop" class="el-icon-close"
               style="cursor: pointer"></i>
           </div>
-          <div
-            class="flex flex-dc flex-ja"
-            style="height: auto; border-bottom: 1px solid #f5f5f5"
-          >
-            <div class="flex flex-ac" style="padding: 0 20px; margin: 10px 0">
-              <div
-                style="
-                  min-width: 120px;
-                  width: 30%;
-                  height: 40px;
-                  border-left: 1px solid #dcdfe6;
-                  border-top: 1px solid #dcdfe6;
-                  border-bottom: 1px solid #dcdfe6;
-                  border-top-left-radius: 4px;
-                  border-bottom-left-radius: 4px;
-                "
-                class="flex felx-ac flex-jc"
-              >
-                <span class="flex flex-ac" style=""
-                  ><span style="color: #ff0000">*</span>摄像头名称</span
-                >
+          <div style="width: 100%; padding: 15px">
+            <div class="search-part" style="padding-right: 20px; margin: 10px 0">
+              <div class="label-title">
+                <span style="color: #ff0000; font-size: 14px">*</span
+                >摄像头名称:
               </div>
 
               <el-input
@@ -210,23 +194,10 @@
               >
               </el-input>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 120px;
-                  width: 30%;
-                  height: 40px;
-                  border-left: 1px solid #dcdfe6;
-                  border-top: 1px solid #dcdfe6;
-                  border-bottom: 1px solid #dcdfe6;
-                  border-top-left-radius: 4px;
-                  border-bottom-left-radius: 4px;
-                "
-                class="flex felx-ac flex-jc"
-              >
-                <span class="flex flex-ac" style=""
-                  ><span style="color: #ff0000">*</span>摄像头代码(SN号)</span
-                >
+            <div class="search-part" style="padding-right: 20px; margin: 10px 0">
+              <div class="label-title">
+                <span style="color: #ff0000; font-size: 14px">*</span
+                >摄像头SN号:
               </div>
               <el-input
                 placeholder="请输入摄像头代码(SN号)"
@@ -235,7 +206,7 @@
               >
               </el-input>
             </div>
-            <div class="flex flex-dc" style="padding: 0 20px">
+            <div class="flex flex-dc">
               <span style="min-width: 100px; margin: 10px 0">备注</span>
               <el-input
                 type="textarea"
@@ -549,10 +520,10 @@ export default {
     border: 1px solid rgb(235, 237, 242);
     overflow: hidden;
     .label-title {
-      width: 90px;
+      width: 180px;
       height: 30px;
       line-height: 30px;
-      text-align: center;
+      padding-left: 10px;
       font-size: 14px;
       border-left: none;
       border-top: none;

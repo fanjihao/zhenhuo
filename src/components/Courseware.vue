@@ -943,12 +943,12 @@ export default {
           this.checkPlace = row;
           this.camereList = res.data.data.list;
           if (this.submitList.length > 0) {
-            for (var i = 0; i < this.camereList.length; i++) {
-              for (var j = 0; j < this.submitList.length; j++) {
-                if (this.camereList[i].id === this.submitList[j].id) {
-                  //第一个等同于第二个，splice方法删除第二个
-                  this.camereList.splice(j, 1);
-                  // i--;
+            for (var j = 0; j < this.submitList.length; j++) {
+              for (var i = 0; i < this.camereList.length; i++) {
+                if (
+                  this.camereList[i].id === this.submitList[j].id
+                ) {
+                  this.camereList.splice(i, 1);
                 }
               }
             }
@@ -976,15 +976,15 @@ export default {
       }
     },
     delCamera() {
-      for (var i = 0; i < this.submitList.length; i++) {
-        for (var j = 0; j < this.hasCamera.length; j++) {
-          if (this.submitList[i].id === this.hasCamera[j].id) {
-            this.submitList.splice(j, 1);
-            i--;
+      for (let i = 0; i < this.hasCamera.length; i++) {
+        this.hasCamera[i].checked = false;
+        this.submitList.map((item, index) => {
+          if (item.id === this.hasCamera[i].id) {
+            this.submitList.splice(index, 1);
           }
-        }
+        });
       }
-      if(this.checkPlace !== "") {
+      if (this.checkPlace !== "") {
         this.checkPlaceHandle(this.checkPlace);
       }
     },
@@ -1324,7 +1324,6 @@ export default {
           type: "warning",
         });
       } else {
-        console.log(this.edititem);
         let data = {
           name: this.courseName,
           scriptId: this.scriptId,
@@ -1339,6 +1338,7 @@ export default {
           id: this.courwareId,
           useNum: this.edititem.useNum,
           isDel: this.edititem.isDel,
+          createTime: this.edititem.createTime,
         };
         let params = new FormData();
         for (let key in data) {
@@ -1518,6 +1518,16 @@ export default {
           message: "请选择参训人员",
           type: "warning",
         });
+      } else if (this.submitList.length === 0) {
+        this.$message({
+          message: "请配置摄像头",
+          type: "warning",
+        });
+      } else if (this.submitList.length > 9) {
+        this.$message({
+          message: "配置摄像头最多9个，已超出",
+          type: "warning",
+        });
       } else {
         let time1 = this.startTime;
         let time2 = this.endTime;
@@ -1541,12 +1551,12 @@ export default {
           trainingObject: this.trainingObj,
           ready: this.prepare,
           safetyPrecautions: this.safety,
+          cameraList: JSON.stringify(this.submitList)
         };
         let params = new FormData();
         for (let k in data) {
           params.append(k, data[k]);
         }
-        console.log(data);
         this.axios({
           method: "POST",
           url: "/dah-training-api/courseware/addTrainingRecord",

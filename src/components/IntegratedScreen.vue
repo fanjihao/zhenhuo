@@ -114,7 +114,7 @@
           </div>
         </div>
 
-        <div class="section3" style="height: 300px">
+        <div class="section3" style="height: 340px">
           <div class="section3-header">
             <div>实训课件</div>
             <span class="span1"></span>
@@ -371,15 +371,15 @@
               <div class="page-box">
                 <div
                   :class="videoPage === 1 ? 'now-page' : 'page'"
-                  @click="moninerPage(1)"
+                  @click="moninerPage(1, 2)"
                 ></div>
                 <div
                   :class="videoPage === 2 ? 'now-page' : 'page'"
-                  @click="moninerPage(2)"
+                  @click="moninerPage(2, 2)"
                 ></div>
                 <div
                   :class="videoPage === 3 ? 'now-page' : 'page'"
-                  @click="moninerPage(3)"
+                  @click="moninerPage(3, 2)"
                 ></div>
               </div>
             </div>
@@ -389,14 +389,18 @@
               class="video-part"
             >
               <div class="minVideo">
-                <img
-                  src="@/assets/image/u662.png"
+                <video
+                  :src="item.httpPlayUrl"
                   style="width: 100%; height: 100%"
-                  alt=""
-                />
+                  class="videoplays"
+                  :id="'video' + item.id"
+                  controls
+                  autoplay
+                  muted
+                ></video>
               </div>
               <div class="video-title">
-                <span>{{ item.monitoringPlaceName }}</span>
+                <span>{{ item.cameraName }}</span>
                 <img
                   @click="showVideoPop(index)"
                   src="@/assets/image/u663.png"
@@ -726,7 +730,7 @@
             style="
               width: 25%;
               height: 100%;
-              border: 1px solid white;
+              border: 1px solid #009bc6;
               overflow: scroll;
               border-radius: 3px;
             "
@@ -742,7 +746,14 @@
               {{ item.monitoringPlaceName }}
             </div>
           </div>
-          <div style="width: 70%; height: 100%; border: 1px solid white">
+          <div
+            style="
+              width: 70%;
+              height: 100%;
+              border: 1px solid #009bc6;
+              overflow: scroll;
+            "
+          >
             <div
               v-for="item in camereList"
               :key="item.id"
@@ -755,95 +766,6 @@
             </div>
           </div>
         </div>
-        <!-- <div
-          style="
-            width: 100%;
-            height: calc(100% - 114px);
-            overflow-y: scroll;
-            align-content: flex-start;
-          "
-          class="scroll flex flex-ww"
-        >
-          <p
-            v-for="item in videoShowList"
-            :key="item.id"
-            style="
-              width: 100%;
-              padding: 4px 0;
-              height: 26px;
-              margin-bottom: 10px;
-              background-color: rgba(0, 204, 255, 0.0470588235294118);
-            "
-            :class="
-              item.isShow === true
-                ? 'flex flex-ac cor-bc notcheckedVideo'
-                : 'flex flex-ac cor-bc'
-            "
-            :id="item.id === highLightItem.id ? 'checkedVideo' : ''"
-            @click="checkThisVideo(item)"
-          >
-            <i
-              :class="
-                item.isShow === true
-                  ? 'el-icon-video-camera-solid cor-chekc'
-                  : 'el-icon-video-camera-solid cor-b'
-              "
-              :id="item.id === highLightItem.id ? 'checkedIcon' : ''"
-              style="margin: 0 5px"
-            ></i>
-            <span class="font-12" v-if="item.isShow === false">{{
-              item.monitoringPlaceName
-            }}</span>
-            <span class="font-12" v-else>{{ item.monitoringPlaceName }}</span>
-          </p>
-        </div>
-        <div style="width: 100%; text-align: right">
-          <el-pagination
-            background
-            class="footpage"
-            layout="total, prev, pager, next"
-            :total="videoShowTotal"
-            @current-change="changePage"
-          >
-          </el-pagination>
-        </div> -->
-        <!-- <div
-          style="
-            width: 100%;
-            flex: 1;
-            display: flex;
-            justify-content: space-between;
-            padding:10px;
-            overflow:hidden;
-          "
-        >
-          <div
-            style="
-              width: 25%;
-              height: 100%;
-              border: 1px solid #ccc;
-              border-radius:5px;
-              padding: 10px;
-              overflow:scroll;
-            "
-          >
-            <div
-              style="
-                width: 100%;
-                height: 35px;
-                line-height: 35px;
-                padding: 0 10px;
-                margin-bottom:5px;
-                color:white;
-              "
-              v-for="item in videoShowList"
-              :key="item.id"
-            >
-              {{ item.monitoringPlaceName }}
-            </div>
-          </div>
-          <div style="width: 72%; height: 100%; border: 1px solid #ccc"></div>
-        </div> -->
         <div
           @click="confirmVideoPop"
           class="pos-a flex flex-ac flex-jc save-btn"
@@ -932,7 +854,7 @@
   }
   .minVideo {
     width: 100%;
-    height: 150px;
+    height: 180px;
   }
   .video-title {
     width: 100%;
@@ -2034,7 +1956,7 @@
         background-image: url("../assets/image/u645.svg");
         background-size: 100% 100%;
         width: 100%;
-        height: 600px;
+        height: 700px;
       }
       .section2 {
         background-image: url("../assets/image/u311.png");
@@ -2086,6 +2008,7 @@
 import * as echarts from "echarts";
 import QS from "qs";
 import { mapMutations } from "vuex";
+import flvjs from "flv.js";
 
 export default {
   //import引入的组件需要注入到对象中才能使用
@@ -2096,7 +2019,6 @@ export default {
       videoShowTotal: 0,
       popupShow: false,
       popupShow1: false,
-      allvideoPage: 1,
       NineVideo: [],
       highLightItem: "",
       checkIndex: "",
@@ -2154,7 +2076,13 @@ export default {
       placeList: [],
       checkPlace: "",
       camereList: [],
-      checkCamera: ""
+      checkCamera: "",
+
+      flvPlayer1: "",
+      flvPlayer2: "",
+      flvPlayer3: "",
+
+      flvData: ""
     };
   },
   //监听属性类似于data概念
@@ -2166,9 +2094,71 @@ export default {
     upNewLi(index) {
       this.newLi = index;
     },
+    getFilesById() {
+      let formdata = new FormData();
+      formdata.append("id", this.trainingRecordId);
+      this.axios({
+        url: "/dah-training-api/trainingRecord/visualization",
+        method: "POST",
+        data: formdata,
+      })
+        .then((res) => {
+          this.flvData = res.data.data;
+          this.NineVideo = JSON.parse(res.data.data.cameraList);
+          this.moninerPage(this.videoPage);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    videoPlayerHandle() {
+      setTimeout(() => {
+        if (this.videoList[0]) {
+          this.flvPlayer1 = flvjs.createPlayer({
+            type: "flv",
+            url: this.videoList[0].httpPlayUrl,
+          });
+          this.flvPlayer1.attachMediaElement(
+            document.getElementById("video" + this.videoList[0].id)
+          );
+          this.flvPlayer1.load();
+          this.flvPlayer1.play();
+        }
+        if (this.videoList[0]) {
+          this.flvPlayer2 = flvjs.createPlayer({
+            type: "flv",
+            url: this.videoList[1].httpPlayUrl,
+          });
+          this.flvPlayer2.attachMediaElement(
+            document.getElementById("video" + this.videoList[1].id)
+          );
+          this.flvPlayer2.load();
+          this.flvPlayer2.play();
+        }
+        if (this.videoList[0]) {
+          this.flvPlayer3 = flvjs.createPlayer({
+            type: "flv",
+            url: this.videoList[2].httpPlayUrl,
+          });
+          this.flvPlayer3.attachMediaElement(
+            document.getElementById("video" + this.videoList[2].id)
+          );
+          this.flvPlayer3.load();
+          this.flvPlayer3.play();
+        }
+      }, 1000);
+    },
+    videoPlayerUnload() {
+      this.flvPlayer1.unload();
+      this.flvPlayer2.unload();
+      this.flvPlayer3.unload();
+    },
     // 监控翻页
-    moninerPage(i) {
+    moninerPage(i, j) {
       this.videoPage = i;
+      if (j === 2) {
+        this.videoPlayerUnload();
+      }
       if (i === 1) {
         this.videoList = this.NineVideo.slice(0, 3);
       } else if (i === 2) {
@@ -2176,6 +2166,29 @@ export default {
       } else {
         this.videoList = this.NineVideo.slice(6, 9);
       }
+      this.videoList.map((item) => {
+        this.openVideo(item);
+      });
+      this.videoPlayerHandle();
+    },
+    // 获取监控
+    async openVideo(item) {
+      this.axios({
+        url: "/dah-training-api/video/openVideoPlay",
+        method: "POST",
+        data: QS.stringify({
+          monitoringPlaceCode: item.cameraCode
+          // monitoringPlaceCode: "51150000201321000101",
+        }),
+      })
+        .then(
+          await function (res) {
+            item.httpPlayUrl = res.data.data.httpPlayUrl;
+          }
+        )
+        .catch((err) => {
+          console.log(err);
+        });
     },
     newBtn(item, index) {
       // console.log(item,index)
@@ -2247,7 +2260,6 @@ export default {
       this.videoSetPop = true;
       this.getPlace();
       this.checkIndex = i;
-      // this.getAllVideo();
     },
     async getPlace() {
       let params = {
@@ -2283,42 +2295,6 @@ export default {
           console.log(err);
         });
     },
-    getAllVideo() {
-      let formdata = new FormData();
-      formdata.append("limit", 10);
-      formdata.append("offset", this.allvideoPage);
-      this.axios({
-        url: "/dah-training-api/video/selectVideoByPage",
-        method: "POST",
-        data: formdata,
-      })
-        .then((res) => {
-          res.data.data.list.map((item) => {
-            item.isShow = false;
-            item.isChecked = false;
-            for (let i = 0; i < this.NineVideo.length; i++) {
-              if (item.id === this.NineVideo[i].id) {
-                item.isShow = true;
-              }
-            }
-          });
-          console.log(this.NineVideo, "ssssssssssssss");
-          this.videoShowList = res.data.data.list;
-          this.videoShowTotal = res.data.data.total;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    changePage(currpage) {
-      this.allvideoPage = currpage;
-      this.getAllVideo();
-    },
-    checkThisVideo(item) {
-      if (!item.isShow) {
-        this.highLightItem = item;
-      }
-    },
     confirmVideoPop() {
       if (this.checkCamera === "") {
         this.$message({
@@ -2329,41 +2305,43 @@ export default {
           duration: 0,
         });
       } else {
-        this.videoSetPop = false;
-        this.videoList[this.checkIndex] = this.checkCamera;
-        if (this.videoPage === 1) {
-          this.NineVideo[this.checkIndex] = this.checkCamera;
-        } else if (this.videoPage === 2) {
-          this.NineVideo[this.checkIndex + 3] = this.checkCamera;
-        } else if (this.videoPage === 3) {
-          this.NineVideo[this.checkIndex + 6] = this.checkCamera;
+        let had = false;
+        this.NineVideo.map((item) => {
+          if (item.id === this.checkCamera.id) {
+            had = true;
+          }
+        });
+        if (had) {
+          this.$message.warning("该监控已配置");
+        } else {
+          if (this.videoPage === 1) {
+            this.NineVideo[this.checkIndex] = this.checkCamera;
+          } else if (this.videoPage === 2) {
+            this.NineVideo[this.checkIndex + 3] = this.checkCamera;
+          } else if (this.videoPage === 3) {
+            this.NineVideo[this.checkIndex + 6] = this.checkCamera;
+          }
+          this.flvData.cameraList = JSON.stringify(this.NineVideo);
+          this.axios({
+            url:"/dah-training-api/trainingRecord/update",
+            method:"POST",
+            data: QS.stringify(this.flvData)
+          })
+          .then(res => {
+            console.log(res);
+            this.getFilesById();
+          })
+          .catch(err => {
+            console.log(err);
+          })
+          this.videoSetPop = false;
         }
       }
-      // if (this.highLightItem === "") {
-      //   this.$message({
-      //     message: "请选择",
-      //     iconClass: "el-icon-loading",
-      //     type: "warning",
-      //     customClass: "warningMsg",
-      //     duration: 0,
-      //   });
-      // } else {
-      //   this.videoSetPop = false;
-      //   this.videoList[this.checkIndex] = this.highLightItem;
-      //   if (this.videoPage === 1) {
-      //     this.NineVideo[this.checkIndex] = this.highLightItem;
-      //   } else if (this.videoPage === 2) {
-      //     this.NineVideo[this.checkIndex + 3] = this.highLightItem;
-      //   } else if (this.videoPage === 3) {
-      //     this.NineVideo[this.checkIndex + 6] = this.highLightItem;
-      //   }
-      // }
-      this.highLightItem = "";
-      this.allvideoPage = 1;
+      this.checkCamera = "";
     },
     hideVideoPop() {
       this.videoSetPop = false;
-      this.allvideoPage = 1;
+      this.videoPage = 1;
     },
     toVis() {
       if (this.trainingRecordId !== -1) {
@@ -2375,24 +2353,6 @@ export default {
       } else {
         this.$message.warning("当前暂无实训");
       }
-    },
-    // 获取视频
-    getVideo() {
-      let formdata = new FormData();
-      formdata.append("limit", 9);
-      formdata.append("offset", 1);
-      this.axios({
-        url: "/dah-training-api/video/selectVideoByPage",
-        method: "POST",
-        data: formdata,
-      })
-        .then((res) => {
-          this.NineVideo = res.data.data.list;
-          this.moninerPage(1);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
 
     // 获取当前时间
@@ -2428,6 +2388,7 @@ export default {
             this.recordTotal = res.data.data.total;
             this.trainingRecordId =
               res.data.data.currentTrainingCount.trainingRecordId;
+              this.getFilesById();
             this.burningSceneName =
               res.data.data.currentTrainingCount.burningSceneName;
             this.suppliesNum = res.data.data.numCount.suppliesNum;
@@ -2657,7 +2618,6 @@ export default {
     this.getBurning();
     this.getRanking();
     this.getLink();
-    this.getVideo();
   },
   //生命周期-挂载完成（可以访问DOM元素）
   mounted() {
@@ -2672,7 +2632,9 @@ export default {
   beforeMount() {}, //生命周期-挂载之前
   beforeUpdate() {}, //生命周期-更新之前
   updated() {}, //生命周期-更新之后
-  beforeDestroy() {}, //生命周期-销毁之前
+  beforeDestroy() {
+    this.videoPlayerUnload();
+  }, //生命周期-销毁之前
   destroyed() {}, //生命周期-销毁完成
   activated() {}, //如果页面有keep-alive缓存功能这个函数会触发
 

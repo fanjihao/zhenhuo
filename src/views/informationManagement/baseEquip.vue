@@ -125,7 +125,7 @@
       >
         <div
           style="
-            width: 40%;
+            width: 30%;
             background-color: #fff;
             border-radius: 5px;
             overflow: hidden;
@@ -133,7 +133,7 @@
           class=""
         >
           <div
-            style="height: 50px; padding: 0 20px"
+            style="height: 40px; padding: 0 20px"
             class="flex flex-ac flex-jb font-30 bg-blue cor-f"
           >
             <span style="font-size: 16px">{{
@@ -143,47 +143,34 @@
           </div>
           <div
             class="flex flex-dc flex-ja"
-            style="height: 400px; border-bottom: 1px solid #f5f5f5"
+            style="border-bottom: 1px solid #f5f5f5; padding: 20px 30px"
           >
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000">*</span>装备名称</span
-                >
+            <div
+              class="search-part"
+              style="margin-bottom: 10px"
+            >
+              <div class="label-title">
+                <span><span style="color: #ff0000">*</span>装备名称</span>
               </div>
               <el-input
                 placeholder="请输入内容"
                 v-model="changeItemMsgequipmentName"
+                style="flex:1"
               >
               </el-input>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000">*</span>装备类型</span
-                >
+            <div
+              class="search-part"
+              style="margin-bottom: 10px"
+            >
+              <div class="label-title">
+                <span><span style="color: #ff0000">*</span>装备类型</span>
               </div>
               <el-select
-                style="width: calc(100% - 100px)"
                 v-model="changeItemMsgtype"
                 placeholder="请选择"
                 @change="detailOption"
+                style="flex:1"
               >
                 <el-option
                   v-for="item in equipTypeMsg"
@@ -194,43 +181,31 @@
                 </el-option>
               </el-select>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000">*</span>计量单位</span
-                >
+            <div
+              class="search-part"
+              style="margin-bottom: 10px"
+            >
+              <div class="label-title">
+                <span><span style="color: #ff0000">*</span>计量单位</span>
               </div>
               <el-input
                 placeholder="请输入内容"
                 v-model="changeItemMsgunitMeasurement"
+                style="flex:1"
               >
               </el-input>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000">*</span>装备数量</span
-                >
+            <div
+              class="search-part"
+              style="margin-bottom: 10px"
+            >
+              <div class="label-title">
+                <span><span style="color: #ff0000">*</span>装备数量</span>
               </div>
               <el-input
                 placeholder="请输入内容"
                 v-model="changeItemMsgnumberEquipment"
+                style="flex:1"
                 @blur="
                   () => {
                     if (
@@ -247,75 +222,53 @@
               >
               </el-input>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000">*</span>存放地点</span
-                >
+            <div
+              class="search-part"
+              style="margin-bottom: 10px"
+            >
+              <div class="label-title">
+                <span><span style="color: #ff0000">*</span>存放地点</span>
               </div>
               <el-input
                 placeholder="请输入内容"
                 v-model="changeItemMsgstorageLocation"
+                style="flex:1"
               >
               </el-input>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000; opacity: 0">*</span
-                  >规格型号</span
-                >
+            <div
+              class="search-part"
+              style="margin-bottom: 10px"
+            >
+              <div class="label-title">
+                <span>规格型号</span>
               </div>
-              <el-input placeholder="请输入内容" v-model="changeItemMsgmodel">
+              <el-input placeholder="请输入内容" v-model="changeItemMsgmodel" style="flex:1">
               </el-input>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000; opacity: 0">*</span
-                  >装备用途</span
-                >
+            <div
+              class="search-part"
+            >
+              <div class="label-title">
+                <span>装备用途</span>
               </div>
               <el-input
                 placeholder="请输入内容"
                 v-model="changeItemMsgequipmentUse"
+                style="flex:1"
               >
               </el-input>
             </div>
           </div>
           <div
-            style="height: 60px; padding: 0 20px"
+            style="height: 40px; padding: 0 20px"
             class="flex flex-ac flex-drr font-18"
           >
             <div
               @click="changeSure"
               style="
                 width: 80px;
-                height: 35px;
+                height: 30px;
                 border-radius: 5px;
                 margin-left: 20px;
                 border: 1px solid rgba(84, 114, 234, 1);
@@ -329,7 +282,7 @@
               @click="hidePop"
               style="
                 width: 80px;
-                height: 35px;
+                height: 30px;
                 border-radius: 5px;
                 border: 1px solid rgba(84, 114, 234, 1);
                 font-size: 14px;
@@ -376,6 +329,8 @@ export default {
       changeItemMsgmodel: "",
       changeItemMsgequipmentUse: "",
       changeItemMsgid: "",
+
+      data: ""
     };
   },
   //监听属性 类似于data概念
@@ -531,6 +486,7 @@ export default {
         equipmentUse: this.changeItemMsgequipmentUse,
         id: this.changeItemMsgid,
         dataType: 1,
+        createTime: this.data.createTime
       };
       for (const key in params) {
         if (
@@ -634,6 +590,7 @@ export default {
         this.changeItemMsgmodel = e.model;
         this.changeItemMsgequipmentUse = e.equipmentUse;
         this.changeItemMsgid = e.id;
+        this.data = e;
       } else {
         this.changeItemMsgequipmentName = "";
         this.changeItemMsgtype = "";

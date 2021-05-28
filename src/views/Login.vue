@@ -51,7 +51,14 @@
               />
             </div>
           </div>
-          <div class="login-box-form-item-submit" @click="submit" v-loading.fullscreen.lock="fullscreenLoading" element-loading-text="登录加载中">登录</div>
+          <div
+            class="login-box-form-item-submit"
+            @click="submit"
+            v-loading.fullscreen.lock="fullscreenLoading"
+            element-loading-text="登录加载中"
+          >
+            登录
+          </div>
         </div>
       </div>
     </div>
@@ -59,7 +66,6 @@
 </template>
 
 <script>
-
 import QS from "qs";
 export default {
   //import引入的组件需要注入到对象中才能使用
@@ -71,7 +77,7 @@ export default {
       userName: "",
       userPass: "",
       isfocus: "",
-      fullscreenLoading:false
+      fullscreenLoading: false,
     };
   },
   // 监听属性类似于data概念
@@ -106,8 +112,11 @@ export default {
               },
             })
               .then((response) => {
-                console.log(response)
-                localStorage.setItem("fire-user", JSON.stringify(response.data.data.user));
+                console.log(response);
+                localStorage.setItem(
+                  "fire-user",
+                  JSON.stringify(response.data.data.user)
+                );
                 this.$router.push({
                   path: "/integratedScreen",
                 });
@@ -119,10 +128,12 @@ export default {
                 this.fullscreenLoading = false;
               })
               .catch((error) => {
+                this.fullscreenLoading = false;
                 console.log(error);
               });
           })
           .catch((err) => {
+            this.fullscreenLoading = false;
             this.$message({
               message: err.message,
               type: "error",

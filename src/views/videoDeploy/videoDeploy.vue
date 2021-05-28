@@ -89,7 +89,7 @@
       >
         <div
           style="
-            width: 40%;
+            width: 25%;
             background-color: #fff;
             border-radius: 5px;
             overflow: hidden;
@@ -101,7 +101,7 @@
             style="height: 40px; padding: 0 20px"
             class="flex flex-ac flex-jb font-30 bg-blue cor-f"
           >
-            <span style="font-size: 16px">{{ popName }}</span>
+            <span style="font-size: 15px">{{ popName }}</span>
             <i
               @click="hidePop"
               class="el-icon-close"
@@ -109,23 +109,10 @@
             ></i>
           </div>
           <div style="width: 100%; padding: 15px">
-            <div class="flex flex-ac" style="padding: 0 20px; margin: 10px 0">
-              <div
-                style="
-                  min-width: 120px;
-                  width: 30%;
-                  height: 40px;
-                  border-left: 1px solid #dcdfe6;
-                  border-top: 1px solid #dcdfe6;
-                  border-bottom: 1px solid #dcdfe6;
-                  border-top-left-radius: 4px;
-                  border-bottom-left-radius: 4px;
-                "
-                class="flex felx-ac flex-jc"
-              >
-                <span class="flex flex-ac" style=""
-                  ><span style="color: #ff0000;font-size:14px">*</span>监控场所名称:</span
-                >
+            <div class="search-part" style="padding-right: 20px; margin: 10px 0">
+              <div class="label-title">
+                <span style="color: #ff0000; font-size: 14px">*</span
+                >监控场所名称:
               </div>
 
               <el-input
@@ -135,23 +122,10 @@
               >
               </el-input>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 120px;
-                  width: 30%;
-                  height: 40px;
-                  border-left: 1px solid #dcdfe6;
-                  border-top: 1px solid #dcdfe6;
-                  border-bottom: 1px solid #dcdfe6;
-                  border-top-left-radius: 4px;
-                  border-bottom-left-radius: 4px;
-                "
-                class="flex felx-ac flex-jc"
-              >
-                <span class="flex flex-ac" style=""
-                  ><span style="color: #ff0000;font-size:14px">*</span>监控场所代码:</span
-                >
+            <div class="search-part" style="padding-right: 20px;">
+              <div class="label-title">
+                <span style="color: #ff0000; font-size: 14px">*</span
+                >监控场所代码:
               </div>
               <el-input
                 placeholder="请输入监控场所代码"
@@ -160,7 +134,7 @@
               >
               </el-input>
             </div>
-            <div class="flex flex-dc" style="padding: 0 20px">
+            <div class="flex flex-dc">
               <span style="min-width: 100px; margin: 10px 0">备注</span>
               <el-input
                 type="textarea"
@@ -172,48 +146,6 @@
               >
               </el-input>
             </div>
-            <!-- <div class="modal-item">
-              <span
-                style="
-                  display: inline-block;
-                  height: 40px;
-                  line-height: 40px;
-                  text-align: center;
-                  width: 25%;
-                  border-right: 1px solid #eee;
-                "
-                ><span style="color: #ff0000">*</span>监控场所名称</span
-              >
-              <el-input placeholder="请输入监控场所名称" v-model="videoName">
-              </el-input>
-            </div>
-            <div class="modal-item">
-              <span
-                style="
-                  display: inline-block;
-                  height: 40px;
-                  line-height: 40px;
-                  text-align: center;
-                  width: 25%;
-                  border-right: 1px solid #eee;
-                "
-                ><span style="color: #ff0000">*</span>监控场所代码</span
-              >
-              <el-input placeholder="请输入监控场所代码" v-model="videoCode">
-              </el-input>
-            </div>
-            <div class="flex flex-dc">
-              <span style="min-width: 100px; margin-bottom: 10px">备注</span>
-              <el-input
-                type="textarea"
-                placeholder="请输入内容"
-                v-model="videoRemark"
-                :autosize="{ minRows: 3, maxRows: 3 }"
-                maxlength="500"
-                show-word-limit
-              >
-              </el-input>
-            </div> -->
           </div>
           <div
             style="height: 50px; padding: 0 20px"
@@ -508,7 +440,7 @@ export default {
     border: 1px solid rgb(235, 237, 242);
     overflow: hidden;
     .label-title {
-      width: 90px;
+      width: 170px;
       height: 30px;
       line-height: 30px;
       text-align: center;

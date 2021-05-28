@@ -1,10 +1,6 @@
 <!-- 基地物资--基地物资--基地物资--基地物资--基地物资--基地物资--基地物资 -->
 <template>
   <div>
-    <!-- <div style="height: 40px" class="flex flex-ac font-14">
-      <span>信息管理</span><span style="margin: 0 10px">|</span
-      ><span class="cor-blue">基地物资</span>
-    </div> -->
     <div class="location">
       <img src="../../assets/image/u974.svg" alt="" />
       <div class="directory1">信息管理</div>
@@ -60,15 +56,18 @@
           style="width: 100%; height: calc(100vh - 290px); overflow-y: scroll"
         >
           <el-table-column prop="no" label="#" width="80"> </el-table-column>
-          <el-table-column prop="name" label="物资名称"
-              show-overflow-tooltip> </el-table-column>
+          <el-table-column prop="name" label="物资名称" show-overflow-tooltip>
+          </el-table-column>
           <el-table-column prop="suppliesType" label="物资类型">
           </el-table-column>
           <el-table-column prop="measureUnit" label="计量单位">
           </el-table-column>
           <el-table-column prop="number" label="数量"> </el-table-column>
-          <el-table-column prop="storageLocation" label="存放地点"
-              show-overflow-tooltip>
+          <el-table-column
+            prop="storageLocation"
+            label="存放地点"
+            show-overflow-tooltip
+          >
           </el-table-column>
           <el-table-column prop="updateUserName" label="创建人">
           </el-table-column>
@@ -82,12 +81,14 @@
             <template slot-scope="scope">
               <i
                 @click="showPop(scope.row)"
-                style="font-size: 20px; margin-left: 10px"
+                style="font-size: 20px; margin-left: 10px;
+                cursor:pointer"
                 class="el-icon-edit"
               ></i>
               <i
                 @click="deleteMsg(scope.row.id)"
-                style="font-size: 20px; margin-left: 10px"
+                style="font-size: 20px; margin-left: 10px;
+                cursor:pointer"
                 class="el-icon-delete"
               ></i>
             </template>
@@ -105,7 +106,6 @@
         >
         </el-pagination>
       </div>
-
       <!-- 修改弹框 -->
       <div
         v-show="popStatus"
@@ -121,7 +121,7 @@
       >
         <div
           style="
-            width: 40%;
+            width: 25%;
             background-color: #fff;
             border-radius: 5px;
             overflow: hidden;
@@ -129,35 +129,26 @@
           class=""
         >
           <div
-            style="height: 50px; padding: 0 20px"
+            style="height: 35px; padding: 0 20px"
             class="flex flex-ac flex-jb font-30 bg-blue cor-f"
           >
-            <span style="font-size: 16px">{{
+            <span style="font-size: 15px">{{
               popValue ? "编辑物资" : "新增物资"
             }}</span>
             <i @click="hidePop" class="el-icon-close"></i>
           </div>
           <div
             class="flex flex-dc flex-ja"
-            style="height: 350px; border-bottom: 1px solid #f5f5f5"
+            style="border-bottom: 1px solid #f5f5f5; padding: 20px 30px"
           >
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000">*</span>物资名称</span
-                >
+            <div class="search-part" style="margin-bottom: 10px">
+              <div class="label-title">
+                <span><span style="color: #ff0000">*</span>物资名称</span>
               </div>
               <el-input
                 placeholder="请输入内容"
                 v-model="materialName"
+                style="flex: 1"
                 @blur="
                   () => {
                     if (materialName.length > 50) {
@@ -169,24 +160,14 @@
               >
               </el-input>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000">*</span>物资类型</span
-                >
+            <div class="search-part" style="margin-bottom: 10px">
+              <div class="label-title">
+                <span><span style="color: #ff0000">*</span>物资类型</span>
               </div>
               <el-select
-                style="width: calc(100% - 100px)"
                 v-model="materialSuppliesTypeId"
                 placeholder="请选择"
+                style="flex: 1"
                 clearable
               >
                 <el-option
@@ -198,23 +179,14 @@
                 </el-option>
               </el-select>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000">*</span>计量单位</span
-                >
+            <div class="search-part" style="margin-bottom: 10px">
+              <div class="label-title">
+                <span><span style="color: #ff0000">*</span>计量单位</span>
               </div>
               <el-input
                 placeholder="请输入内容"
                 v-model="materialMeasureUnit"
+                style="flex: 1"
                 @blur="
                   () => {
                     if (materialMeasureUnit.length > 50) {
@@ -226,23 +198,14 @@
               >
               </el-input>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000">*</span>物资数量</span
-                >
+            <div class="search-part" style="margin-bottom: 10px">
+              <div class="label-title">
+                <span><span style="color: #ff0000">*</span>物资数量</span>
               </div>
               <el-input
                 placeholder="请输入内容"
                 v-model="materialNumber"
+                style="flex: 1"
                 @blur="
                   () => {
                     if (
@@ -263,23 +226,13 @@
               >
               </el-input>
             </div>
-            <div class="flex flex-ac" style="padding: 0 20px">
-              <div
-                style="
-                  min-width: 100px;
-                  height: 100%;
-                  border: 1px solid #dcdfe6;
-                  border-radius: 4px;
-                "
-                class="flex flex-ac flex-jc"
-              >
-                <span style=""
-                  ><span style="color: #ff0000">*</span>存放地点</span
-                >
+            <div class="search-part" style="margin-bottom: 10px">
+              <div class="label-title">
+                <span><span style="color: #ff0000">*</span>存放地点</span>
               </div>
-
               <el-input
                 placeholder="请输入内容"
+                style="flex: 1"
                 v-model="materialStorageLocation"
                 @blur="
                   () => {
@@ -294,18 +247,19 @@
             </div>
           </div>
           <div
-            style="height: 50px; padding: 0 20px"
+            style="height: 40px; padding: 0 20px"
             class="flex flex-ac flex-drr font-18"
           >
             <div
               @click="changeSure"
               style="
                 width: 80px;
-                height: 35px;
+                height: 30px;
                 border-radius: 5px;
                 margin-left: 20px;
                 border: 1px solid rgba(84, 114, 234, 1);
                 font-size: 14px;
+                cursor:pointer
               "
               class="bg-blue cor-f flex flex-ac flex-jc"
             >
@@ -315,10 +269,11 @@
               @click="hidePop"
               style="
                 width: 80px;
-                height: 35px;
+                height: 30px;
                 border-radius: 5px;
                 border: 1px solid rgba(84, 114, 234, 1);
                 font-size: 14px;
+                cursor:pointer
               "
               class="flex flex-ac flex-jc cor-blue"
             >
@@ -359,6 +314,8 @@ export default {
       materialNumber: "",
       materialStorageLocation: "",
       materialSuppliesTypeId: "",
+
+      data: ""
     };
   },
   //监听属性 类似于data概念
@@ -411,6 +368,7 @@ export default {
         storageLocation: this.materialStorageLocation,
         suppliesTypeId: this.materialSuppliesTypeId,
         dataType: 1,
+        createTime: this.data.createTime
       };
       for (const key in params) {
         if (
@@ -567,6 +525,7 @@ export default {
         this.materialNumber = e.number;
         this.materialStorageLocation = e.storageLocation;
         this.materialSuppliesTypeId = e.suppliesTypeId;
+        this.data = e;
       } else {
         this.materialMeasureUnit = "";
         this.materialName = "";

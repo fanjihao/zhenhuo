@@ -58,11 +58,12 @@
               class="pos-a"
               style="top: 5%; left: 2%; color: #fff; width: 96%; height: 90%"
             >
-              <img
+              <!-- <img
                 style="width: 100%; height: 100%"
                 src="./../assets/image/u3739.png"
                 alt=""
-              />
+              /> -->
+              <iframe src="http://www.baidu.com" frameborder="0" style="width: 100%; height: 100%"></iframe>
             </div>
           </div>
           <div class="fullscreen" @click="allSreen">
@@ -146,15 +147,15 @@
               <div class="page-box">
                 <div
                   :class="videoPage === 1 ? 'now-page' : 'page'"
-                  @click="moninerPage(1)"
+                  @click="moninerPage(1, 2)"
                 ></div>
                 <div
                   :class="videoPage === 2 ? 'now-page' : 'page'"
-                  @click="moninerPage(2)"
+                  @click="moninerPage(2, 2)"
                 ></div>
                 <div
                   :class="videoPage === 3 ? 'now-page' : 'page'"
-                  @click="moninerPage(3)"
+                  @click="moninerPage(3, 2)"
                 ></div>
               </div>
             </div>
@@ -164,14 +165,18 @@
               class="video-part"
             >
               <div class="minVideo">
-                <img
-                  src="@/assets/image/u662.png"
+                <video
+                  :src="item.httpPlayUrl"
                   style="width: 100%; height: 100%"
-                  alt=""
-                />
+                  class="videoplays"
+                  :id="'video' + item.id"
+                  controls
+                  autoplay
+                  muted
+                ></video>
               </div>
               <div class="video-title">
-                <span>{{ item.monitoringPlaceName }}</span>
+                <span>{{ item.cameraName }}</span>
                 <img
                   @click="showVideoPop(index)"
                   src="@/assets/image/u663.png"
@@ -307,7 +312,7 @@
             <div
               @click="hideCoursePop"
               class="pos-a flex flex-ac flex-jc"
-              style="bottom: 0; right: 0;cursor: pointer;"
+              style="bottom: 0; right: 0; cursor: pointer"
             >
               <img src="./../assets/sure.png" alt="" />
               <span class="pos-a" style="color: #fff">关闭</span>
@@ -371,7 +376,7 @@
             <div
               @click="hidePersonNumPop"
               class="pos-a flex flex-ac flex-jc"
-              style="bottom: 0; right: 0;cursor: pointer;"
+              style="bottom: 0; right: 0; cursor: pointer"
             >
               <img style="height: 30px" src="./../assets/sure.png" alt="" />
               <span class="pos-a" style="color: #fff">关闭</span>
@@ -443,99 +448,80 @@
         </div>
       </div>
     </div>
-    <!-- 视频设置弹框 -->
-    <div
-      v-show="videoSetPop"
-      class="pos-f flex flex-ac flex-jc"
-      style="
-        top: 0;
-        height: 100%;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
-      "
-    >
-      <div class="pos-r">
-        <img style="width: 600px" src="./../assets/centerBg.png" alt="" />
-        <div class="pos-a w100 h100 t-0 l-0 flex flex-ac flex-jc">
-          <div style="width: 96%; height: 90%" class="pos-r">
-            <div class="flex flex-ac" style="margin-bottom: 10px">
-              <span class="cor-f font-16" style="margin-right: 5px"
-                >视频控制</span
-              >
-              <img src="./../assets/dian.png" alt="" />
-            </div>
-
+    <!-- 视频控制弹窗 -->
+    <div class="screen-increasePopup" v-show="videoSetPop">
+      <div class="increaseContent" style="width: 800px">
+        <div class="title">
+          <span>视频控制</span>
+          <div></div>
+          <div style="background: #4ba3ce"></div>
+          <div style="background: #397ea1"></div>
+          <div style="background: #1e445f"></div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            height: 90%;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+          "
+        >
+          <div
+            style="
+              width: 25%;
+              height: 100%;
+              border: 1px solid #009bc6;
+              overflow: scroll;
+              border-radius: 3px;
+            "
+          >
             <div
-              style="
-                width: 100%;
-                height: calc(100% - 114px);
-                overflow-y: scroll;
-                align-content: flex-start;
+              v-for="item in placeList"
+              :key="item.id"
+              :class="
+                checkPlace.id === item.id ? 'checked-palce' : 'nocheck-place'
               "
-              class="scroll flex flex-ww"
+              @click="checkPlaceHandle(item)"
             >
-              <p
-                v-for="item in videoShowList"
-                :key="item.id"
-                style="
-                  width: 100%;
-                  padding: 4px 0;
-                  height: 26px;
-                  margin-bottom: 10px;
-                  background-color: rgba(0, 204, 255, 0.0470588235294118);
-                "
-                :class="
-                  item.isShow === true
-                    ? 'flex flex-ac cor-bc notcheckedVideo'
-                    : 'flex flex-ac cor-bc'
-                "
-                :id="item.id === highLightItem.id ? 'checkedVideo' : ''"
-                @click="checkThisVideo(item)"
-              >
-                <i
-                  :class="
-                    item.isShow === true
-                      ? 'el-icon-video-camera-solid cor-chekc'
-                      : 'el-icon-video-camera-solid cor-b'
-                  "
-                  :id="item.id === highLightItem.id ? 'checkedIcon' : ''"
-                  style="margin: 0 5px"
-                ></i>
-                <span class="font-12" v-if="item.isShow === false">{{
-                  item.monitoringPlaceName
-                }}</span>
-                <span class="font-12" v-else>{{
-                  item.monitoringPlaceName
-                }}</span>
-              </p>
-            </div>
-            <div style="width: 100%; text-align: right">
-              <el-pagination
-                background
-                class="footpage"
-                layout="total, prev, pager, next"
-                :total="videoShowTotal"
-                @current-change="changePage"
-              >
-              </el-pagination>
-            </div>
-            <div
-              @click="confirmVideoPop"
-              class="pos-a flex flex-ac flex-jc"
-              style="bottom: 0; right: 0"
-            >
-              <img style="height: 30px" src="./../assets/sure.png" alt="" />
-              <span class="pos-a" style="color: #fff">确定</span>
-            </div>
-            <div
-              @click="hideVideoPop"
-              class="pos-a flex flex-ac flex-jc"
-              style="bottom: 0; right: 120px"
-            >
-              <img style="height: 30px" src="./../assets/cancel.png" alt="" />
-              <span class="pos-a" style="color: #fff">取消</span>
+              {{ item.monitoringPlaceName }}
             </div>
           </div>
+          <div
+            style="
+              width: 70%;
+              height: 100%;
+              border: 1px solid #009bc6;
+              overflow: scroll;
+            "
+          >
+            <div
+              v-for="item in camereList"
+              :key="item.id"
+              :class="
+                checkCamera.id === item.id ? 'checked-palce' : 'nocheck-place'
+              "
+              @click="chooseCameraHandle(item)"
+            >
+              {{ item.cameraName }}
+            </div>
+          </div>
+        </div>
+        <div
+          @click="confirmVideoPop"
+          class="pos-a flex flex-ac flex-jc save-btn"
+          style="bottom: 0; right: 0"
+        >
+          <img style="height: 30px" src="./../assets/sure.png" alt="" />
+          <span class="pos-a" style="color: #fff">确定</span>
+        </div>
+        <div
+          @click="hideVideoPop"
+          class="pos-a flex flex-ac flex-jc cancel-btn"
+          style="bottom: 0; right: 120px"
+        >
+          <img style="height: 30px" src="./../assets/cancel.png" alt="" />
+          <span class="pos-a" style="color: #fff">取消</span>
         </div>
       </div>
     </div>
@@ -605,6 +591,7 @@
 <script>
 import qs from "qs";
 import { mapMutations } from "vuex";
+import flvjs from "flv.js";
 
 export default {
   name: "Visualization",
@@ -638,23 +625,80 @@ export default {
 
       endModalText: "",
       endState: false,
+
+      placeList: [],
+      checkPlace: "",
+      camereList: [],
+      checkCamera: "",
+
+      flvPlayer1: "",
+      flvPlayer2: "",
+      flvPlayer3: "",
     };
   },
   created() {
     this.getfiles();
     this.getFilesById();
-    this.getVideo();
   },
   mounted() {
     setInterval(() => {
       this.getTime();
     }, 1000);
+    this.videoPlayerHandle();
   },
+  beforeDestroy() {
+    this.videoPlayerUnload();
+  }, //生命周期-销毁之前
   destroyed() {
     clearInterval(this.timerHandle);
   },
   methods: {
     ...mapMutations({ setPath: "setPath" }),
+    videoPlayerHandle() {
+      setTimeout(() => {
+        if (this.videoList[0]) {
+          this.flvPlayer1 = flvjs.createPlayer({
+            type: "flv",
+            url: this.videoList[0].httpPlayUrl,
+          });
+          this.flvPlayer1.attachMediaElement(
+            document.getElementById("video" + this.videoList[0].id)
+          );
+          this.flvPlayer1.load();
+          this.flvPlayer1.play();
+        }
+        if (this.videoList[0]) {
+          this.flvPlayer2 = flvjs.createPlayer({
+            type: "flv",
+            url: this.videoList[1].httpPlayUrl,
+          });
+          this.flvPlayer2.attachMediaElement(
+            document.getElementById("video" + this.videoList[1].id)
+          );
+          this.flvPlayer2.load();
+          this.flvPlayer2.play();
+        }
+        if (this.videoList[0]) {
+          this.flvPlayer3 = flvjs.createPlayer({
+            type: "flv",
+            url: this.videoList[2].httpPlayUrl,
+          });
+          this.flvPlayer3.attachMediaElement(
+            document.getElementById("video" + this.videoList[2].id)
+          );
+          this.flvPlayer3.load();
+          this.flvPlayer3.play();
+        }
+      }, 1000);
+    },
+    videoPlayerUnload() {
+      this.flvPlayer1.unload();
+      this.flvPlayer2.unload();
+      this.flvPlayer3.unload();
+    },
+    chooseCameraHandle(item) {
+      this.checkCamera = item;
+    },
     // 跳转其他页面
     checkPage(path) {
       if (path === "/visualization") {
@@ -721,7 +765,8 @@ export default {
         data: formdata,
       })
         .then((res) => {
-          console.log(res.data.data);
+          this.NineVideo = JSON.parse(res.data.data.cameraList);
+          this.moninerPage(this.videoPage);
           clearInterval(this.timerHandle);
           this.data = res.data.data;
           this.courseware = res.data.data.courseware;
@@ -784,24 +829,6 @@ export default {
           console.log(err);
         });
     },
-    // 获取视频
-    getVideo() {
-      let formdata = new FormData();
-      formdata.append("limit", 9);
-      formdata.append("offset", 1);
-      this.axios({
-        url: "/dah-training-api/video/selectVideoByPage",
-        method: "POST",
-        data: formdata,
-      })
-        .then((res) => {
-          this.NineVideo = res.data.data.list;
-          this.moninerPage(1);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
     //点击全屏
     allSreen() {
       var docElm = document.documentElement;
@@ -826,37 +853,40 @@ export default {
     showVideoPop(i) {
       this.videoSetPop = true;
       this.checkIndex = i;
-      this.getAllVideo();
+      this.getPlace();
     },
-    getAllVideo() {
-      let formdata = new FormData();
-      formdata.append("limit", 10);
-      formdata.append("offset", this.allvideoPage);
+    async getPlace() {
+      let params = {
+        limit: 10000,
+        offset: 1,
+      };
+      let data = await this.$post(
+        "/dah-training-api/video/selectVideoByPage",
+        params
+      );
+      if (data.code === 200) {
+        this.placeList = data.data.list;
+      } else {
+        console.log(data);
+      }
+    },
+    checkPlaceHandle(i) {
       this.axios({
-        url: "/dah-training-api/video/selectVideoByPage",
+        url: "/dah-training-api/video/selectWebcamByPage",
         method: "POST",
-        data: formdata,
+        data: qs.stringify({
+          limit: 10000,
+          offset: 1,
+          videoDeviceId: i.id,
+        }),
       })
         .then((res) => {
-          res.data.data.list.map((item) => {
-            item.isShow = false;
-            item.isChecked = false;
-            for (let i = 0; i < this.NineVideo.length; i++) {
-              if (item.id === this.NineVideo[i].id) {
-                item.isShow = true;
-              }
-            }
-          });
-          this.videoShowList = res.data.data.list;
-          this.videoShowTotal = res.data.data.total;
+          this.checkPlace = i;
+          this.camereList = res.data.data.list;
         })
         .catch((err) => {
           console.log(err);
         });
-    },
-    changePage(currpage) {
-      this.allvideoPage = currpage;
-      this.getAllVideo();
     },
     checkThisVideo(item) {
       if (!item.isShow) {
@@ -864,7 +894,7 @@ export default {
       }
     },
     confirmVideoPop() {
-      if (this.highLightItem === "") {
+      if (this.checkCamera === "") {
         this.$message({
           message: "请选择",
           iconClass: "el-icon-loading",
@@ -873,17 +903,39 @@ export default {
           duration: 0,
         });
       } else {
-        this.videoSetPop = false;
-        this.videoList[this.checkIndex] = this.highLightItem;
-        if (this.videoPage === 1) {
-          this.NineVideo[this.checkIndex] = this.highLightItem;
-        } else if (this.videoPage === 2) {
-          this.NineVideo[this.checkIndex + 3] = this.highLightItem;
-        } else if (this.videoPage === 3) {
-          this.NineVideo[this.checkIndex + 6] = this.highLightItem;
+        let had = false;
+        this.NineVideo.map((item) => {
+          if (item.id === this.checkCamera.id) {
+            had = true;
+          }
+        });
+        if (had) {
+          this.$message.warning("该监控已配置");
+        } else {
+          if (this.videoPage === 1) {
+            this.NineVideo[this.checkIndex] = this.checkCamera;
+          } else if (this.videoPage === 2) {
+            this.NineVideo[this.checkIndex + 3] = this.checkCamera;
+          } else if (this.videoPage === 3) {
+            this.NineVideo[this.checkIndex + 6] = this.checkCamera;
+          }
+          this.data.cameraList = JSON.stringify(this.NineVideo);
+          this.axios({
+            url:"/dah-training-api/trainingRecord/update",
+            method:"POST",
+            data: qs.stringify(this.data)
+          })
+          .then(res => {
+            console.log(res);
+            this.getFilesById();
+          })
+          .catch(err => {
+            console.log(err);
+          })
+          this.videoSetPop = false;
         }
       }
-      this.highLightItem = "";
+      this.checkCamera = "";
     },
     hideVideoPop() {
       this.videoSetPop = false;
@@ -964,8 +1016,11 @@ export default {
       this.secondMenu = !this.secondMenu;
     },
     // 监控翻页
-    moninerPage(i) {
+    moninerPage(i, j) {
       this.videoPage = i;
+      if(j === 2) {
+        this.videoPlayerUnload();
+      }
       if (i === 1) {
         this.videoList = this.NineVideo.slice(0, 3);
       } else if (i === 2) {
@@ -973,6 +1028,10 @@ export default {
       } else {
         this.videoList = this.NineVideo.slice(6, 9);
       }
+      this.videoList.map((item) => {
+        this.openVideo(item);
+      });
+      this.videoPlayerHandle();
     },
     // 展开菜单
     showMenu() {
@@ -994,6 +1053,25 @@ export default {
         date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       this.nowTime = Y + "-" + M + "-" + D + " " + H + ":" + MT + ":" + S;
     },
+    // 获取监控
+    async openVideo(item) {
+      this.axios({
+        url: "/dah-training-api/video/openVideoPlay",
+        method: "POST",
+        data: qs.stringify({
+          monitoringPlaceCode: item.cameraCode
+          // monitoringPlaceCode: "51150000201321000101",
+        }),
+      })
+        .then(
+          await function (res) {
+            item.httpPlayUrl = res.data.data.httpPlayUrl;
+          }
+        )
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   filters: {
     //文字数超出时，超出部分使用...
@@ -1014,15 +1092,15 @@ export default {
 .inte-menu-slide-no {
   position: absolute;
   left: -230px;
-  top: 85px;
+  top: 110px;
 }
 .inte-menu-slide-on {
   position: absolute;
   left: 0;
-  top: 85px;
+  top: 110px;
 }
 .inte-menu {
-  height: 100%;
+  height: 90%;
   width: 230px;
   z-index: 999;
   background: rgba(2, 13, 30, 0.9);
@@ -1053,6 +1131,386 @@ export default {
         }
         .subMenu-item:hover {
           color: #00ccff;
+        }
+      }
+    }
+  }
+}
+.screen-increasePopup {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.336);
+  font-size: 12px;
+  .increaseContent {
+    background: url("../assets/image/u814.svg");
+    background-size: 100% 100%;
+    width: 55%;
+    height: 60%;
+    border-radius: 5px;
+    padding: 20px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: space-between;
+    .save-btn {
+      bottom: 15px !important;
+      right: 15px !important;
+      cursor: pointer;
+    }
+    .cancel-btn {
+      bottom: 15px !important;
+      right: 135px !important;
+      cursor: pointer;
+    }
+    .content {
+      color: #fff;
+      font-size: 12px;
+      span {
+        color: #b1eafb;
+      }
+      > div {
+        margin-top: 10px;
+      }
+      .list-li {
+        background: #0c1c34;
+        color: #aee7f8;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        border-radius: 3px;
+        img {
+          width: 20px;
+          height: 20px;
+          margin-right: 20px;
+        }
+      }
+      .list-li2 {
+        background: #5cc9fa;
+        color: #000;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        border-radius: 3px;
+        img {
+          width: 20px;
+          height: 20px;
+          margin-right: 20px;
+        }
+      }
+    }
+    .offButton {
+      background: url("../assets/image/u747.svg");
+      background-size: 100% 100%;
+      width: 80px;
+      height: 30px;
+      color: #000;
+      display: inline-block;
+      line-height: 30px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .nocheck-place {
+      width: 100%;
+      padding: 0 10px;
+      height: 40px;
+      line-height: 40px;
+      color: white;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.493);
+      margin-bottom: 10px;
+    }
+    .checked-palce {
+      margin-bottom: 10px;
+      background-color: rgba(0, 204, 255, 0.493);
+      width: 100%;
+      padding: 0 10px;
+      height: 40px;
+      line-height: 40px;
+      color: white;
+      cursor: pointer;
+    }
+    .title {
+      color: #fff;
+      display: flex;
+      margin-top: 20px;
+      align-items: center;
+      span {
+        font-size: 20px;
+        margin-right: 5px;
+      }
+      div {
+        width: 6px;
+        height: 6px;
+        background: #5cc9fa;
+        margin-right: 2px;
+      }
+    }
+    .table {
+      width: 100%;
+      margin-top: 10px;
+      overflow-y: auto;
+      > div {
+        display: flex;
+        color: #b1eafb;
+        background: #0a172a;
+        > div {
+          width: 20%;
+          height: 40px;
+          border: 1px solid #1e2734;
+          padding: 0 10px;
+          line-height: 40px;
+        }
+        > div:nth-child(1) {
+          width: 9%;
+        }
+      }
+      > div:nth-child(1) {
+        color: #5cc9fa;
+        background: none;
+      }
+      > div:hover {
+        background: #5cc9fa;
+        color: #081728;
+      }
+      > div:nth-child(1):hover {
+        background: none;
+        color: #5cc9fa;
+      }
+    }
+  }
+  .footpage {
+    .btn-prev,
+    .btn-next {
+      background: rgba(0, 3, 40, 0.5) !important;
+      color: white !important;
+    }
+  }
+  .notcheckedVideo {
+    background: inherit;
+    background-color: gray !important;
+    color: white;
+  }
+  .nocheck {
+    background: rgba(0, 204, 255, 0.047);
+  }
+  #checkedVideo {
+    color: #020e1e;
+    background: inherit;
+    background-color: rgba(0, 204, 255, 1) !important;
+  }
+  #checkedIcon {
+    color: #020e1e;
+  }
+  .cor-chekc {
+    color: white;
+  }
+  .vis-body {
+    width: 100%;
+    display: flex;
+    padding: 0 10px 15px;
+    justify-content: space-between;
+    .body-left {
+      width: 75%;
+      .otherSystem {
+        position: relative;
+        .fullscreen {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          color: rgb(0, 204, 255);
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+          img {
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+          }
+        }
+      }
+      .boderimg {
+        width: 100%;
+      }
+      .left-foot {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .foot-top {
+          width: 100%;
+          font-size: 20px;
+          color: white;
+          font-weight: 600;
+          display: flex;
+
+          .mark {
+            background: rgb(151, 75, 247);
+            padding: 2px 3px;
+            border-radius: 3px;
+            height: 20px;
+            font-size: 10px;
+            margin-left: 10px;
+          }
+        }
+        .foot-info {
+          display: flex;
+          height: 30px;
+          align-items: center;
+          div {
+            margin-right: 25px;
+            font-size: 12px;
+            .title-span {
+              color: rgb(160, 236, 253);
+            }
+            .cantclick {
+              color: white;
+            }
+            .canclick {
+              text-decoration: underline;
+            }
+            .canclick:hover {
+              color: rgb(160, 236, 253);
+              cursor: pointer;
+            }
+          }
+        }
+        .right {
+          position: relative;
+          div {
+            position: absolute;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            color: rgb(0, 204, 255);
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    .body-right {
+      width: 24%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .boderimg {
+        width: 100%;
+      }
+      .timebox {
+        position: relative;
+        .posidiv {
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: 0;
+          position: absolute;
+          display: flex;
+          /* justify-content: space-between; */
+          flex-direction: column;
+          p {
+            font-size: 12px;
+            padding-left: 20px;
+            height: 20px;
+          }
+          .timeimg {
+            width: 100%;
+            height: calc(100% - 20px);
+            font-family: "font-number";
+            color: #00ccff;
+          }
+        }
+      }
+      .monitor-box {
+        height: 610px;
+        position: relative;
+        .mon-content {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          display: flex;
+          flex-direction: column;
+          padding: 0 20px;
+          .content-top {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            height: 40px;
+            align-items: center;
+            .left-title {
+              display: flex;
+              align-items: center;
+              span {
+                font-size: 14px;
+                color: white;
+                margin-right: 10px;
+                height: 20px;
+                line-height: 26px;
+              }
+              .rectBox {
+                height: 20px;
+                display: flex;
+                align-items: flex-end;
+              }
+              .rectangle {
+                width: 6px;
+                height: 6px;
+                background: rgb(0, 204, 255);
+                margin-right: 2px;
+              }
+            }
+            .page-box {
+              height: 100%;
+              display: flex;
+              align-items: center;
+              div {
+                margin-left: 10px;
+              }
+            }
+            .now-page {
+              width: 12px;
+              height: 12px;
+              border-radius: 20px;
+              background: rgb(0, 204, 255);
+            }
+            .page {
+              width: 12px;
+              height: 12px;
+              border-radius: 20px;
+              background: rgb(0, 104, 149);
+            }
+            .now-page,
+            .page:hover {
+              cursor: pointer;
+            }
+          }
+          .video-part {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+          }
+          .video-title {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            color: white;
+            justify-content: space-between;
+            font-size: 12px;
+          }
         }
       }
     }
@@ -1269,7 +1727,7 @@ export default {
     padding: 0 10px 15px;
     justify-content: space-between;
     position: relative;
-    flex:1;
+    flex: 1;
     // top: -15px;
     .body-left {
       width: 75%;
@@ -1460,6 +1918,7 @@ export default {
           .minVideo {
             width: 100%;
             height: 195px;
+            border: 1px solid #ccc;
           }
           .video-title {
             width: 100%;

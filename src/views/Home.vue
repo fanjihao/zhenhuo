@@ -142,33 +142,36 @@
         <div class="own-body">
           <div class="search-time">
             <span class="time-title"><span>*</span>旧密码</span>
-            <div style="border: 1px solid #eee;flex:1;border-radius:3px;">
+            <div style="border: 1px solid #eee; flex: 1; border-radius: 3px">
               <el-input
                 placeholder="请输入旧密码"
                 v-model="oldpwd"
                 clearable
+                show-password
                 class="input-class"
               ></el-input>
             </div>
           </div>
           <div class="search-time">
             <span class="time-title"><span>*</span>新密码</span>
-            <div style="border: 1px solid #eee;flex:1;border-radius:3px;">
+            <div style="border: 1px solid #eee; flex: 1; border-radius: 3px">
               <el-input
                 placeholder="请输入新密码"
                 v-model="newpwd"
                 clearable
+                show-password
                 class="input-class"
               ></el-input>
             </div>
           </div>
           <div class="search-time">
             <span class="time-title"><span>*</span>确认新密码</span>
-            <div style="border: 1px solid #eee;flex:1;border-radius:3px;">
+            <div style="border: 1px solid #eee; flex: 1; border-radius: 3px">
               <el-input
                 placeholder="请再次确认新密码"
                 v-model="newpwdAgain"
                 clearable
+                show-password
                 class="input-class"
               ></el-input>
             </div>
@@ -374,6 +377,7 @@
 
 <script>
 import { mapMutations } from "vuex";
+import qs from "qs";
 
 export default {
   name: "Home",
@@ -482,7 +486,6 @@ export default {
     },
     // 修改密码
     changePwd() {
-      console.log("sssssssssssss");
       this.passwordVisible = true;
     },
     submit() {
@@ -490,18 +493,29 @@ export default {
         return this.$message.warning("*为必填项");
       }
       this.axios({
-        url:"",
-        method:"",
-        data: {
-
-        }
+        url: "/dah-training-api/authenticated/user/password",
+        method: "PUT",
+        data: qs.stringify({
+          newPassword: this.newpwd,
+          newPasswordAgain: this.newpwdAgain,
+          oldPassword: this.oldpwd,
+        }),
       })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      })
+        .then((res) => {
+          if (res.data.code === 200) {
+            this.$router.push("/login");
+            localStorage.removeItem("fire-token");
+            localStorage.removeItem("fire-user");
+            this.$message({
+              type: "success",
+              message: "请重新登录!",
+              duration: 1000,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     // 获取当前时间
     getTime() {

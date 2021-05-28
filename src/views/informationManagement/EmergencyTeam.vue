@@ -87,7 +87,12 @@
             @row-click="goInfo"
           >
             <el-table-column prop="no" label="#" width="50"> </el-table-column>
-            <el-table-column prop="teamName" label="队伍名称" show-overflow-tooltip width="150">
+            <el-table-column
+              prop="teamName"
+              label="队伍名称"
+              show-overflow-tooltip
+              width="150"
+            >
             </el-table-column>
             <el-table-column prop="teamType" label="队伍类型">
             </el-table-column>
@@ -232,8 +237,8 @@
           <div class="title">基本信息</div>
           <div class="content2-line">
             <div>
-              <div class="inputDiv" style="width: 100%">
-                <div><i>*</i> 队伍名称</div>
+              <div class="inputDiv search-part" style="width: 100%">
+                <div class="label-title"><i>*</i> 队伍名称</div>
                 <el-input
                   v-model="formData.teamName"
                   placeholder="请输入队伍名称"
@@ -244,8 +249,8 @@
               </div>
             </div>
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div><i>*</i> 队伍类型</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div class="label-title"><i>*</i> 队伍类型</div>
                 <el-select
                   v-model="formData.wordbookTypeId"
                   placeholder="-"
@@ -261,8 +266,8 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div><i>*</i> 队伍级别</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div class="label-title"><i>*</i> 队伍级别</div>
                 <el-select
                   v-model="formData.wordbookLevelId"
                   placeholder="-"
@@ -282,8 +287,8 @@
           </div>
           <div class="content2-line">
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div>队伍资质等级</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div class="label-title">队伍资质等级</div>
                 <el-select
                   v-model="formData.wordbookQualificationsId"
                   placeholder="-"
@@ -299,8 +304,8 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div><i>*</i> 队伍属性分类</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div class="label-title"><i>*</i> 队伍属性分类</div>
                 <el-select
                   v-model="formData.wordbookAttributeId"
                   placeholder="-"
@@ -318,8 +323,8 @@
               </div>
             </div>
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div><i>*</i> 主管部门</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div class="label-title"><i>*</i> 主管部门</div>
                 <el-input
                   v-model="formData.competentDepartment"
                   placeholder="请输入主管部门"
@@ -328,8 +333,8 @@
                   maxlength="50"
                 ></el-input>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div><i>*</i>总人数</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div class="label-title"><i>*</i>总人数</div>
                 <el-input
                   v-model="formData.totalPeople"
                   placeholder="请输入总人数"
@@ -356,8 +361,8 @@
           </div>
           <div class="content2-line">
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div>中队个数</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div class="label-title">中队个数</div>
                 <el-input
                   v-model="formData.numberSquadrons"
                   placeholder="请输入中队个数"
@@ -380,8 +385,8 @@
                   "
                 ></el-input>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div>小队个数</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div class="label-title">小队个数</div>
                 <el-input
                   v-model="formData.numberTeams"
                   placeholder="请输入小队个数"
@@ -406,8 +411,8 @@
               </div>
             </div>
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 38%">成立时间</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 38%" class="label-title">成立时间</div>
                 <el-date-picker
                   v-model="formData.establishmentTime"
                   type="datetime"
@@ -422,8 +427,8 @@
           <div class="title">专业信息</div>
           <div class="content2-line">
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div><i>*</i> 擅长处理事故类型</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div class="label-title"><i>*</i> 擅长处理事故类型</div>
                 <el-select
                   v-model="formData.wordbookAccidentId"
                   placeholder="-"
@@ -441,8 +446,8 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div><i>*</i> 队伍适用行业</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div class="label-title"><i>*</i> 队伍适用行业</div>
                 <el-select
                   v-model="formData.wordbookIndustryId"
                   placeholder="-"
@@ -462,8 +467,8 @@
               </div>
             </div>
             <div>
-              <div class="inputDiv" style="width: 100%">
-                <div>服务范围</div>
+              <div class="inputDiv search-part" style="width: 100%">
+                <div class="label-title">服务范围</div>
                 <el-input
                   v-model="formData.scopeService"
                   placeholder="请输入服务范围"
@@ -545,8 +550,8 @@
               "
             >
               <div class="width:100%;display:flex;align-items:center;">
-                <div class="inputDiv">
-                  <div style="width: 20%"><i>*</i> 所在地区</div>
+                <div class="inputDiv search-part">
+                  <div style="width: 20%" class="label-title"><i>*</i> 所在地区</div>
                   <el-select
                     v-model="formData.location"
                     placeholder="请选择所在地区"
@@ -564,8 +569,8 @@
                 </div>
               </div>
               <div class="width:100%;display:flex;align-items:center;">
-                <div class="inputDiv">
-                  <div style="width: 20%"><i>*</i> 详细地址</div>
+                <div class="inputDiv search-part">
+                  <div style="width: 20%" class="label-title"><i>*</i> 详细地址</div>
                   <el-input
                     v-model="formData.detailedAddress"
                     placeholder="请输入详细地址"
@@ -576,8 +581,8 @@
                 </div>
               </div>
               <div class="content2-line" style="margin: 0">
-                <div class="inputDiv">
-                  <div style="width: 40%"><i>*</i> 经度</div>
+                <div class="inputDiv search-part">
+                  <div style="width: 40%" class="label-title"><i>*</i> 经度</div>
                   <el-input
                     v-model="formData.longitude"
                     style="flex: 1"
@@ -585,8 +590,8 @@
                     disabled
                   ></el-input>
                 </div>
-                <div class="inputDiv">
-                  <div style="width: 40%"><i>*</i> 纬度</div>
+                <div class="inputDiv search-part">
+                  <div style="width: 40%" class="label-title"><i>*</i> 纬度</div>
                   <el-input
                     v-model="formData.latitude"
                     style="flex: 1"
@@ -600,8 +605,8 @@
           <div class="title">联系信息</div>
           <div class="content2-line">
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 40%"><i>*</i> 值班电话</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 40%" class="label-title"><i>*</i> 值班电话</div>
                 <el-input
                   v-model="formData.dutyTelephone"
                   placeholder="请输入值班电话"
@@ -610,8 +615,8 @@
                   maxlength="20"
                 ></el-input>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 40%"><i>*</i> 应急值班传真</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 40%" class="label-title"><i>*</i> 应急值班传真</div>
                 <el-input
                   v-model="formData.emergencyDuty"
                   placeholder="请输入应急值班传真"
@@ -624,8 +629,8 @@
           </div>
           <div class="content2-line">
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 40%"><i>*</i> 负责人</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 40%" class="label-title"><i>*</i> 负责人</div>
                 <el-input
                   v-model="formData.personCharge"
                   placeholder="请输入负责人"
@@ -634,8 +639,8 @@
                   maxlength="50"
                 ></el-input>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 45">负责人联系电话</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 45" class="label-title">负责人联系电话</div>
                 <el-input
                   v-model="formData.personTelephone"
                   placeholder="请输入负责人联系电话"
@@ -646,8 +651,8 @@
               </div>
             </div>
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 40%">负责人手机</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 40%" class="label-title">负责人手机</div>
                 <el-input
                   v-model="formData.personPhone"
                   placeholder="请输入负责人手机"
@@ -660,8 +665,8 @@
           </div>
           <div class="content2-line">
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 40%"><i>*</i> 分管领导</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 40%" class="label-title"><i>*</i> 分管领导</div>
                 <el-input
                   v-model="formData.leaderCharge"
                   placeholder="请输入分管领导"
@@ -670,8 +675,8 @@
                   maxlength="50"
                 ></el-input>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 40%">分管领导电话</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 40%" class="label-title">分管领导电话</div>
                 <el-input
                   v-model="formData.leaderTelephone"
                   placeholder="请输入分管领导联系电话"
@@ -682,8 +687,8 @@
               </div>
             </div>
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 40%">分管领导手机</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 40%" class="label-title">分管领导手机</div>
                 <el-input
                   v-model="formData.leaderPhone"
                   placeholder="请输入分管领导手机"
@@ -897,7 +902,7 @@ export default {
       }
     },
     async submit() {
-      console.log(this.formData.establishmentTime, "sssssssss");
+      console.log(this.formData, "sssssssss");
       if (
         !this.formData.teamName ||
         !this.formData.wordbookTypeId ||
@@ -1105,7 +1110,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .rank-name:hover {
   cursor: pointer;
   color: #4a64eb;
@@ -1128,10 +1133,10 @@ export default {
       line-height: 30px;
       text-align: center;
       font-size: 14px;
-      border-left: none;
-      border-top: none;
-      border-bottom: none;
-      border-right: 1px solid rgb(235, 237, 242);
+      border-left: none ;
+      border-top: none ;
+      border-bottom: none ;
+      border-right: 1px solid rgb(235, 237, 242) ;
     }
     select {
       height: 30px;
@@ -1217,6 +1222,26 @@ export default {
   height: 600px;
   background: #fff;
   border-radius: 5px;
+  
+  .search-part {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid rgb(235, 237, 242);
+    overflow: hidden;
+    .label-title {
+      height: 30px;
+      text-align: center;
+      border-left: none ;
+      border-top: none ;
+      border-bottom: none ;
+      border-right: 1px solid rgb(235, 237, 242) ;
+    }
+    select {
+      height: 30px;
+    }
+  }
 }
 .increaseContent .top {
   padding: 15px;

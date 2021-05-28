@@ -121,7 +121,7 @@
                 <i
                   class="el-icon-delete"
                   style="margin-left: 10px; cursor: pointer"
-                  @click="delTeam(scope.row)"
+                  @click.stop="delTeam(scope.row)"
                 ></i>
               </template>
             </el-table-column>
@@ -192,8 +192,8 @@
           <div class="title">基本信息</div>
           <div class="content2-line">
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 35%"><i>*</i> 专家姓名</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 35%" class="label-title"><i>*</i> 专家姓名</div>
                 <el-input
                   v-model="formData.name"
                   placeholder="请输入专家姓名"
@@ -202,8 +202,8 @@
                   size="mini"
                 ></el-input>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 35%"><i>*</i> 专家类型</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 35%" class="label-title"><i>*</i> 专家类型</div>
                 <el-select
                   v-model="formData.expertTypeId"
                   placeholder="-"
@@ -222,8 +222,8 @@
               </div>
             </div>
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 35%"><i>*</i> 性别</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 35%" class="label-title"><i>*</i> 性别</div>
                 <el-select
                   v-model="formData.gender"
                   placeholder="-"
@@ -235,8 +235,8 @@
                   <el-option label="女" value="0"> </el-option>
                 </el-select>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 35%"><i>*</i> 民族</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 35%" class="label-title"><i>*</i> 民族</div>
                 <el-select
                   v-model="formData.clanId"
                   placeholder="-"
@@ -257,8 +257,8 @@
           </div>
           <div class="content2-line">
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 35%"><i>*</i> 移动电话</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 35%" class="label-title"><i>*</i> 移动电话</div>
                 <el-input
                   v-model="formData.mobilePhone"
                   placeholder="请输入移动电话"
@@ -267,8 +267,8 @@
                   size="mini"
                 ></el-input>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 35%">办公电话</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 35%" class="label-title">办公电话</div>
                 <el-input
                   v-model="formData.officePhone"
                   placeholder="请输入办公电话"
@@ -279,8 +279,8 @@
               </div>
             </div>
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 35%">电子邮件</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 35%" class="label-title">电子邮件</div>
                 <el-input
                   v-model="formData.email"
                   placeholder="请输入电子邮件"
@@ -289,8 +289,8 @@
                   size="mini"
                 ></el-input>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 35%">学历</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 35%" class="label-title">学历</div>
                 <el-select
                   v-model="formData.educationId"
                   placeholder="-"
@@ -311,8 +311,8 @@
           </div>
           <div class="content2-line">
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 35%">职称</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 35%" class="label-title">职称</div>
                 <el-input
                   v-model="formData.jobTitle"
                   placeholder="请输入职称"
@@ -321,8 +321,8 @@
                   size="mini"
                 ></el-input>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 35%">职务</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 35%" class="label-title">职务</div>
                 <el-input
                   v-model="formData.jobPost"
                   placeholder="请输入职务"
@@ -336,8 +336,8 @@
           <div class="title">专业信息</div>
           <div class="content2-line">
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div><i>*</i> 擅长处理事故类别</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div class="label-title"><i>*</i> 擅长处理事故类别</div>
                 <el-select
                   v-model="formData.meritAccidentTypeId"
                   placeholder="-"
@@ -356,8 +356,8 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 50%"><i>*</i> 专家适用行业</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 50%" class="label-title"><i>*</i> 专家适用行业</div>
                 <el-select
                   v-model="formData.applicableIndustryId"
                   placeholder="-"
@@ -378,8 +378,8 @@
               </div>
             </div>
             <div>
-              <div class="inputDiv" style="width: 49%">
-                <div style="width: 35%"><i>*</i> 所属专业</div>
+              <div class="inputDiv search-part" style="width: 49%">
+                <div style="width: 35%" class="label-title"><i>*</i> 所属专业</div>
                 <el-select
                   v-model="formData.specialtyId"
                   placeholder="-"
@@ -492,8 +492,8 @@
               "
             >
               <div class="width:100%;display:flex;align-items:center;">
-                <div class="inputDiv">
-                  <div class="wid-20">所属单位</div>
+                <div class="inputDiv search-part">
+                  <div class="wid-20 label-title">所属单位</div>
                   <el-input
                     v-model="formData.unit"
                     placeholder="请输入所属单位"
@@ -504,8 +504,8 @@
                 </div>
               </div>
               <div class="width:100%;display:flex;align-items:center;">
-                <div class="inputDiv">
-                  <div class="wid-20">所在区域</div>
+                <div class="inputDiv search-part">
+                  <div class="wid-20 label-title">所在区域</div>
                   <el-select
                     v-model="formData.unitRegion"
                     placeholder="请选择所在区域"
@@ -524,8 +524,8 @@
                 </div>
               </div>
               <div class="width:100%;display:flex;align-items:center;">
-                <div class="inputDiv">
-                  <div class="wid-20">详细地址</div>
+                <div class="inputDiv search-part">
+                  <div class="wid-20 label-title">详细地址</div>
                   <el-input
                     v-model="formData.unitRegionFullAddress"
                     placeholder="请输入详细地址"
@@ -536,8 +536,8 @@
                 </div>
               </div>
               <div class="content2-line" style="margin: 0">
-                <div class="inputDiv" style="width: 49%">
-                  <div style="width: 40%">经度</div>
+                <div class="inputDiv search-part" style="width: 49%">
+                  <div style="width: 40%" class="label-title">经度</div>
                   <el-input
                     v-model="formData.unitRegionLongitude"
                     placeholder="请输入经度"
@@ -546,8 +546,8 @@
                     disabled
                   ></el-input>
                 </div>
-                <div class="inputDiv" style="width: 49%">
-                  <div style="width: 40%">纬度</div>
+                <div class="inputDiv search-part" style="width: 49%">
+                  <div style="width: 40%" class="label-title">纬度</div>
                   <el-input
                     v-model="formData.unitRegionLatitude"
                     placeholder="请输入纬度"
@@ -967,7 +967,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .search-line {
   display: flex;
   align-items: center;
@@ -1078,6 +1078,23 @@ export default {
   height: 600px;
   background: #fff;
   border-radius: 5px;
+  .search-part {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid rgb(235, 237, 242);
+    overflow: hidden;
+    .label-title {
+      border-left: none;
+      border-top: none;
+      border-bottom: none;
+      border-right: 1px solid rgb(235, 237, 242);
+    }
+    select {
+      height: 30px;
+    }
+  }
 }
 .increaseContent .top {
   padding: 15px;
