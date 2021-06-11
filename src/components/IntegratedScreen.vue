@@ -2082,7 +2082,9 @@ export default {
       flvPlayer2: "",
       flvPlayer3: "",
 
-      flvData: ""
+      flvData: "",
+
+      sessionIds: [],
     };
   },
   //监听属性类似于data概念
@@ -2124,7 +2126,7 @@ export default {
           this.flvPlayer1.load();
           this.flvPlayer1.play();
         }
-        if (this.videoList[0]) {
+        if (this.videoList[1]) {
           this.flvPlayer2 = flvjs.createPlayer({
             type: "flv",
             url: this.videoList[1].httpPlayUrl,
@@ -2135,7 +2137,7 @@ export default {
           this.flvPlayer2.load();
           this.flvPlayer2.play();
         }
-        if (this.videoList[0]) {
+        if (this.videoList[2]) {
           this.flvPlayer3 = flvjs.createPlayer({
             type: "flv",
             url: this.videoList[2].httpPlayUrl,
@@ -2149,41 +2151,69 @@ export default {
       }, 1000);
     },
     videoPlayerUnload() {
-      this.flvPlayer1.unload();
-      this.flvPlayer2.unload();
-      this.flvPlayer3.unload();
+      if (this.flvPlayer1) {
+        this.flvPlayer1.unload();
+      }
+      if (this.flvPlayer2) {
+        this.flvPlayer2.unload();
+      }
+      if (this.flvPlayer3) {
+        this.flvPlayer3.unload();
+      }
     },
     // 监控翻页
     moninerPage(i, j) {
-      this.videoPage = i;
+      let _that = this;
+      _that.videoPage = i;
+      _that.sessionIds = [];
       if (j === 2) {
-        this.videoPlayerUnload();
+        _that.videoPlayerUnload();
       }
       if (i === 1) {
-        this.videoList = this.NineVideo.slice(0, 3);
+        _that.videoList = _that.NineVideo.slice(0, 3);
       } else if (i === 2) {
-        this.videoList = this.NineVideo.slice(3, 6);
+        _that.videoList = _that.NineVideo.slice(3, 6);
       } else {
-        this.videoList = this.NineVideo.slice(6, 9);
+        _that.videoList = _that.NineVideo.slice(6, 9);
       }
-      this.videoList.map((item) => {
-        this.openVideo(item);
+      _that.videoList.map((item) => {
+        _that.openVideo(item);
       });
-      this.videoPlayerHandle();
+      _that.videoPlayerHandle();
+      _that.heartTimer = setInterval(() => {
+        _that.heartbeat(_that.sessionIds);
+      }, 5000);
+    },
+    // 监控心跳保活
+    heartbeat(arr) {
+      let formdata = new FormData();
+      formdata.append("sessionIds", arr);
+      this.axios({
+        url: "/dah-training-api/video/heartbeat",
+        method: "POST",
+        data: formdata,
+      })
+        .then(function (res) {
+          console.log(res, "=======================");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     // 获取监控
     async openVideo(item) {
+      let _that = this;
       this.axios({
         url: "/dah-training-api/video/openVideoPlay",
         method: "POST",
         data: QS.stringify({
-          monitoringPlaceCode: item.cameraCode
-          // monitoringPlaceCode: "51150000201321000101",
+          monitoringPlaceCode: item.cameraCode,
         }),
       })
         .then(
           await function (res) {
             item.httpPlayUrl = res.data.data.httpPlayUrl;
+            _that.sessionIds.push(res.data.data.sessionId);
           }
         )
         .catch((err) => {
@@ -2191,7 +2221,6 @@ export default {
         });
     },
     newBtn(item, index) {
-      // console.log(item,index)
       if (this.butType === index) {
         this.butType = "";
         this.burningSceneId = "";
@@ -2323,17 +2352,17 @@ export default {
           }
           this.flvData.cameraList = JSON.stringify(this.NineVideo);
           this.axios({
-            url:"/dah-training-api/trainingRecord/update",
-            method:"POST",
-            data: QS.stringify(this.flvData)
+            url: "/dah-training-api/trainingRecord/update",
+            method: "POST",
+            data: QS.stringify(this.flvData),
           })
-          .then(res => {
-            console.log(res);
-            this.getFilesById();
-          })
-          .catch(err => {
-            console.log(err);
-          })
+            .then((res) => {
+              console.log(res);
+              this.getFilesById();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
           this.videoSetPop = false;
         }
       }
@@ -2388,7 +2417,7 @@ export default {
             this.recordTotal = res.data.data.total;
             this.trainingRecordId =
               res.data.data.currentTrainingCount.trainingRecordId;
-              this.getFilesById();
+            this.getFilesById();
             this.burningSceneName =
               res.data.data.currentTrainingCount.burningSceneName;
             this.suppliesNum = res.data.data.numCount.suppliesNum;
@@ -2634,6 +2663,8 @@ export default {
   updated() {}, //生命周期-更新之后
   beforeDestroy() {
     this.videoPlayerUnload();
+    clearInterval(this.heartTimer);
+    this.heartTimer = null;
   }, //生命周期-销毁之前
   destroyed() {}, //生命周期-销毁完成
   activated() {}, //如果页面有keep-alive缓存功能这个函数会触发

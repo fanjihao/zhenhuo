@@ -807,6 +807,13 @@ export default {
       } else {
         this.alreadyCheckCamera = this.cameraSelection;
       }
+      for (let m = 0; m < this.checkCameraTable.length; m++) {
+        for (let i = 0; i < this.alreadyCheckCamera.length; i++) {
+          if (this.checkCameraTable[m].id === this.alreadyCheckCamera[i].id) {
+            this.checkCameraTable.splice(m, 1);
+          }
+        }
+      }
     },
     // 导回待选
     exportCamera() {

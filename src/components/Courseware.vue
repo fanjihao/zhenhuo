@@ -945,9 +945,7 @@ export default {
           if (this.submitList.length > 0) {
             for (var j = 0; j < this.submitList.length; j++) {
               for (var i = 0; i < this.camereList.length; i++) {
-                if (
-                  this.camereList[i].id === this.submitList[j].id
-                ) {
+                if (this.camereList[i].id === this.submitList[j].id) {
                   this.camereList.splice(i, 1);
                 }
               }
@@ -973,6 +971,13 @@ export default {
         this.submitList = [...new Set(arr)];
       } else {
         this.submitList = this.cameraSelection;
+      }
+      for (let m = 0; m < this.camereList.length; m++) {
+        for (let i = 0; i < this.submitList.length; i++) {
+          if (this.camereList[m].id === this.submitList[i].id) {
+            this.camereList.splice(m, 1);
+          }
+        }
       }
     },
     delCamera() {
@@ -1551,7 +1556,7 @@ export default {
           trainingObject: this.trainingObj,
           ready: this.prepare,
           safetyPrecautions: this.safety,
-          cameraList: JSON.stringify(this.submitList)
+          cameraList: JSON.stringify(this.submitList),
         };
         let params = new FormData();
         for (let k in data) {

@@ -141,6 +141,9 @@
         </div>
         <div class="own-body">
           <div class="search-time">
+            <span>密码支持8-16位，不能包含空格</span>
+          </div>
+          <div class="search-time">
             <span class="time-title"><span>*</span>旧密码</span>
             <div style="border: 1px solid #eee; flex: 1; border-radius: 3px">
               <el-input
@@ -149,6 +152,7 @@
                 clearable
                 show-password
                 class="input-class"
+                maxlength="16"
               ></el-input>
             </div>
           </div>
@@ -161,6 +165,7 @@
                 clearable
                 show-password
                 class="input-class"
+                maxlength="16"
               ></el-input>
             </div>
           </div>
@@ -173,6 +178,7 @@
                 clearable
                 show-password
                 class="input-class"
+                maxlength="16"
               ></el-input>
             </div>
           </div>
@@ -491,6 +497,10 @@ export default {
     submit() {
       if (this.oldpwd === "" || this.newpwd === "" || this.newpwdAgain === "") {
         return this.$message.warning("*为必填项");
+      } else if (!(/^[^\s]{8,16}$/.test(this.newpwd)) || !(/^[^\s]{8,16}$/.test(this.newpwdAgain))) {
+        return this.$message.warning("密码支持8-16，不能包含空格");
+      } else if (this.newpwd !== this.newpwdAgain) {
+        return this.$message.warning("两次密码输入不一致");
       }
       this.axios({
         url: "/dah-training-api/authenticated/user/password",
@@ -502,6 +512,7 @@ export default {
         }),
       })
         .then((res) => {
+          console.log(res)
           if (res.data.code === 200) {
             this.$router.push("/login");
             localStorage.removeItem("fire-token");
@@ -515,6 +526,8 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+          this.$message.warning("旧密码不正确，请重新输入");
+          this.oldpwd = "";
         });
     },
     // 获取当前时间
